@@ -2,8 +2,8 @@ import { User } from "@/auth/schemas/user.schema"
 import { AppEventMap } from "@/shared/constants/app-events.map"
 import { Injectable } from "@nestjs/common"
 import { EventEmitter2 } from "@nestjs/event-emitter"
-import { format } from "date-fns"
 import { formatCurrency } from "./lib/format-currency"
+import { formatMonthString } from "@/shared/utils/date-formatter"
 
 @Injectable()
 export class WidgetService {
@@ -41,7 +41,7 @@ export class WidgetService {
           icon: "HandCoins",
           title: "Current Month Expense",
           value: formatCurrency(Number(expenseData.total), user.baseCurrency),
-          additionalInfo: `Expense for ${format(new Date(), "MMM, yyyy")}`,
+          additionalInfo: `Expense for ${formatMonthString()}`,
         },
         {
           icon: "GoalIcon",

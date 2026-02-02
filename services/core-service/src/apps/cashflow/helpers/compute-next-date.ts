@@ -1,5 +1,5 @@
+import { formatDateString } from "@/shared/utils/date-formatter"
 import { Cashflow, FlowFrequency } from "../schemas/cashflow.schema"
-import { format } from "date-fns"
 
 export function computeNextDate(cashflow: Cashflow): string {
   const baseDate = cashflow.nextExecutionAt
@@ -81,5 +81,5 @@ export function computeNextDate(cashflow: Cashflow): string {
       nextExecution = null
   }
 
-  return format(nextExecution, "yyyy-MM-dd")
+  return formatDateString(nextExecution)
 }
