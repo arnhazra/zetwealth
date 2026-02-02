@@ -16,6 +16,8 @@ import { Token, TokenSchema } from "./schemas/token.schema"
 import { TokenRepository } from "./repositories/token.repository"
 
 import { config } from "@/config"
+import { FindUserByEmailQueryHandler } from "./queries/handler/find-user-by-email.handler"
+import { FindUserByIdQueryHandler } from "./queries/handler/find-user-by-id.handler"
 
 @Module({
   imports: [
@@ -41,6 +43,8 @@ import { config } from "@/config"
     SetTokenCommandHandler,
     GetTokensQueryHandler,
     DeleteTokenCommandHandler,
+    FindUserByEmailQueryHandler,
+    FindUserByIdQueryHandler,
   ],
 })
 export class AuthModule {}

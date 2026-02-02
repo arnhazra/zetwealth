@@ -20,7 +20,6 @@ import { usePromptContext } from "@/shared/providers/prompt.provider"
 import notify from "@/shared/hooks/use-notify"
 import IconContainer from "@/shared/components/icon-container"
 import { Switch } from "@/shared/components/ui/switch"
-import { formatDate } from "@/shared/lib/format-date"
 import {
   Avatar,
   AvatarFallback,
@@ -111,10 +110,10 @@ export default function Page() {
     }
   }
 
-  const viewIntelligenceDataAgreement = async (from: string) => {
+  const viewAIDataAgreement = async (from: string) => {
     const consent = await confirm({
-      title: `${platformName} Intelligence Data Agreement`,
-      desc: `By enabling ${platformName} Intelligence, you agree to allow ${platformName} the system to process certain data to provide AI-powered 
+      title: `${platformName} AI Data Agreement`,
+      desc: `By enabling ${platformName} AI, you agree to allow ${platformName} the system to process certain data to provide AI-powered 
       enhancements. We want to be completely clear about what that means, what is and isn’t shared, and how your information is handled.
       When you use AI features, the app may send text or structured data to a language model so it can analyze, summarize, 
       or generate helpful responses. This processing happens securely and is designed to improve your experience for example, 
@@ -190,7 +189,7 @@ export default function Page() {
               platform. This uses AI to enhance your experience. View the{" "}
               <span
                 className="text-primary cursor-pointer"
-                onClick={() => viewIntelligenceDataAgreement("link")}
+                onClick={() => viewAIDataAgreement("link")}
               >
                 Intelligence Data Agreement.
               </span>
@@ -203,7 +202,7 @@ export default function Page() {
                 if (!value) {
                   saveIntelligenceUsage(value)
                 } else {
-                  viewIntelligenceDataAgreement("switch")
+                  viewAIDataAgreement("switch")
                 }
               }}
             />,
