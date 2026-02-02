@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select"
-import { TrendingUp, CalendarIcon, Banknote } from "lucide-react"
+import { CalendarIcon, Banknote } from "lucide-react"
 import {
   Popover,
   PopoverContent,
@@ -375,7 +375,7 @@ export default function Page() {
               {(showAmountInvested || showExpectedReturn) && (
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold flex items-center gap-2 text-neutral-100">
-                    <TrendingUp className="h-5 w-5 text-neutral-400" />
+                    <Banknote className="h-5 w-5 text-neutral-400" />
                     Investment Details
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

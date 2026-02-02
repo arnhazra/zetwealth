@@ -3,8 +3,6 @@ export const statusMessages = {
   configNotFound: "Config Not Found",
   signOutSuccess: "You are now Signed out",
   unauthorized: "Unauthorized",
-  invalidOTP: "Invalid OTP",
-  otpEmail: "Check OTP in Email",
   invalidUser: "Invalid User",
   accessTokenExpired: "Access token expired",
   accessTokenInvalid: "Invalid access token",

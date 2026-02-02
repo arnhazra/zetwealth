@@ -25,7 +25,7 @@ export default function GoogleOAuth({ handleSuccess }: GoogleOAuthProps) {
 
   return (
     <Button variant="outline" className="w-full h-12" onClick={() => login()}>
-      Continue with Google
+      Authenticate with Google
       <Image src="/google.png" alt="Google" width={16} height={16} />
     </Button>
   )

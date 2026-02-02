@@ -1,15 +1,7 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common"
-import { RequestOTPDto } from "./dto/request-otp.dto"
-import { VerifyOTPDto } from "./dto/validate-otp.dto"
 import { config } from "src/config"
-import {
-  requestOTP,
-  verifyOTP,
-  requestOTPEmailBody,
-  requestOTPEmailSubject,
-} from "./utils/otp.util"
 import { statusMessages } from "@/shared/constants/status-messages"
-import { EventEmitter2, OnEvent } from "@nestjs/event-emitter"
+import { OnEvent } from "@nestjs/event-emitter"
 import { AppEventMap } from "@/shared/constants/app-events.map"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { FindUserByEmailQuery } from "./queries/impl/find-user-by-email.query"
@@ -28,17 +20,12 @@ import { SetTokenCommand } from "./commands/impl/set-token.command"
 import { GetTokensQuery } from "./queries/impl/get-tokens.query"
 import { DeleteTokenCommand } from "./commands/impl/delete-token.command"
 import { generateToken, TokenType, verifyToken } from "@/auth/utils/jwt.util"
-import { SetOTPCommand } from "./commands/impl/set-otp.command"
-import { GetOTPQuery } from "./queries/impl/get-otp.query"
-import { OneTimePassword } from "./schemas/otp.schema"
-import { DeleteOTPCommand } from "./commands/impl/delete-otp.command"
 import { Currency } from "country-code-enum"
 import * as jwt from "jsonwebtoken"
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly eventEmitter: EventEmitter2,
     private readonly queryBus: QueryBus,
     private readonly commandBus: CommandBus,
     private readonly httpService: HttpService
@@ -105,44 +92,6 @@ export class AuthService {
       return resp
     } catch (error) {
       throw new Error(statusMessages.connectionError)
-    }
-  }
-
-  async requestOTP(requestOTPDto: RequestOTPDto) {
-    try {
-      const { email } = requestOTPDto
-      const user = await this.queryBus.execute<FindUserByEmailQuery, User>(
-        new FindUserByEmailQuery(email)
-      )
-      const { fullHash: hash, otp } = requestOTP(email)
-      const subject: string = requestOTPEmailSubject()
-      const body: string = requestOTPEmailBody(otp)
-      await this.eventEmitter.emitAsync(AppEventMap.SendEmail, {
-        email,
-        subject,
-        body,
-      })
-      await this.setOTP(email, hash)
-      return { user }
-    } catch (error) {
-      throw new Error(statusMessages.connectionError)
-    }
-  }
-
-  async validateOTP(verifyOTPDto: VerifyOTPDto) {
-    try {
-      const { email, otp, name } = verifyOTPDto
-      const { hashedOTP } = await this.getOTP(email)
-      const isOTPValid = verifyOTP(email, hashedOTP, otp)
-
-      if (isOTPValid) {
-        this.deleteOTP(email)
-        return await this.userRegistrationOrLogin(email, name)
-      } else {
-        throw new Error(statusMessages.connectionError)
-      }
-    } catch (error) {
-      throw new Error(error)
     }
   }
 
@@ -270,36 +219,6 @@ export class AuthService {
       return await this.commandBus.execute(
         new DeleteTokenCommand(userId, token)
       )
-    } catch (error) {
-      throw new Error()
-    }
-  }
-
-  async setOTP(email: string, otpHash: string) {
-    try {
-      return await this.commandBus.execute(new SetOTPCommand(email, otpHash))
-    } catch (error) {
-      throw new Error()
-    }
-  }
-
-  async getOTP(email: string) {
-    try {
-      const response = await this.queryBus.execute<
-        GetOTPQuery,
-        OneTimePassword
-      >(new GetOTPQuery(email))
-
-      if (!response) throw new Error()
-      return response
-    } catch (error) {
-      throw new Error()
-    }
-  }
-
-  async deleteOTP(email: string) {
-    try {
-      return await this.commandBus.execute(new DeleteOTPCommand(email))
     } catch (error) {
       throw new Error()
     }

@@ -2,8 +2,6 @@ const apiHost = process.env.NEXT_PUBLIC_CORE_SERVICE_URL!
 
 export const endPoints = {
   // Auth Service
-  requestOTP: `${apiHost}/auth/requestotp`,
-  validateOTP: `${apiHost}/auth/validateotp`,
   googleOAuthLogin: `${apiHost}/auth/googleoauth`,
   userDetails: `${apiHost}/auth/userdetails`,
   refresh: `${apiHost}/auth/refresh`,

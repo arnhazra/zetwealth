@@ -10,22 +10,15 @@ import {
   UnauthorizedException,
 } from "@nestjs/common"
 import { AuthService } from "./auth.service"
-import { RequestOTPDto } from "./dto/request-otp.dto"
-import { VerifyOTPDto } from "./dto/validate-otp.dto"
 import { statusMessages } from "@/shared/constants/status-messages"
 import { AuthGuard, ModRequest } from "@/auth/auth.guard"
 import { UpdateAttributeDto } from "./dto/update-attribute.dto"
-import { EventEmitter2 } from "@nestjs/event-emitter"
-import { AppEventMap } from "@/shared/constants/app-events.map"
 import { GoogleOAuthDto } from "./dto/google-oauth.dto"
 import { blockListedAttributes } from "./utils/blocklisted-attribute"
 
 @Controller("auth")
 export class AuthController {
-  constructor(
-    private readonly service: AuthService,
-    private readonly eventEmitter: EventEmitter2
-  ) {}
+  constructor(private readonly service: AuthService) {}
 
   @Post("googleoauth")
   async googleOAuth(@Body() googleOAuthDto: GoogleOAuthDto) {
@@ -40,33 +33,6 @@ export class AuthController {
       }
     } catch (error) {
       throw new BadRequestException(statusMessages.connectionError)
-    }
-  }
-
-  @Post("requestotp")
-  async requestOTP(@Body() requestOTPDto: RequestOTPDto) {
-    try {
-      const { user } = await this.service.requestOTP(requestOTPDto)
-      if (!user) return { message: statusMessages.otpEmail, newUser: true }
-      return { message: statusMessages.otpEmail, newUser: false }
-    } catch (error) {
-      throw new BadRequestException(statusMessages.connectionError)
-    }
-  }
-
-  @Post("validateotp")
-  async validateOTP(@Body() validateOTPDto: VerifyOTPDto) {
-    try {
-      const response = await this.service.validateOTP(validateOTPDto)
-      const { accessToken, refreshToken } = response
-
-      if (response.success) {
-        return { accessToken, refreshToken }
-      } else {
-        throw new BadRequestException(statusMessages.invalidOTP)
-      }
-    } catch (error) {
-      throw error
     }
   }
 
