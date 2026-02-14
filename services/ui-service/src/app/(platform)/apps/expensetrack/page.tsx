@@ -25,7 +25,7 @@ import notify from "@/shared/hooks/use-notify"
 import useQuery from "@/shared/hooks/use-query"
 import { buildQueryUrl } from "@/shared/lib/build-url"
 import { formatCurrency } from "@/shared/lib/format-currency"
-import { formatDate } from "@/shared/lib/format-date"
+import { formatDate } from "@/shared/lib/date-formatter"
 import {
   generateMonthList,
   getCurrentMonthString,

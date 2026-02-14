@@ -29,10 +29,9 @@ import { AssetType, Space, RecurringFrequency } from "@/shared/constants/types"
 import useQuery from "@/shared/hooks/use-query"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
-import { formatDate } from "@/shared/lib/format-date"
+import { formatDate, formatDateString } from "@/shared/lib/date-formatter"
 import api from "@/shared/lib/ky-api"
 import IconContainer from "@/shared/components/icon-container"
-import { formatDateString } from "@/shared/lib/format-date-string"
 
 interface AssetFormData {
   spaceId: string

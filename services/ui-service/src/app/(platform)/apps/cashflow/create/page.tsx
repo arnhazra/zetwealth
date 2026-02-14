@@ -23,7 +23,7 @@ import {
 import { Calendar } from "@/shared/components/ui/calendar"
 import { cn } from "@/shared/lib/utils"
 import { endPoints } from "@/shared/constants/api-endpoints"
-import { formatDate } from "@/shared/lib/format-date"
+import { formatDate, formatDateString } from "@/shared/lib/date-formatter"
 import api from "@/shared/lib/ky-api"
 import {
   Select,
@@ -32,7 +32,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select"
-import { formatDateString } from "@/shared/lib/format-date-string"
 import IconContainer from "@/shared/components/icon-container"
 
 interface CashflowFormData {

@@ -1,7 +1,7 @@
 import { parseISO, isValid } from "date-fns"
 import { formatCurrency } from "./format-currency"
 import { Currency } from "country-code-enum"
-import { formatDate } from "./format-date"
+import { formatDate } from "./date-formatter"
 
 export function formatKey(key: string) {
   return key

@@ -35,12 +35,11 @@ import useQuery from "@/shared/hooks/use-query"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
 import Loading from "@/app/loading"
-import { formatDate } from "@/shared/lib/format-date"
+import { formatDate, formatDateString } from "@/shared/lib/date-formatter"
 import api from "@/shared/lib/ky-api"
 import { useRouter } from "nextjs-toploader/app"
 import { useSearchParams } from "next/navigation"
 import IconContainer from "@/shared/components/icon-container"
-import { formatDateString } from "@/shared/lib/format-date-string"
 
 interface AssetFormData {
   spaceId: string

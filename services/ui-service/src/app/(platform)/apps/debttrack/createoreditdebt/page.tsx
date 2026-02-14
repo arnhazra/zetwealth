@@ -23,13 +23,12 @@ import { endPoints } from "@/shared/constants/api-endpoints"
 import useQuery from "@/shared/hooks/use-query"
 import { Debt } from "@/shared/constants/types"
 import HTTPMethods from "@/shared/constants/http-methods"
-import { formatDate } from "@/shared/lib/format-date"
+import { formatDate, formatDateString } from "@/shared/lib/date-formatter"
 import api from "@/shared/lib/ky-api"
 import { useSearchParams } from "next/navigation"
 import { useRouter } from "nextjs-toploader/app"
 import IconContainer from "@/shared/components/icon-container"
 import Show from "@/shared/components/show"
-import { formatDateString } from "@/shared/lib/format-date-string"
 
 interface DebtFormData {
   debtPurpose: string

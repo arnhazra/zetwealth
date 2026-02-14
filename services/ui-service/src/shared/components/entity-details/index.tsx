@@ -17,7 +17,7 @@ import { useConfirmContext } from "@/shared/providers/confirm.provider"
 import { Button } from "../ui/button"
 import { useUserContext } from "@/context/user.provider"
 import { useQueryClient } from "@tanstack/react-query"
-import { formatDate } from "@/shared/lib/format-date"
+import { formatDate } from "@/shared/lib/date-formatter"
 import {
   amountKeys,
   deleteEntityAPIUriMap,

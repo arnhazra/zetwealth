@@ -20,7 +20,7 @@ import {
 import { Calendar } from "@/shared/components/ui/calendar"
 import { cn } from "@/shared/lib/utils"
 import { endPoints } from "@/shared/constants/api-endpoints"
-import { formatDate } from "@/shared/lib/format-date"
+import { formatDate, formatDateString } from "@/shared/lib/date-formatter"
 import {
   Select,
   SelectContent,
@@ -36,7 +36,6 @@ import { useRouter } from "nextjs-toploader/app"
 import Show from "@/shared/components/show"
 import IconContainer from "@/shared/components/icon-container"
 import api from "@/shared/lib/ky-api"
-import { formatDateString } from "@/shared/lib/format-date-string"
 
 interface ExpenseFormData {
   title?: string
