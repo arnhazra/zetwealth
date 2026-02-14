@@ -26,34 +26,34 @@ import useQuery from "@/shared/hooks/use-query"
 import { buildQueryUrl } from "@/shared/lib/build-url"
 import { formatCurrency } from "@/shared/lib/format-currency"
 import { formatDate } from "@/shared/lib/date-formatter"
-import {
-  generateMonthList,
-  getCurrentMonthString,
-  getNameFromMonthValue,
-} from "@/shared/lib/generate-month-list"
 import { useConfirmContext } from "@/shared/providers/confirm.provider"
 import { useQueryClient } from "@tanstack/react-query"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import * as Icons from "lucide-react"
 import api from "@/shared/lib/ky-api"
 import Link from "next/link"
+import { addMonths, format, subMonths } from "date-fns"
 
 export default function Page() {
   const { confirm } = useConfirmContext()
+  const [currentDate, setCurrentDate] = useState(new Date())
   const [{ searchKeyword, user }] = useUserContext()
   const queryClient = useQueryClient()
   const [category, setSelectedCategory] = useState("all")
-  const [selectedMonth, setSelectedMonth] = useState(getCurrentMonthString())
+  const [selectedMonth, setSelectedMonth] = useState(
+    `${format(currentDate, "yyyy-MM")}`
+  )
+
+  useEffect(() => {
+    setSelectedMonth(`${format(currentDate, "yyyy-MM")}`)
+  }, [currentDate])
+
+  const nextMonth = () => setCurrentDate(addMonths(currentDate, 1))
+  const prevMonth = () => setCurrentDate(subMonths(currentDate, 1))
 
   const expenseCategoryConfig = useQuery<ExpenseCategoryConfig>({
     queryKey: ["expense-category-config"],
     queryUrl: `${endPoints.getConfig}/expense-category-config`,
-    method: HTTPMethods.GET,
-  })
-
-  const startMonth = useQuery<{ startMonth: null | string }>({
-    queryKey: ["start-month"],
-    queryUrl: `${endPoints.expense}/start-month`,
     method: HTTPMethods.GET,
   })
 
@@ -172,20 +172,29 @@ export default function Page() {
             })}
           </SelectContent>
         </Select>
-        <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-          <SelectTrigger className="w-32 bg-neutral-800 text-white border border-border rounded-lg">
-            <SelectValue placeholder="All Months" />
-          </SelectTrigger>
-          <SelectContent className="bg-background text-white border border-border rounded-lg">
-            {generateMonthList(startMonth.data?.startMonth).map((month) => {
-              return (
-                <SelectItem key={month} value={month} className="rounded-lg">
-                  {getNameFromMonthValue(month)}
-                </SelectItem>
-              )
-            })}
-          </SelectContent>
-        </Select>
+        <div className="flex">
+          <div className="flex items-center rounded-md bg-neutral-800 border border-border p-0.5">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={prevMonth}
+              className="h-8 w-8 text-neutral-400 hover:bg-neutral-800 hover:text-neutral-100"
+            >
+              <Icons.ChevronLeft className="h-4 w-4" />
+            </Button>
+            <p className="text-sm font-medium tracking-tight text-neutral-100">
+              {format(currentDate, "MMM, yyyy")}
+            </p>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={nextMonth}
+              className="h-8 w-8 text-neutral-400 hover:bg-neutral-800 hover:text-neutral-100"
+            >
+              <Icons.ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
       </div>
       <SectionPanel
         icon={
@@ -223,10 +232,10 @@ export default function Page() {
           </Link>,
           <EntitySummarizer
             entityType={EntityType.EXPENSE}
-            entityDetails={`${getNameFromMonthValue(selectedMonth)} - ${JSON.stringify(expenses.data)}`}
+            entityDetails={`${format(currentDate, "MMM, yyyy")} - ${JSON.stringify(expenses.data)}`}
           />,
         ]}
-        title={`Your ${getNameFromMonthValue(selectedMonth)}`}
+        title={`Your ${format(currentDate, "MMM, yyyy")}`}
       />
       <Show
         condition={!!expenses.data?.expenses?.length}

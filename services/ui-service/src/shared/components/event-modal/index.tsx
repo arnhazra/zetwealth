@@ -86,7 +86,9 @@ export function EventModal({
             ))}
           </ul>
         ) : (
-          <div className="text-zinc-400 text-sm">No events for this date.</div>
+          <div className="text-neutral-400 text-sm">
+            No events for this date.
+          </div>
         )}
         <AlertDialogFooter>
           <AlertDialogCancel onClick={(): void => onOpenChange(false)}>
