@@ -1,6 +1,6 @@
 import ky from "ky"
 
-const API_URL = process.env.API_URL!
+const CORE_SERVICE_URL = process.env.CORE_SERVICE_URL!
 
 const NO_CACHE_HEADERS = {
   "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
@@ -10,7 +10,7 @@ const NO_CACHE_HEADERS = {
 }
 
 export async function GET(request: Request) {
-  await ky.post(`${API_URL}/apps/cashflow/execute`, {
+  await ky.post(`${CORE_SERVICE_URL}/apps/cashflow/execute`, {
     headers: NO_CACHE_HEADERS,
   })
 
