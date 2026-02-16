@@ -162,7 +162,7 @@ export default function Intelligence() {
                     index % 2 === 0 ? "text-white" : "text-neutral-100"
                   }`}
                   style={{
-                    backgroundColor: index % 2 === 0 ? "#1db954" : "#121212",
+                    backgroundColor: index % 2 === 0 ? "#1ed760" : "#121212",
                     border: index % 2 === 0 ? "none" : "1px solid #27272a",
                   }}
                 >
@@ -184,7 +184,7 @@ export default function Intelligence() {
               <div className="flex items-start space-x-2">
                 <div
                   className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center"
-                  style={{ backgroundColor: "#1db954" }}
+                  style={{ backgroundColor: "#1ed760" }}
                 >
                   <Bot className="h-4 w-4 text-white" />
                 </div>

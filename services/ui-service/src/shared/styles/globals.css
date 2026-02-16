@@ -82,11 +82,11 @@ body {
 }
 
 .ui-soft-gradient {
-  background-image: linear-gradient(to top, #a3bded 0%, #6991c7 100%);
+  background-image: linear-gradient(75deg, #13547a 0%, #80d0c7 100%);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  box-shadow: 0 0 7px #6991c7;
+  box-shadow: 0 0 7px #13547a;
 }
 
 input,
