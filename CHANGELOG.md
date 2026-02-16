@@ -3,7 +3,9 @@
 ## Version 3.6.0
 
 - Code refactoring & optimization
-- Major changes in UI & core service
+- Changes in date handling in schemas across services
+- UI change for Month navigation in Planner & ExpenseTrack
+- Rebranding of 2 applications
 
 ## Version 3.5.0
 

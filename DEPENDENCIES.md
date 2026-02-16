@@ -13,7 +13,6 @@
 - pathe: Utility for working with file paths in nodejs, providing a simple API for path manipulation.
 - reflect-metadata: Provides metadata reflection capabilities for JavaScript.
 - rxjs: Library for reactive programming, enabling asynchronous programming with observable sequences.
-
 - @mswjs/interceptors: Global interceptors to intercept fetch request & response.
 - @radix-ui: Collection of UI components for React applications, providing accessible and customizable UI elements.
 - @tanstack/react-query: Query client for React data fetching, providing a powerful and efficient data fetching solution.

@@ -62,11 +62,6 @@ export default function CalendarPage() {
     setIsModalOpen(true)
   }
 
-  const closeModal = () => {
-    setIsModalOpen(false)
-    setSelectedDate(null)
-  }
-
   const selectedDateIso = selectedDate
     ? format(selectedDate, "yyyy-MM-dd")
     : null
