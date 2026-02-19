@@ -111,7 +111,7 @@ export default function Page() {
                 {uiConstants.aiSafetyStatement}
               </p>
               <p className="text-white text-lg sm:text-xl md:text-xl lg:text-2xl mt-4">
-                What's on your mind, {user.name.split(" ")[0]}?
+                Let's calculate your taxes
               </p>
             </div>
           </Show>

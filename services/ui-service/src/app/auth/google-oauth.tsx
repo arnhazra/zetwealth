@@ -12,9 +12,10 @@ interface GoogleOAuthProps {
 
 export default function GoogleOAuth({ handleSuccess }: GoogleOAuthProps) {
   const login = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
+    flow: "auth-code",
+    onSuccess: async (codeResponse) => {
       const response = await api.post(endPoints.googleOAuthLogin, {
-        json: { token: tokenResponse.access_token },
+        json: { code: codeResponse.code },
       })
       handleSuccess(await response.json())
     },

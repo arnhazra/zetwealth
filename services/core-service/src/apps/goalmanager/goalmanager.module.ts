@@ -17,10 +17,13 @@ import { config } from "@/config"
 @Module({
   imports: [
     CqrsModule,
-    EntityModule.forRoot(config.APPS_DATABASE_URI, AppsDbConnectionMap.Goal),
+    EntityModule.forRoot(
+      config.APPS_DATABASE_URI,
+      AppsDbConnectionMap.GoalManager
+    ),
     EntityModule.forFeature(
       [{ name: Goal.name, schema: GoalSchema }],
-      AppsDbConnectionMap.Goal
+      AppsDbConnectionMap.GoalManager
     ),
   ],
   controllers: [GoalController],
@@ -35,4 +38,4 @@ import { config } from "@/config"
     FindNearestGoalQueryHandler,
   ],
 })
-export class GoalModule {}
+export class GoalManagerModule {}

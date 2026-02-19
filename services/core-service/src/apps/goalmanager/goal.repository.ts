@@ -10,7 +10,7 @@ import {
 @Injectable()
 export class GoalRepository extends EntityRepository<Goal> {
   constructor(
-    @InjectEntityModel(Goal.name, AppsDbConnectionMap.Goal)
+    @InjectEntityModel(Goal.name, AppsDbConnectionMap.GoalManager)
     private goalModel: EntityModel<Goal>
   ) {
     super(goalModel)

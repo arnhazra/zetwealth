@@ -1,7 +1,11 @@
 import { Module } from "@nestjs/common"
-import { NewsModule } from "./news.module"
+import { NewsService } from "./news.service"
+import { NewsController } from "./news.controller"
+import { HttpModule } from "@nestjs/axios"
 
 @Module({
-  imports: [NewsModule],
+  imports: [HttpModule],
+  controllers: [NewsController],
+  providers: [NewsService],
 })
 export class DiscoverModule {}

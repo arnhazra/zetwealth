@@ -1,6 +1,6 @@
 {
   "name": "wealthfabric",
-  "version": "3.6.0",
+  "version": "3.6.1",
   "description": "An Wealth Management Platform",
   "scripts": {
     "dev:core-service": "npm run dev --prefix services/core-service",

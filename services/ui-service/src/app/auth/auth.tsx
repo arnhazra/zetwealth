@@ -1,7 +1,6 @@
 "use client"
 import { platformName, uiConstants } from "@/shared/constants/global-constants"
 import Cookies from "js-cookie"
-import { useState } from "react"
 import {
   Card,
   CardContent,
@@ -18,14 +17,8 @@ interface AuthProviderProps {
   onAuthorized: (isAuthorized: boolean) => void
 }
 
-export default function AuthenticationPage({
-  onAuthorized,
-}: AuthProviderProps) {
-  const [isAuthLoading, setAuthLoading] = useState<boolean>(false)
-
+export default function AuthProvider({ onAuthorized }: AuthProviderProps) {
   const googleOAuthLogin = (userData: any) => {
-    setAuthLoading(true)
-
     try {
       Cookies.set("accessToken", userData.accessToken, defaultCookieOptions)
       Cookies.set("refreshToken", userData.refreshToken, defaultCookieOptions)
@@ -33,8 +26,6 @@ export default function AuthenticationPage({
     } catch (error: any) {
       notify(uiConstants.connectionErrorMessage, "error")
       onAuthorized(false)
-    } finally {
-      setAuthLoading(false)
     }
   }
 

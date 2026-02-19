@@ -134,6 +134,7 @@ export interface App {
   description: string
   icon: string
   url: string
+  enabled: boolean
 }
 
 export interface AppsConfig {

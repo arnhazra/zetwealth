@@ -22,6 +22,8 @@ import HTTPMethods from "@/shared/constants/http-methods"
 import { EventModal } from "@/shared/components/event-modal"
 import Link from "next/link"
 import { buildQueryUrl } from "@/shared/lib/build-url"
+import EntitySummarizer from "@/shared/components/entity-summarizer"
+import { EntityType } from "@/shared/components/entity-card/data"
 
 export default function CalendarPage() {
   const [currentDate, setCurrentDate] = useState(new Date())
@@ -62,11 +64,6 @@ export default function CalendarPage() {
     setIsModalOpen(true)
   }
 
-  const closeModal = () => {
-    setIsModalOpen(false)
-    setSelectedDate(null)
-  }
-
   const selectedDateIso = selectedDate
     ? format(selectedDate, "yyyy-MM-dd")
     : null
@@ -104,6 +101,10 @@ export default function CalendarPage() {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <EntitySummarizer
+              entityType={EntityType.PLANNER_EVENT}
+              entityDetails={`Summarize only for month: ${selectedMonth} - ${JSON.stringify(events.data)}`}
+            />
             <Link href="/apps/planner/addevent">
               <Button
                 size="sm"

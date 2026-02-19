@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common"
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from "@nestjs/common"
 import { config } from "src/config"
 import { statusMessages } from "@/shared/constants/status-messages"
 import { OnEvent } from "@nestjs/event-emitter"
@@ -11,8 +15,6 @@ import { CreateUserCommand } from "./commands/impl/create-user.command"
 import { UpdateAttributeCommand } from "./commands/impl/update-attribute.command"
 import { Token } from "./schemas/token.schema"
 import { GoogleOAuthDto } from "./dto/google-oauth.dto"
-import { HttpService } from "@nestjs/axios"
-import { lastValueFrom } from "rxjs"
 import { SetTokenDto } from "./dto/set-token.dto"
 import { GetTokenDto } from "./dto/get-token.dto"
 import { DeleteTokenDto } from "./dto/delete-token.dto"
@@ -22,14 +24,22 @@ import { DeleteTokenCommand } from "./commands/impl/delete-token.command"
 import { generateToken, TokenType, verifyToken } from "@/auth/utils/jwt.util"
 import { Currency } from "country-code-enum"
 import * as jwt from "jsonwebtoken"
+import { OAuth2Client } from "google-auth-library"
 
 @Injectable()
 export class AuthService {
+  private readonly googleOAuthClient: OAuth2Client
+
   constructor(
     private readonly queryBus: QueryBus,
-    private readonly commandBus: CommandBus,
-    private readonly httpService: HttpService
-  ) {}
+    private readonly commandBus: CommandBus
+  ) {
+    this.googleOAuthClient = new OAuth2Client(
+      config.GOOGLE_OAUTH_CLIENT_ID,
+      config.GOOGLE_OAUTH_CLIENT_SECRET,
+      config.GOOGLE_OAUTH_REDIRECT_URI
+    )
+  }
 
   async userRegistrationOrLogin(email: string, name: string) {
     try {
@@ -75,23 +85,38 @@ export class AuthService {
 
   async googleOAuth(googleOAuthDto: GoogleOAuthDto) {
     try {
-      const response$ = this.httpService.get(
-        config.GOOGLE_OAUTH_VERIFICATION_API,
-        { headers: { Authorization: `Bearer ${googleOAuthDto.token}` } }
+      const { tokens } = await this.googleOAuthClient.getToken(
+        googleOAuthDto.code
       )
-      const { data } = await lastValueFrom(response$)
-      const resp = await this.userRegistrationOrLogin(data.email, data.name)
-      const {
-        user: { _id: derivedUserId },
-      } = resp
-      this.updateAttribute(
-        derivedUserId as unknown as string,
+
+      if (!tokens.id_token)
+        throw new BadRequestException("No ID token received")
+
+      const ticket = await this.googleOAuthClient.verifyIdToken({
+        idToken: tokens.id_token,
+        audience: config.GOOGLE_OAUTH_CLIENT_ID,
+      })
+
+      const payload = ticket.getPayload()
+
+      if (!payload?.email_verified || !payload?.email) {
+        throw new BadRequestException("Email not verified")
+      }
+
+      const resp = await this.userRegistrationOrLogin(
+        payload.email,
+        payload.name
+      )
+
+      await this.updateAttribute(
+        resp.user._id.toString(),
         "avatar",
-        data.picture
+        payload.picture
       )
+
       return resp
     } catch (error) {
-      throw new Error(statusMessages.connectionError)
+      throw new BadRequestException("Google authentication failed")
     }
   }
 

@@ -112,8 +112,8 @@ export default function Page() {
 
   const viewAIDataAgreement = async (from: string) => {
     const consent = await confirm({
-      title: `${platformName} AI Data Agreement`,
-      desc: `By enabling ${platformName} AI, you agree to allow ${platformName} the system to process certain data to provide AI-powered 
+      title: `${platformName} Intelligence Data Agreement`,
+      desc: `By enabling ${platformName} Intelligence, you agree to allow ${platformName} the system to process certain data to provide AI-powered 
       enhancements. We want to be completely clear about what that means, what is and isn’t shared, and how your information is handled.
       When you use AI features, the app may send text or structured data to a language model so it can analyze, summarize, 
       or generate helpful responses. This processing happens securely and is designed to improve your experience for example, 

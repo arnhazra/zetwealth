@@ -15,6 +15,7 @@ export enum EntityType {
   NEWS = "news",
   EXPENSE = "expense",
   CASHFLOW = "cashflow",
+  PLANNER_EVENT = "event",
 }
 
 export type EntityMap = {
@@ -26,7 +27,7 @@ export type EntityMap = {
   [EntityType.CASHFLOW]: Cashflow
 }
 
-export const createEntityUrlMap = {
+export const createEntityUrlMap: Partial<Record<EntityType, string>> = {
   [EntityType.ASSET]: "/apps/assetmanager/asset/create",
   [EntityType.DEBT]: "/apps/debttrack/createoreditdebt",
   [EntityType.SPACE]: "/apps/assetmanager/createoreditspace",
