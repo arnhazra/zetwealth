@@ -20,6 +20,7 @@ export interface ChatArgs {
   user: User
   entityDetails?: string
   entityType?: EntityType
+  summarizeRequest?: boolean
 }
 
 export interface SummarizeArgs {
@@ -68,10 +69,17 @@ export class ChatStrategy {
     llm: ChatOpenAI<ChatOpenAICallOptions>,
     args: ChatArgs
   ) {
-    const { thread, prompt, user, entityDetails, entityType } = args
+    const {
+      thread,
+      prompt,
+      user,
+      entityDetails,
+      entityType,
+      summarizeRequest,
+    } = args
     let systemInstruction: string = ""
 
-    if (!entityDetails || !entityType) {
+    if (!summarizeRequest) {
       systemInstruction = await this.getChatSystemInstruction(user)
     } else {
       systemInstruction = await this.getSummarizerSystemInstruction({

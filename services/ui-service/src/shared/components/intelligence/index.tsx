@@ -76,6 +76,7 @@ export default function Intelligence() {
           json: {
             prompt: summarizePrompt,
             threadId: threadId ?? undefined,
+            summarizeRequest: true,
             entityType,
             entityDetails,
           },
@@ -111,7 +112,11 @@ export default function Intelligence() {
     try {
       const res: Thread = await api
         .post(`${endPoints.intelligence}/chat`, {
-          json: { prompt, threadId: threadId ?? undefined },
+          json: {
+            prompt,
+            threadId: threadId ?? undefined,
+            summarizeReust: false,
+          },
         })
         .json()
 

@@ -67,7 +67,11 @@ export default function Page() {
     try {
       const res: Thread = await api
         .post(`${endPoints.intelligence}/chat`, {
-          json: { prompt, threadId: threadId ?? undefined },
+          json: {
+            prompt,
+            threadId: threadId ?? undefined,
+            summarizeRequest: false,
+          },
         })
         .json()
 

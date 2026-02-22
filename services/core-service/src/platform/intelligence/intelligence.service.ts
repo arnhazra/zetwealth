@@ -41,7 +41,7 @@ export class IntelligenceService {
 
   async chat(chatDto: ChatDto, userId: string) {
     try {
-      const { prompt, entityDetails, entityType } = chatDto
+      const { prompt, entityDetails, entityType, summarizeRequest } = chatDto
       const threadId = chatDto.threadId ?? createOrConvertObjectId().toString()
       const thread = await this.getThreadById(threadId, !chatDto.threadId)
 
@@ -55,6 +55,7 @@ export class IntelligenceService {
         user,
         entityDetails,
         entityType,
+        summarizeRequest,
       }
 
       const { response } = await this.chatStrategy.chat(args)

@@ -12,10 +12,8 @@ export enum EntityType {
 export class ChatDto {
   @IsNotEmpty()
   prompt: string
-
-  entityType?: EntityType
-
-  entityDetails?: string
-
   threadId: string
+  entityType?: EntityType
+  entityDetails?: string
+  summarizeRequest?: boolean
 }
