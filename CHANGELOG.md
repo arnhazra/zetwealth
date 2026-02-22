@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 3.7.0
+
+- Merged Intelligence Summarizer API to Chat API
+- Removed Intelligence Summarizer modal and integrated summarizer with chat sidebar
+
 ## Version 3.6.1
 
 - Implemented Google OAuth with PKCE flow and deprecated legacy flow
