@@ -9,7 +9,7 @@ import {
   User,
   ArrowUp,
   Sparkles,
-  ExternalLink,
+  BadgeMinus,
 } from "lucide-react"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import { platformName, uiConstants } from "@/shared/constants/global-constants"
@@ -20,24 +20,41 @@ import { Badge } from "../ui/badge"
 import { Thread } from "@/shared/constants/types"
 import IconContainer from "../icon-container"
 import { streamResponseText } from "@/shared/lib/stream-response"
-import { useRouter } from "nextjs-toploader/app"
 import { useUserContext } from "@/context/user.provider"
 import { usePathname } from "next/navigation"
 import api from "@/shared/lib/ky-api"
 import { eventEmitter } from "@/shared/event-emitter/event-emitter"
 import { EventMap } from "@/shared/event-emitter/events-map"
 import { EntityType } from "../entity-card/data"
+import useQuery from "@/shared/hooks/use-query"
+import HTTPMethods from "@/shared/constants/http-methods"
 
 export default function Intelligence() {
   const [isOpen, setIsOpen] = useState(false)
-  const [threadId, setThreadId] = useState<string | null>(null)
   const [{ user }] = useUserContext()
   const [prompt, setPrompt] = useState("")
   const [isLoading, setLoading] = useState(false)
   const [messages, setMessages] = useState<string[]>([])
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  const router = useRouter()
   const pathName = usePathname()
+  const threadId = localStorage.getItem("thread_id")
+
+  const thread = useQuery<Thread[]>({
+    queryKey: ["get-thread", threadId ?? ""],
+    queryUrl: `${endPoints.intelligence}/thread/${threadId}`,
+    method: HTTPMethods.GET,
+    suspense: threadId !== null && !isOpen,
+    enabled: threadId !== null,
+  })
+
+  useEffect(() => {
+    setMessages(
+      thread.data?.flatMap(({ prompt, response }) => [
+        prompt ?? "",
+        response ?? "",
+      ]) ?? []
+    )
+  }, [thread?.data])
 
   useEffect(() => {
     eventEmitter.on(EventMap.Summarize, (data) => {
@@ -70,12 +87,15 @@ export default function Intelligence() {
     setPrompt("")
     setLoading(true)
 
+    // Always fetch the latest threadId from localStorage
+    const latestThreadId = localStorage.getItem("thread_id")
+
     try {
       const res: Thread = await api
         .post(`${endPoints.intelligence}/chat`, {
           json: {
             prompt: summarizePrompt,
-            threadId: threadId ?? undefined,
+            threadId: latestThreadId ?? undefined,
             summarizeRequest: true,
             entityType,
             entityDetails,
@@ -83,8 +103,8 @@ export default function Intelligence() {
         })
         .json()
 
-      if (!threadId) {
-        setThreadId(res.threadId)
+      if (!latestThreadId) {
+        localStorage.setItem("thread_id", res.threadId)
       }
 
       setMessages((prevMessages) => [...prevMessages, ""])
@@ -109,19 +129,22 @@ export default function Intelligence() {
     setPrompt("")
     setLoading(true)
 
+    // Always fetch the latest threadId from localStorage
+    const latestThreadId = localStorage.getItem("thread_id")
+
     try {
       const res: Thread = await api
         .post(`${endPoints.intelligence}/chat`, {
           json: {
             prompt,
-            threadId: threadId ?? undefined,
+            threadId: latestThreadId ?? undefined,
             summarizeRequest: false,
           },
         })
         .json()
 
-      if (!threadId) {
-        setThreadId(res.threadId)
+      if (!latestThreadId) {
+        localStorage.setItem("thread_id", res.threadId)
       }
 
       setMessages((prevMessages) => [...prevMessages, ""])
@@ -138,6 +161,11 @@ export default function Intelligence() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const clearChat = () => {
+    setMessages([])
+    localStorage.removeItem("thread_id")
   }
 
   return (
@@ -277,20 +305,13 @@ export default function Intelligence() {
         <div className="p-4 border-none">
           <div className="text-center">
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
-              onClick={() => {
-                setIsOpen(false)
-                if (threadId) {
-                  router.push(`/intelligence?threadId=${threadId}`)
-                } else {
-                  router.push(`/intelligence`)
-                }
-              }}
+              onClick={clearChat}
               className="text-xs text-neutral-400 hover:text-white bg-transparent hover:bg-transparent mb-2"
             >
-              <ExternalLink className="h-3 w-3 mr-1" />
-              Open in Full Screen
+              <BadgeMinus className="h-3 w-3 mr-1" />
+              Clear Chat
             </Button>
           </div>
           <form onSubmit={hitAPI}>
