@@ -21,7 +21,6 @@ import { Thread } from "@/shared/constants/types"
 import IconContainer from "../icon-container"
 import { streamResponseText } from "@/shared/lib/stream-response"
 import { useUserContext } from "@/context/user.provider"
-import { usePathname } from "next/navigation"
 import api from "@/shared/lib/ky-api"
 import { eventEmitter } from "@/shared/event-emitter/event-emitter"
 import { EventMap } from "@/shared/event-emitter/events-map"
@@ -36,14 +35,13 @@ export default function Intelligence() {
   const [isLoading, setLoading] = useState(false)
   const [messages, setMessages] = useState<string[]>([])
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  const pathName = usePathname()
-  const threadId = localStorage.getItem("thread_id")
+  const threadId = sessionStorage.getItem("thread_id")
 
   const thread = useQuery<Thread[]>({
     queryKey: ["get-thread", threadId ?? ""],
     queryUrl: `${endPoints.intelligence}/thread/${threadId}`,
     method: HTTPMethods.GET,
-    suspense: threadId !== null && !isOpen,
+    suspense: false,
     enabled: threadId !== null,
   })
 
@@ -57,46 +55,36 @@ export default function Intelligence() {
   }, [thread?.data])
 
   useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [messages])
+
+  useEffect(() => {
     eventEmitter.on(EventMap.Summarize, (data) => {
-      setIsOpen(true)
       const { entityType, entityDetails, entityName } = data || {}
       const summarizePrompt = `Summarize the ${entityName} ${entityType} and give me insights.`
-      setLoading(true)
-      hitAPIToSummarize(entityType, entityDetails, summarizePrompt)
+      setIsOpen(true)
+      invokeChatAPI(summarizePrompt, true, entityType, entityDetails)
     })
   }, [])
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
-
-  useEffect(() => {
-    scrollToBottom()
-  }, [messages])
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPrompt(e.target.value)
-  }
-
-  const hitAPIToSummarize = async (
+  const invokeChatAPI = async (
+    userPrompt: string,
+    summarizeRequest: boolean,
     entityType?: EntityType,
-    entityDetails?: string,
-    summarizePrompt?: string
+    entityDetails?: string
   ) => {
-    setMessages((prev) => [...prev, summarizePrompt ?? ""])
+    const latestThreadId = sessionStorage.getItem("thread_id")
+    setMessages((prev) => [...prev, userPrompt ?? ""])
     setPrompt("")
     setLoading(true)
-
-    // Always fetch the latest threadId from localStorage
-    const latestThreadId = localStorage.getItem("thread_id")
 
     try {
       const res: Thread = await api
         .post(`${endPoints.intelligence}/chat`, {
           json: {
-            prompt: summarizePrompt,
+            prompt: userPrompt,
             threadId: latestThreadId ?? undefined,
-            summarizeRequest: true,
+            summarizeRequest,
             entityType,
             entityDetails,
           },
@@ -104,47 +92,7 @@ export default function Intelligence() {
         .json()
 
       if (!latestThreadId) {
-        localStorage.setItem("thread_id", res.threadId)
-      }
-
-      setMessages((prevMessages) => [...prevMessages, ""])
-
-      streamResponseText(res?.response ?? "", (chunk) => {
-        setMessages((prevMessages) => {
-          const newMessages = [...prevMessages]
-          newMessages[newMessages.length - 1] = chunk
-          return newMessages
-        })
-      })
-    } catch (error: any) {
-      setMessages((prevMessages) => [...prevMessages, "Request timed out"])
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const hitAPI = async (e: any) => {
-    e.preventDefault()
-    setMessages((prev) => [...prev, prompt])
-    setPrompt("")
-    setLoading(true)
-
-    // Always fetch the latest threadId from localStorage
-    const latestThreadId = localStorage.getItem("thread_id")
-
-    try {
-      const res: Thread = await api
-        .post(`${endPoints.intelligence}/chat`, {
-          json: {
-            prompt,
-            threadId: latestThreadId ?? undefined,
-            summarizeRequest: false,
-          },
-        })
-        .json()
-
-      if (!latestThreadId) {
-        localStorage.setItem("thread_id", res.threadId)
+        sessionStorage.setItem("thread_id", res.threadId)
       }
 
       setMessages((prevMessages) => [...prevMessages, ""])
@@ -165,11 +113,11 @@ export default function Intelligence() {
 
   const clearChat = () => {
     setMessages([])
-    localStorage.removeItem("thread_id")
+    sessionStorage.removeItem("thread_id")
   }
 
   return (
-    <Show condition={user.useIntelligence && !pathName.match("intelligence")}>
+    <Show condition={user.useIntelligence}>
       <Button
         onClick={() => setIsOpen(true)}
         variant="default"
@@ -222,9 +170,9 @@ export default function Intelligence() {
                   <Badge
                     key={index}
                     className="text-neutral-300 bg-neutral-800 hover:bg-neutral-700 p-1 ps-4 pe-4 ms-2 mb-2 cursor-pointer"
-                    onClick={(e): void => {
+                    onClick={(): void => {
                       setPrompt(item)
-                      hitAPI(e)
+                      invokeChatAPI(item, false)
                     }}
                   >
                     {item}
@@ -314,7 +262,12 @@ export default function Intelligence() {
               Clear Chat
             </Button>
           </div>
-          <form onSubmit={hitAPI}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault()
+              invokeChatAPI(prompt, false)
+            }}
+          >
             <div className="w-full max-w-4xl mx-auto">
               <div className="relative bg-neutral-900 border border-border rounded-full p-2 ps-4 pe-4 shadow-lg">
                 <div className="flex flex-col gap-3">
@@ -323,7 +276,7 @@ export default function Intelligence() {
                       <Input
                         autoFocus
                         value={prompt}
-                        onChange={handleInputChange}
+                        onChange={(e) => setPrompt(e.target.value)}
                         placeholder="Ask Anything"
                         disabled={isLoading}
                         className="bg-transparent border-none text-neutral-300 placeholder:text-neutral-500 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none outline-none ring-0 text-sm px-0"
