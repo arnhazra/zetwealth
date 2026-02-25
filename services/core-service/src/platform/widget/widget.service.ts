@@ -4,10 +4,14 @@ import { Injectable } from "@nestjs/common"
 import { EventEmitter2 } from "@nestjs/event-emitter"
 import { formatCurrency } from "./lib/format-currency"
 import { format } from "date-fns"
+import { RedisService } from "@/shared/redis/redis.service"
 
 @Injectable()
 export class WidgetService {
-  constructor(private readonly eventEmitter: EventEmitter2) {}
+  constructor(
+    private readonly eventEmitter: EventEmitter2,
+    private readonly redisService: RedisService
+  ) {}
 
   async getWidgets(userId: string) {
     try {
@@ -31,39 +35,38 @@ export class WidgetService {
       const goalPercentage =
         ((assetData ?? 0) * 100) / (goalData ? goalData?.goalAmount : 0) || 0
 
-      const widgets = [
-        {
-          icon: "Wallet",
-          title: "Total Assets",
-          value: formatCurrency(Number(assetData), user.baseCurrency),
-          additionalInfo: "Sum of all assets",
-        },
-        {
-          icon: "BarChart3",
-          title: "Current Month Expense",
-          value: formatCurrency(Number(expenseData.total), user.baseCurrency),
-          additionalInfo: `Expense for ${format(new Date(), "MMM, yyyy")}`,
-        },
-        {
-          icon: "Flag",
-          title: "Goal Progress",
-          value: formatCurrency(
+      const widgetConfig = await this.redisService.get("widget-config")
+      const widgets = widgetConfig
+        .replaceAll(
+          "{ASSET_VALUE}",
+          formatCurrency(Number(assetData), user.baseCurrency)
+        )
+        .replaceAll(
+          "{EXPENSE_VALUE}",
+          formatCurrency(Number(expenseData.total), user.baseCurrency)
+        )
+        .replaceAll("{MONTH_YEAR}", `${format(new Date(), "MMM, yyyy")}`)
+        .replaceAll(
+          "{GOAL_AMOUNT}",
+          formatCurrency(
             Number(goalData ? goalData?.goalAmount : 0),
             user.baseCurrency
-          ),
-          additionalInfo: `${goalPercentage >= 100 ? 100 : goalPercentage.toFixed(0)}% Complete`,
-        },
-        {
-          icon: "CreditCard",
-          title: "Current Liabilities",
-          value: formatCurrency(
-            Number(debtData.remainingDebt),
-            user.baseCurrency
-          ),
-          additionalInfo: `EMI is ${formatCurrency(debtData.totalEMI, user.baseCurrency)}`,
-        },
-      ]
-      return widgets
+          )
+        )
+        .replaceAll(
+          "{GOAL_PERCENTAGE}",
+          `${goalPercentage >= 100 ? 100 : goalPercentage.toFixed(0)}`
+        )
+        .replaceAll(
+          "{REMAINING_DEBT}",
+          formatCurrency(Number(debtData.remainingDebt), user.baseCurrency)
+        )
+        .replaceAll(
+          "{TOTAL_EMI}",
+          formatCurrency(debtData.totalEMI, user.baseCurrency)
+        )
+
+      return JSON.parse(widgets)
     } catch (error) {
       throw error
     }
