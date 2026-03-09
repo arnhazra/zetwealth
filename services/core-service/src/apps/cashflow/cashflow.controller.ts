@@ -67,6 +67,37 @@ export class CashFlowController {
     }
   }
 
+  @UseGuards(AuthGuard)
+  @Get(":cashflowId")
+  async findById(
+    @Request() request: ModRequest,
+    @Param("cashflowId") cashflowId: string
+  ) {
+    try {
+      return await this.service.findById(request.user.userId, cashflowId)
+    } catch (error) {
+      throw new BadRequestException(
+        error.message || statusMessages.connectionError
+      )
+    }
+  }
+
+  @UseGuards(AuthGuard)
+  @Post(":cashflowId")
+  async updateById(
+    @Request() request: ModRequest,
+    @Param("cashflowId") cashflowId: string,
+    @Body() dto: CreateCashFlowRequestDto
+  ) {
+    try {
+      return await this.service.updateById(request.user.userId, cashflowId, dto)
+    } catch (error) {
+      throw new BadRequestException(
+        error.message || statusMessages.connectionError
+      )
+    }
+  }
+
   @Post("execute")
   async executeCashFlows() {
     try {

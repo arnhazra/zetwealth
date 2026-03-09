@@ -1,9 +1,14 @@
 "use client"
 import type React from "react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import useQuery from "@/shared/hooks/use-query"
 import HTTPMethods from "@/shared/constants/http-methods"
-import { Asset, FlowDirection, FlowFrequency } from "@/shared/constants/types"
+import {
+  Asset,
+  Cashflow,
+  FlowDirection,
+  FlowFrequency,
+} from "@/shared/constants/types"
 import { Button } from "@/shared/components/ui/button"
 import {
   Card,
@@ -33,6 +38,8 @@ import {
   SelectValue,
 } from "@/shared/components/ui/select"
 import IconContainer from "@/shared/components/icon-container"
+import { useSearchParams } from "next/navigation"
+import { useRouter } from "nextjs-toploader/app"
 
 interface CashflowFormData {
   description?: string
@@ -46,10 +53,23 @@ interface CashflowFormData {
 type MessageType = "success" | "error"
 
 export default function Page() {
+  const searchParams = useSearchParams()
+
+  const cashflowId = searchParams.get("id")
+  const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState<CashflowFormData>({})
   const [message, setMessage] = useState<{ msg: string; type: MessageType }>({
     msg: "",
     type: "success",
+  })
+
+  const cashflow = useQuery<Cashflow>({
+    queryKey: ["get-cashflow", cashflowId ?? ""],
+    queryUrl: `${endPoints.cashflow}/${cashflowId}`,
+    method: HTTPMethods.GET,
+    suspense: false,
+    enabled: !!cashflowId,
   })
 
   const { data: assetOptions = [] } = useQuery<Asset[]>({
@@ -70,18 +90,59 @@ export default function Page() {
     }))
   }
 
+  useEffect(() => {
+    if (
+      !!cashflow.error ||
+      (!cashflow.isLoading && cashflowId && !cashflow.data)
+    ) {
+      router.push("/apps/cashflow/createoreditcashflow")
+    }
+    if (cashflow.data) {
+      setFormData({
+        description: cashflow.data.description,
+        targetAsset: cashflow.data.targetAsset,
+        flowDirection: cashflow.data.flowDirection,
+        amount: cashflow.data.amount,
+        frequency: cashflow.data.frequency,
+        nextExecutionAt: cashflow.data.nextExecutionAt,
+      })
+    }
+  }, [cashflow.data, cashflow.error, cashflow.isLoading])
+
   const handleSubmit = async (e: React.FormEvent) => {
-    try {
-      e.preventDefault()
-      await api.post(endPoints.cashflow, {
-        json: formData,
-      })
-      setMessage({ msg: "Cashflow added successfully!", type: "success" })
-    } catch (error) {
-      setMessage({
-        msg: "Failed to add cashflow. Please try again.",
-        type: "error",
-      })
+    e.preventDefault()
+    setIsSubmitting(true)
+    setMessage({ msg: "", type: "success" })
+
+    if (cashflowId) {
+      try {
+        await api.post(`${endPoints.cashflow}/${cashflowId}`, {
+          json: formData,
+        })
+        setMessage({ msg: "Cashflow updated successfully!", type: "success" })
+      } catch (error) {
+        setMessage({
+          msg: "Failed to update cashflow. Please try again.",
+          type: "error",
+        })
+      } finally {
+        setIsSubmitting(false)
+      }
+    } else {
+      try {
+        await api.post(endPoints.cashflow, {
+          json: formData,
+        })
+        setMessage({ msg: "Cashflow added successfully!", type: "success" })
+        setFormData({})
+      } catch (error) {
+        setMessage({
+          msg: "Failed to add cashflow. Please try again.",
+          type: "error",
+        })
+      } finally {
+        setIsSubmitting(false)
+      }
     }
   }
 
@@ -94,10 +155,12 @@ export default function Page() {
               <IconContainer>
                 <Workflow className="h-4 w-4" />
               </IconContainer>
-              Add Cashflow
+              {cashflowId ? "Edit Cashflow" : "Add Cashflow"}
             </CardTitle>
             <CardDescription className="text-primary">
-              Fill in the details for your cashflow.
+              {cashflowId
+                ? "Edit your cashflow details."
+                : "Fill in the details for your cashflow."}
             </CardDescription>
           </CardHeader>
           <CardContent className="p-6">
@@ -258,8 +321,9 @@ export default function Page() {
                   type="submit"
                   variant="default"
                   className="bg-primary hover:bg-primary ml-auto text-black"
+                  disabled={isSubmitting}
                 >
-                  Add Cashflow
+                  {cashflowId ? "Save Cashflow" : "Add Cashflow"}
                 </Button>
               </div>
             </form>

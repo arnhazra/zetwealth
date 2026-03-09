@@ -7,10 +7,13 @@ import { CashFlowController } from "./cashflow.controller"
 import { CqrsModule } from "@nestjs/cqrs"
 import { Cashflow, CashflowSchema } from "./schemas/cashflow.schema"
 import { CashFlowRepository } from "./cashflow.repository"
+
 import { CreateCashflowCommandHandler } from "./commands/handler/create-cashflow.handler"
 import { DeleteCashflowCommandHandler } from "./commands/handler/delete-cashflow.handler"
 import { FindCashflowsQueryHandler } from "./queries/handler/find-cashflows.handler"
 import { FindCashflowsByUserQueryHandler } from "./queries/handler/find-cashflows-by-user.handler"
+import { FindCashflowByIdHandler } from "./queries/handler/find-cashflow-by-id.handler"
+import { UpdateCashflowHandler } from "./commands/handler/update-cashflow.handler"
 
 @Module({
   imports: [
@@ -32,6 +35,8 @@ import { FindCashflowsByUserQueryHandler } from "./queries/handler/find-cashflow
     DeleteCashflowCommandHandler,
     FindCashflowsQueryHandler,
     FindCashflowsByUserQueryHandler,
+    FindCashflowByIdHandler,
+    UpdateCashflowHandler,
   ],
 })
 export class CashFlowModule {}

@@ -33,6 +33,7 @@ export const editEntityUrlMap = {
   asset: "/apps/assetmanager/asset/edit",
   debt: "/apps/debttrack/createoreditdebt",
   goal: "/apps/goalmanager/createoreditgoal",
+  cashflow: "/apps/cashflow/createoreditcashflow",
 }
 
 export const deleteEntityAPIUriMap = {
