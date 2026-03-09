@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 3.7.1
+
+- Updated cashflow app to have update & delete cashflow functionality
+
 ## Version 3.7.0
 
 - Merged Intelligence Summarizer API to Chat API
