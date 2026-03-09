@@ -11,6 +11,8 @@ import { AppEventMap } from "@/shared/constants/app-events.map"
 import { Asset } from "../assetmanager/asset/schemas/asset.schema"
 import { FindCashflowsByUserQuery } from "./queries/impl/find-cashflows-by-user.query"
 import { computeNextDate } from "./helpers/compute-next-date"
+import { UpdateCashflowCommand } from "./commands/impl/update-cashflow.command"
+import { FindCashflowByIdQuery } from "./queries/impl/find-cashflow-by-id.query"
 
 @Injectable()
 export class CashFlowService {
@@ -45,6 +47,32 @@ export class CashFlowService {
     try {
       await this.commandBus.execute(new DeleteCashflowCommand(cashflowId))
       return { success: true }
+    } catch (error) {
+      throw new Error(statusMessages.connectionError)
+    }
+  }
+
+  async findById(userId: string, cashflowId: string) {
+    try {
+      const result = await this.queryBus.execute(
+        new FindCashflowByIdQuery(userId, cashflowId)
+      )
+      return result
+    } catch (error) {
+      throw new Error(statusMessages.connectionError)
+    }
+  }
+
+  async updateById(
+    userId: string,
+    cashflowId: string,
+    dto: CreateCashFlowRequestDto
+  ) {
+    try {
+      const result = await this.commandBus.execute(
+        new UpdateCashflowCommand(userId, cashflowId, dto)
+      )
+      return result
     } catch (error) {
       throw new Error(statusMessages.connectionError)
     }

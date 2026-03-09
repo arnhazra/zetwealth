@@ -34,5 +34,5 @@ export const createEntityUrlMap: Partial<Record<EntityType, string>> = {
   [EntityType.GOAL]: "/apps/goalmanager/createoreditgoal",
   [EntityType.NEWS]: "/apps/discover",
   [EntityType.EXPENSE]: "/apps/expensetrack/createoreditexpense",
-  [EntityType.CASHFLOW]: "/apps/cashflow/create",
+  [EntityType.CASHFLOW]: "/apps/cashflow/createoreditcashflow",
 }

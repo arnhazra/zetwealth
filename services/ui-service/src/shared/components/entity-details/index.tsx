@@ -129,21 +129,17 @@ export function EntityDetails({
               <DialogDescription></DialogDescription>
             </div>
             <div className="flex gap-2">
-              <Show
-                condition={entityType !== EntityTypeForDetailModal.CASHFLOW}
+              <Link
+                href={`${editEntityUrlMap[entityType as keyof typeof editEntityUrlMap]}?id=${(entity as Asset | Debt | Goal | Cashflow)._id}`}
               >
-                <Link
-                  href={`${editEntityUrlMap[entityType as keyof typeof editEntityUrlMap]}?id=${(entity as Asset | Debt | Goal)._id}`}
+                <Button
+                  variant="default"
+                  size="icon"
+                  className="p-2 bg-primary hover:bg-primary"
                 >
-                  <Button
-                    variant="default"
-                    size="icon"
-                    className="p-2 bg-primary hover:bg-primary"
-                  >
-                    <Pen className="text-black h-4 w-4" />
-                  </Button>
-                </Link>
-              </Show>
+                  <Pen className="text-black h-4 w-4" />
+                </Button>
+              </Link>
               <Button onClick={deleteEntity} variant="secondary" size="icon">
                 <Trash className="h-4 w-4" />
               </Button>

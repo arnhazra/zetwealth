@@ -7,6 +7,7 @@ import { PromptProvider } from "./prompt.provider"
 import { TooltipProvider } from "../components/ui/tooltip"
 import { Toaster } from "sonner"
 import { GoogleOAuthProvider } from "@react-oauth/google"
+import { colorVars } from "../styles/color-vars"
 
 export default function Providers({ children }: { children: ReactNode }) {
   const oAuthClientId = process.env.NEXT_PUBLIC_CLIENT_ID
@@ -22,8 +23,8 @@ export default function Providers({ children }: { children: ReactNode }) {
               position="bottom-right"
               toastOptions={{
                 style: {
-                  background: "#151616",
-                  borderColor: "#27272a",
+                  background: colorVars.background,
+                  borderColor: colorVars.border,
                 },
               }}
             />

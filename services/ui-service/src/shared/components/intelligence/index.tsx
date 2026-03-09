@@ -27,6 +27,7 @@ import { EventMap } from "@/shared/event-emitter/events-map"
 import { EntityType } from "../entity-card/data"
 import useQuery from "@/shared/hooks/use-query"
 import HTTPMethods from "@/shared/constants/http-methods"
+import { colorVars } from "@/shared/styles/color-vars"
 
 export default function Intelligence() {
   const [isOpen, setIsOpen] = useState(false)
@@ -198,8 +199,12 @@ export default function Intelligence() {
                     index % 2 === 0 ? "text-white" : "text-neutral-100"
                   }`}
                   style={{
-                    backgroundColor: index % 2 === 0 ? "#1ed760" : "#121212",
-                    border: index % 2 === 0 ? "none" : "1px solid #27272a",
+                    backgroundColor:
+                      index % 2 === 0 ? colorVars.primary : colorVars.main,
+                    border:
+                      index % 2 === 0
+                        ? "none"
+                        : `1px solid ${colorVars.border}`,
                   }}
                 >
                   <MarkdownRenderer key={index} markdown={message} />
@@ -208,7 +213,7 @@ export default function Intelligence() {
                 {index % 2 === 0 && (
                   <div
                     className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center"
-                    style={{ backgroundColor: "#3f3f46" }}
+                    style={{ backgroundColor: colorVars.border }}
                   >
                     <User className="h-4 w-4 text-white" />
                   </div>
@@ -220,15 +225,15 @@ export default function Intelligence() {
               <div className="flex items-start space-x-2">
                 <div
                   className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center"
-                  style={{ backgroundColor: "#1ed760" }}
+                  style={{ backgroundColor: colorVars.primary }}
                 >
                   <Bot className="h-4 w-4 text-white" />
                 </div>
                 <div
                   className="p-3 rounded-3xl"
                   style={{
-                    backgroundColor: "#121212",
-                    border: "1px solid #27272a",
+                    backgroundColor: colorVars.main,
+                    border: `1px solid ${colorVars.border}`,
                   }}
                 >
                   <div className="flex space-x-1">
