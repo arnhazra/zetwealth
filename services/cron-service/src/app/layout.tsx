@@ -12,7 +12,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
         />
-        <meta name="theme-color" content="#121212" />
         <meta name="description" content="Ok" />
       </head>
       <body className={quickSand.className}>
