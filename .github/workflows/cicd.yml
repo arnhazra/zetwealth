@@ -55,6 +55,10 @@ jobs:
 
       - name: Build Next.js
         working-directory: services/ui-service
+        env:
+          NEXT_PUBLIC_PLATFORM_NAME: ${{ secrets.NEXT_PUBLIC_PLATFORM_NAME }}
+          NEXT_PUBLIC_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_CLIENT_ID }}
+          NEXT_PUBLIC_CORE_SERVICE_URL: ${{ secrets.NEXT_PUBLIC_CORE_SERVICE_URL }}
         run: npm run build
 
       - name: Deploy to Azure Web App
