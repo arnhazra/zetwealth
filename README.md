@@ -1,6 +1,6 @@
 # WealthFabric
 
-**WealthFabric** is an open-source, AI driven wealth management platform that centralizes all aspects of personal finance. It lets you add and categorize your assets (stocks, crypto, real estate, cash, etc.), track debts and loans, set and monitor financial goals, and view comprehensive net-worth analytics. An integrated AI agent provides personalized insights — for example, answering questions about tax optimization or investment allocation using large language models (LLMs). In short, WealthFabric helps you plan, grow, or preserve your wealth by combining traditional finance tools with modern AI.
+**WealthFabric** is an open-source, AI-driven wealth management platform that centralizes all aspects of personal finance. It lets you add and categorize your assets (stocks, crypto, real estate, cash, etc.), track debts and loans, set and monitor financial goals, and view comprehensive net-worth analytics. An integrated AI agent provides personalized insights — for example, answering questions about tax optimization or investment allocation using large language models (LLMs). In short, WealthFabric helps you plan, grow, or preserve your wealth by combining traditional finance tools with modern AI.
 
 ## Key Features
 
