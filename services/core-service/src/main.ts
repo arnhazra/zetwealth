@@ -6,7 +6,7 @@ async function bootstrap(): Promise<void> {
   const app: INestApplication = await NestFactory.create(MainModule)
   app.useGlobalPipes(new ValidationPipe())
   app.enableCors({ origin: "*" })
-  await app.listen(8000)
+  await app.listen(process.env.PORT || 8080)
 }
 
 bootstrap()

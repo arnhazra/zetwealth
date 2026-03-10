@@ -23,8 +23,6 @@ This app follows a modular, service-oriented design:
 
 - **Backend (Core Service):** The NestJS application exposes a unified API. Internally, it is broken into modules such as AssetModule, DebtModule, ExpenseModule, GoalModule, CashflowModule, TaxModule, etc. Each module contains controllers (REST endpoints), services (business logic), and data models/schemas (for MongoDB). For example, `AssetService` might handle fetching price data and computing portfolio value. The backend also implements authentication (JWT-based) so that each user’s data is isolated. When an AI-driven endpoint is called (e.g. `POST /api/ai/recommendation`), the backend may gather relevant data from MongoDB, construct a LangChain prompt/chain, call the LLM(s), and return the formulated insight.
 
-- **Cron Service:** A separate (headless) Next.js app that runs serverless functions for scheduled jobs. For example, a `get /api/cron/daily` endpoint might perform end-of-day calculations (update account balances from linked banks), while `/api/cron/weekly` might generate a summary report. This service is triggered via Vercel’s Cron configuration. (It shares the same codebase/libraries as the UI but is deployed as a distinct project so it only handles background tasks.)
-
 - **Data Flow:** User data (accounts, transactions, etc.) is stored in MongoDB. The backend can also fetch external data as needed (e.g. stock prices from an API). Redis is used to cache things like user settings or recent queries to speed up repeated operations. When a user requests an AI insight, LangChain may use either MongoDB or external APIs as retrieval sources before querying the LLM. All inter-service communication is via HTTP/HTTPS APIs (there is no monolithic monolith).
 
 - **High-Level Diagram:** A typical request flows like this: the browser (Next.js) calls a NestJS endpoint; NestJS retrieves data from MongoDB/Redis or calls LangChain; LangChain might in turn query an LLM (e.g. OpenAI’s GPT) and return a result; NestJS sends JSON back to the UI. Scheduled tasks are invoked independently: Vercel Cron hits a Next.js API route (`/api/cron/*`), which executes a task in the Cron Service.
@@ -46,18 +44,6 @@ This app's architecture is based on modern, scalable frameworks:
 - **API & Data Models:** The Core Service uses Mongoose (or TypeORM) with typed schemas for all entities (User, Asset, Transaction, Goal, etc.). Each HTTP request is validated (using `class-validator`) to prevent bad data. Controllers are responsible for parsing requests and calling services; services contain the business logic.
 - **AI & LangChain:** We embed LangChain chains/agents where needed. For example, a `CashflowAgent` could use a combination of prompt templates and database queries to generate a cashflow forecast. The key point is that LangChain allows us to treat LLMs like a toolkit – swapping models (GPT-4, GPT-5, open source models) without code changes.
 - **UI Components:** The Next.js app has pages like `/dashboard`, `/assets`, `/expenses`, `/goals`, etc. It uses React hooks to fetch data (e.g. via `fetch('/api/assets')`). It also defines React Server Components or API routes under `/pages/api` if needed. Environment config (such as API base URL) is managed via `.env.local`.
-- **Cron Jobs:** Defined in `cron-service/vercel.json`. For example:
-  ```json
-  {
-    "crons": [
-      {
-        "path": "/api/cron",
-        "schedule": "0 5 * * *"
-      }
-    ]
-  }
-  ```
-  Vercel will then make GET requests to `/api/cron/daily-sync` every midnight UTC and `/api/cron/weekly-summary` every Monday. The handler for `/api/cron/weekly-summary` might compile the week’s transactions into a report and email it to the user.
 
 ## Getting Started
 

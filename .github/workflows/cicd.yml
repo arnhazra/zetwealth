@@ -8,36 +8,28 @@ on:
 jobs:
   CORE-SERVICE-DEPLOYMENT:
     runs-on: ubuntu-latest
-    env:
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_PROD_API }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Install Vercel CLI
-        run: npm install --global vercel
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 24
 
-      - name: Build API Gateway application
+      - name: Install dependencies
         working-directory: services/core-service
-        run: |
-          npm install
-          CI=false npm run build
+        run: npm install
 
-      - name: Configure packages
+      - name: Build NestJS
         working-directory: services/core-service
-        run: jq 'del(.devDependencies)' package.json > temp.json && mv temp.json package.json
+        run: npm run build
 
-      - name: Pull Vercel Environment Information
-        working-directory: services/core-service
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Build Project Artifacts
-        working-directory: services/core-service
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Publish Project Artifacts to Vercel
-        working-directory: services/core-service
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: wallstreet-api
+          publish-profile: ${{ secrets.AZURE_CORE_APP_PUBLISH_PROFILE }}
+          package: services/core-service
 
   UI-SERVICE-DEPLOYMENT:
     runs-on: ubuntu-latest
@@ -67,26 +59,3 @@ jobs:
           app-name: wallstreet
           publish-profile: ${{ secrets.AZURE_UI_APP_PUBLISH_PROFILE }}
           package: services/ui-service
-
-  CRON-SERVICE-DEPLOYMENT:
-    runs-on: ubuntu-latest
-    env:
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_PROD_CRON }}
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Install Vercel CLI
-        run: npm install --global vercel
-
-      - name: Pull Vercel Environment Information
-        working-directory: services/cron-service
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Build Project Artifacts
-        working-directory: services/cron-service
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Publish Project Artifacts to Vercel
-        working-directory: services/cron-service
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
