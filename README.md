@@ -1,23 +1,23 @@
-# WealthFabric
+# WallStreet
 
-**WealthFabric** is an open-source, AI-driven wealth management platform that centralizes all aspects of personal finance. It lets you add and categorize your assets (stocks, crypto, real estate, cash, etc.), track debts and loans, set and monitor financial goals, and view comprehensive net-worth analytics. An integrated AI agent provides personalized insights — for example, answering questions about tax optimization or investment allocation using large language models (LLMs). In short, WealthFabric helps you plan, grow, or preserve your wealth by combining traditional finance tools with modern AI.
+This app is an open-source, AI-driven wealth management platform that centralizes all aspects of personal finance. It lets you add and categorize your assets (stocks, crypto, real estate, cash, etc.), track debts and loans, set and monitor financial goals, and view comprehensive net-worth analytics. An integrated AI agent provides personalized insights — for example, answering questions about tax optimization or investment allocation using large language models (LLMs). In short, this app helps you plan, grow, or preserve your wealth by combining traditional finance tools with modern AI.
 
 ## Key Features
 
 - **Comprehensive Asset Management:** Maintain portfolios across multiple asset classes (equities, crypto, real estate, bank accounts, etc.) with real-time or periodic valuation updates.
 - **Debt & Liability Tracking:** Manage liabilities like mortgages, student loans, and credit card debt. Set up payment schedules and reminders to stay on top of obligations.
 - **Budgeting & Expense Tracking:** Categorize transactions automatically or manually (e.g. groceries, utilities, entertainment), set budgets per category, and visualize spending trends over time.
-- **Financial Goals & Planning:** Define goals (retirement fund, down payment, emergency fund) and track progress. WealthFabric can project future savings or recommend adjustments using AI forecasting.
+- **Financial Goals & Planning:** Define goals (retirement fund, down payment, emergency fund) and track progress. It can project future savings or recommend adjustments using AI forecasting.
 - **Net Worth Calculation:** Automatically compute net worth by aggregating all assets minus liabilities. Visualize net worth growth charts and historical trends.
 - **AI-Powered Insights:** Use natural language queries or pre-built reports to get AI-generated analysis. For example, ask _“How can I optimize my portfolio for tax efficiency?”_ or _“What should I do to reach my retirement goal?”_ – LangChain-powered agents will retrieve your financial data and external knowledge, then use LLMs to craft an answer.
 - **Multi-Currency & Aggregation:** Supports multiple currencies and can aggregate balances from different accounts for a unified view.
-- **Open-Source & Extensible:** Built in TypeScript/Node, WealthFabric is fully open source (AGPL-3.0), allowing developers to extend modules or integrate new services (e.g. bank APIs, crypto exchanges).
+- **Open-Source & Extensible:** Built in TypeScript/Node, it is fully open source (AGPL-3.0), allowing developers to extend modules or integrate new services (e.g. bank APIs, crypto exchanges).
 
 ## Architecture & Workflows
 
 ![HLD](architecture.svg)
 
-WealthFabric follows a modular, service-oriented design:
+This app follows a modular, service-oriented design:
 
 - **Frontend (UI Service):** The Next.js app provides the user interface. It handles user sign-in, displays dashboards (net worth, spending charts), and offers forms (add new asset, record expense, set a goal, etc.). It calls the backend API for all data operations. The UI also provides an “AI Chat” or Q&A interface where users can pose natural-language finance questions; these requests are forwarded to the backend, which then invokes a LangChain agent to generate a response.
 
@@ -31,13 +31,13 @@ WealthFabric follows a modular, service-oriented design:
 
 ## Tech Stack
 
-WealthFabric’s architecture is based on modern, scalable frameworks:
+This app's architecture is based on modern, scalable frameworks:
 
 - **LangChain (LLM Framework):** An open-source orchestration toolkit for building applications with large language models. LangChain provides modular “chains” and agent support so the platform can integrate LLMs into workflows (e.g. financial analysis agents that call out to MongoDB or REST APIs). Using LangChain means we can easily experiment with different LLMs or prompt strategies when generating insights.
-- **NestJS (Backend API):** A progressive, TypeScript-based Node.js framework for building scalable server-side applications. WealthFabric’s core business logic lives in a NestJS app. NestJS’s modular structure allows separation of domains (assets, expenses, goals, etc.) and supports both REST and GraphQL. It also has built-in support for microservices if we want to distribute components independently.
+- **NestJS (Backend API):** A progressive, TypeScript-based Node.js framework for building scalable server-side applications. This app's core business logic lives in a NestJS app. NestJS’s modular structure allows separation of domains (assets, expenses, goals, etc.) and supports both REST and GraphQL. It also has built-in support for microservices if we want to distribute components independently.
 - **Next.js (Frontend UI):** A React framework by Vercel for building fast, SEO-friendly web apps. The UI is a Next.js app (written in TypeScript) that runs on Vercel. It handles client-side interactions, forms, and charts, while fetching data via the NestJS API. Next.js enables server-side rendering (for initial page loads) and client-side hydration for a smooth user experience.
 - **MongoDB (Primary Database):** A document-oriented NoSQL database. We use MongoDB to persist all user data – accounts, transactions, goals, etc. Its flexible JSON-like schema (BSON) allows us to evolve data models over time (for example, adding new fields without downtime). MongoDB’s scalability is ideal for handling growing user data.
-- **Redis (In-Memory Store):** A fast in-memory key-value store. In WealthFabric Redis is used for configuration and caching (e.g. storing computed settings, session data, or intermediate results). Because Redis is _“the world’s fastest in-memory database”_, it can quickly serve frequently-accessed data and reduce load on MongoDB.
+- **Redis (In-Memory Store):** A fast in-memory key-value store. In this app Redis is used for configuration and caching (e.g. storing computed settings, session data, or intermediate results). Because Redis is _“the world’s fastest in-memory database”_, it can quickly serve frequently-accessed data and reduce load on MongoDB.
 - **Vercel Cron Jobs:** A cloud-based cron scheduler (built into Vercel) for running periodic background tasks. We define cron expressions (e.g. daily or weekly schedules) in `vercel.json`, and Vercel will trigger HTTP endpoints at those times. For example, a monthly job might recalculate interest on savings or send summary emails. Using Vercel’s Cron feature means we don’t need a separate server for scheduling.
 
 ## Component Breakdown
@@ -61,18 +61,11 @@ WealthFabric’s architecture is based on modern, scalable frameworks:
 
 ## Getting Started
 
-Follow these steps to run WealthFabric locally:
+Follow these steps to run this app locally:
 
 1. **Prerequisites:** Ensure you have Node.js (v18+), npm, and a MongoDB instance. Redis is optional but recommended for caching. You will also need an API key for an LLM provider (e.g. OpenAI).
 
-2. **Clone the repo:**
-
-   ```bash
-   git clone https://github.com/arnhazra/wealthfabric.git
-   cd wealthfabric
-   ```
-
-3. **Configure environment variables:** Copy the example files and fill in your settings:
+2. **Configure environment variables:** Copy the example files and fill in your settings:
 
    ```bash
    cp services/core-service/.env.example services/core-service/.env
@@ -81,13 +74,13 @@ Follow these steps to run WealthFabric locally:
    ```
 
    Edit each `.env` file to set:
-   - `MONGO_URI` (e.g. `mongodb://localhost:27017/wealthfabric`)
+   - `MONGO_URI` (e.g. `mongodb://localhost:27017`)
    - `REDIS_URL` (if used, e.g. `redis://localhost:6379`)
    - `OPENAI_API_KEY` (for LLM features)
    - `JWT_SECRET` (a strong random string)
    - Any other required keys (these should be documented in each `.env.example` file).
 
-4. **Install dependencies and run services:**
+3. **Install dependencies and run services:**
    - **Core API (NestJS):**
      ```bash
      cd services/core-service
@@ -110,7 +103,7 @@ Follow these steps to run WealthFabric locally:
      ```
      (This is a Next.js app too, but meant for background tasks. You can invoke its endpoints manually to test.)
 
-5. **Use the application:**
+4. **Use the application:**
    - Open http://localhost:3000. Register a new account or log in.
    - Go to the Assets page to add your financial accounts and holdings.
    - Go to Expenses to add spending transactions.
@@ -119,7 +112,7 @@ Follow these steps to run WealthFabric locally:
 
 ## Deployment
 
-WealthFabric can be deployed on the cloud. A typical setup is:
+This app can be deployed on the cloud. A typical setup is:
 
 - **Frontend (Next.js):** Deploy to Vercel (https://vercel.com). Connect your GitHub repo and set the project root to `services/ui-service`. Configure the environment variables (e.g. `NEXT_PUBLIC_API_URL`) in the Vercel dashboard.
 - **Backend (NestJS Core):** You have two options:
@@ -159,7 +152,7 @@ Security is a priority. Recommendations and best practices:
 - **Data Protection:** Encrypt any sensitive fields if needed (e.g. use HTTPS and consider encrypting at rest via MongoDB or disk encryption). Ensure backups of MongoDB are secure.
 - **Vulnerability Disclosure:** If you discover a security flaw, please [contact the maintainers](https://github.com/arnhazra) privately first. We strive to address issues responsibly.
 
-**Note:** The AGPL-3.0 license means that if you deploy a modified version of WealthFabric for external use, you must make your modified source available under the same license.
+**Note:** The AGPL-3.0 license means that if you deploy a modified version of this app for external use, you must make your modified source available under the same license.
 
 ## License
 
