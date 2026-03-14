@@ -21,3 +21,4 @@ export class Event extends IdentifiableEntitySchmea {
 }
 
 export const EventSchema = createSchemaFromClass(Event)
+EventSchema.index({ userId: 1 })

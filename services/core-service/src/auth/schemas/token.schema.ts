@@ -22,3 +22,4 @@ export class Token extends IdentifiableEntitySchmea {
 }
 
 export const TokenSchema = createSchemaFromClass(Token)
+TokenSchema.index({ userId: 1 })

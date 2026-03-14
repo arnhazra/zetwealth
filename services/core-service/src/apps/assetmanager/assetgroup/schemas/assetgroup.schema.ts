@@ -18,3 +18,4 @@ export class AssetGroup extends IdentifiableEntitySchmea {
 }
 
 export const AssetGroupSchema = createSchemaFromClass(AssetGroup)
+AssetGroupSchema.index({ userId: 1 })

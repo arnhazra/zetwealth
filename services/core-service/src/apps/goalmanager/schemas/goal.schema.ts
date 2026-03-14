@@ -21,3 +21,4 @@ export class Goal extends IdentifiableEntitySchmea {
 }
 
 export const GoalSchema = createSchemaFromClass(Goal)
+GoalSchema.index({ userId: 1 })

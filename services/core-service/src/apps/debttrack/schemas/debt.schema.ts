@@ -33,3 +33,4 @@ export class Debt extends IdentifiableEntitySchmea {
 }
 
 export const DebtSchema = createSchemaFromClass(Debt)
+DebtSchema.index({ userId: 1 })

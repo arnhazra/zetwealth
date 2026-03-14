@@ -46,3 +46,4 @@ export class Cashflow extends IdentifiableEntitySchmea {
 }
 
 export const CashflowSchema = createSchemaFromClass(Cashflow)
+CashflowSchema.index({ userId: 1 })

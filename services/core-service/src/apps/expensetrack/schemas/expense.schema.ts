@@ -28,3 +28,4 @@ export class Expense extends IdentifiableEntitySchmea {
 }
 
 export const ExpenseSchema = createSchemaFromClass(Expense)
+ExpenseSchema.index({ userId: 1 })

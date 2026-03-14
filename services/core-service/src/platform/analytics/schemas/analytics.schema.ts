@@ -21,3 +21,4 @@ export class Analytics extends IdentifiableEntitySchmea {
 }
 
 export const AnalyticsSchema = createSchemaFromClass(Analytics)
+AnalyticsSchema.index({ userId: 1 })
