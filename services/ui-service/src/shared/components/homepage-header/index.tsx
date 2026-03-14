@@ -8,9 +8,10 @@ import {
   SheetTrigger,
 } from "@/shared/components/ui/sheet"
 import { generalUserLinks } from "./data"
-import { platformName, uiConstants } from "@/shared/constants/global-constants"
+import { uiConstants } from "@/shared/constants/global-constants"
 import { cn } from "@/shared/lib/utils"
 import IconContainer from "../icon-container"
+import { PLATFORM_NAME } from "@/shared/constants/config"
 
 export default function HomePageHeader() {
   return (
@@ -23,7 +24,7 @@ export default function HomePageHeader() {
           <IconContainer>
             <TrendingUp className="h-4 w-4" />
           </IconContainer>
-          {platformName}
+          {PLATFORM_NAME}
         </Link>
 
         <nav className="hidden md:flex items-center justify-start gap-3 flex-1">

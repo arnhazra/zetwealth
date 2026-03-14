@@ -1,5 +1,5 @@
 "use client"
-import { platformName, uiConstants } from "@/shared/constants/global-constants"
+import { uiConstants } from "@/shared/constants/global-constants"
 import Cookies from "js-cookie"
 import {
   Card,
@@ -12,6 +12,7 @@ import HomePageHeader from "@/shared/components/homepage-header"
 import notify from "@/shared/hooks/use-notify"
 import GoogleOAuth from "./google-oauth"
 import { defaultCookieOptions } from "@/shared/lib/cookie-params"
+import { PLATFORM_NAME } from "@/shared/constants/config"
 
 interface AuthProviderProps {
   onAuthorized: (isAuthorized: boolean) => void
@@ -35,7 +36,7 @@ export default function AuthProvider({ onAuthorized }: AuthProviderProps) {
       <div className="fixed inset-0 overflow-y-auto flex justify-center items-center auth-landing">
         <Card className="mx-auto w-full max-w-sm bg-background border-border text-white">
           <CardHeader>
-            <CardTitle className="text-2xl">{platformName}</CardTitle>
+            <CardTitle className="text-2xl">{PLATFORM_NAME}</CardTitle>
             <CardDescription className="text-primary">
               Authenticate to Continue
             </CardDescription>

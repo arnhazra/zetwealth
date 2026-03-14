@@ -1,7 +1,7 @@
 "use client"
 import IconContainer from "@/shared/components/icon-container"
 import { Progress } from "@/shared/components/ui/progress"
-import { platformName } from "@/shared/constants/global-constants"
+import { PLATFORM_NAME } from "@/shared/constants/config"
 import { TrendingUp } from "lucide-react"
 
 export default function Loading() {
@@ -10,7 +10,7 @@ export default function Loading() {
       <IconContainer>
         <TrendingUp className="h-4 w-4" />
       </IconContainer>
-      <p className="text-white">Loading {platformName}</p>
+      <p className="text-white">Loading {PLATFORM_NAME}</p>
       <Progress
         indeterminate
         className="bg-neutral-800 h-1 xl:w-[20%] lg:w-[25%] md:w-[30%] w-[50%] rounded-3xl"

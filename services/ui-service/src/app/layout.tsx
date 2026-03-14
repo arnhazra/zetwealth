@@ -1,10 +1,11 @@
 import { ReactNode } from "react"
-import { platformName, uiConstants } from "@/shared/constants/global-constants"
+import { uiConstants } from "@/shared/constants/global-constants"
 import { Quicksand } from "next/font/google"
 import Providers from "@/shared/providers"
 import NextTopLoader from "nextjs-toploader"
 import "../shared/styles/globals.css"
 import { colorVars } from "@/shared/styles/color-vars"
+import { PLATFORM_NAME } from "@/shared/constants/config"
 
 export const quickSand = Quicksand({ subsets: ["latin"], weight: ["700"] })
 
@@ -12,7 +13,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <title>{platformName}</title>
+        <title>{PLATFORM_NAME}</title>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0"

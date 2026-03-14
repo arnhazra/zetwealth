@@ -1,11 +1,15 @@
 # Changelog
 
-## Version 3.8.0
+## Version 4.0.0
+
+- Migrated all the services from Vercel to Azure
+
+## Version 3.9.0
 
 - Enhanced structure by rebranding Spaces to AssetGroups
 - Added Configurations in repository
 
-## Version 3.7.1
+## Version 3.8.0
 
 - Updated cashflow app to have update & delete cashflow functionality
 - Dependency updates, Bug fixes & performance improvements

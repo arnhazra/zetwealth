@@ -3,7 +3,7 @@ import CopyToClipboard from "@/shared/components/copy"
 import SectionPanel from "../../../shared/components/section-panel"
 import { Button } from "@/shared/components/ui/button"
 import { endPoints } from "@/shared/constants/api-endpoints"
-import { platformName, uiConstants } from "@/shared/constants/global-constants"
+import { uiConstants } from "@/shared/constants/global-constants"
 import { useUserContext } from "@/context/user.provider"
 import {
   UserIcon,
@@ -29,6 +29,7 @@ import Cookies from "js-cookie"
 import { useConfirmContext } from "@/shared/providers/confirm.provider"
 import api from "@/shared/lib/ky-api"
 import type { User } from "@/shared/constants/types"
+import { PLATFORM_NAME } from "@/shared/constants/config"
 
 export default function Page() {
   const [{ user }, dispatch] = useUserContext()
@@ -88,7 +89,7 @@ export default function Page() {
 
   const viewAIDataAgreement = async (from: string) => {
     const consent = await confirm({
-      title: `${platformName} Intelligence Data Agreement`,
+      title: `${PLATFORM_NAME} Intelligence Data Agreement`,
       desc: uiConstants.useIntelligenceStatement,
     })
 
@@ -153,10 +154,10 @@ export default function Page() {
               <Sparkle className="h-4 w-4" />
             </IconContainer>
           }
-          title={`${platformName} Intelligence`}
+          title={`${PLATFORM_NAME} Intelligence`}
           content={
             <>
-              An Intelligent system integrated deeply within {platformName}{" "}
+              An Intelligent system integrated deeply within {PLATFORM_NAME}{" "}
               platform. This uses AI to enhance your experience. View the{" "}
               <span
                 className="text-primary cursor-pointer"
@@ -185,7 +186,7 @@ export default function Page() {
               <PieChart className="h-4 w-4" />
             </IconContainer>
           }
-          title={`${platformName} Analytics`}
+          title={`${PLATFORM_NAME} Analytics`}
           content="Choose whether to save the things you do. If disabled, we still collect anonymous analytics data to improve the app"
           actionComponents={[
             <Switch
@@ -203,7 +204,7 @@ export default function Page() {
             </IconContainer>
           }
           title="Optimize API Calls"
-          content={`Turn this settings on to reduce carbon footprints inside ${platformName} by optimizing API calls`}
+          content={`Turn this settings on to reduce carbon footprints inside ${PLATFORM_NAME} by optimizing API calls`}
           actionComponents={[
             <Switch
               checked={user.reduceCarbonEmissions}

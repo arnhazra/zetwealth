@@ -1,7 +1,6 @@
 import Link from "next/link"
 import { TrendingUp } from "lucide-react"
 import HeaderSearch from "./search/header-search"
-import { platformName } from "@/shared/constants/global-constants"
 import { UserNav } from "./user-nav"
 import IconContainer from "../icon-container"
 import { usePathname } from "next/navigation"
@@ -11,6 +10,7 @@ import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
 import Show from "../show"
 import * as Icons from "lucide-react"
+import { PLATFORM_NAME } from "@/shared/constants/config"
 
 export default function PlatformHeader() {
   const pathName = usePathname()
@@ -52,7 +52,7 @@ export default function PlatformHeader() {
             <IconContainer>
               <TrendingUp className="h-4 w-4" />
             </IconContainer>
-            <span className="hidden md:inline">{platformName}</span>
+            <span className="hidden md:inline">{PLATFORM_NAME}</span>
           </Link>
         </Show>
         <HeaderSearch />

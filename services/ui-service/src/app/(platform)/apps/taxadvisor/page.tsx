@@ -5,7 +5,7 @@ import { Input } from "@/shared/components/ui/input"
 import { ScrollArea } from "@/shared/components/ui/scroll-area"
 import { Bot, User, ArrowUp, Sparkle, Calculator } from "lucide-react"
 import { endPoints } from "@/shared/constants/api-endpoints"
-import { platformName, uiConstants } from "@/shared/constants/global-constants"
+import { uiConstants } from "@/shared/constants/global-constants"
 import MarkdownRenderer from "@/shared/components/markdown"
 import Show from "@/shared/components/show"
 import { Thread } from "@/shared/constants/types"
@@ -18,6 +18,7 @@ import { streamResponseText } from "@/shared/lib/stream-response"
 import IconContainer from "@/shared/components/icon-container"
 import api from "@/shared/lib/ky-api"
 import { colorVars } from "@/shared/styles/color-vars"
+import { PLATFORM_NAME } from "@/shared/constants/config"
 
 export default function Page() {
   const searchParams = useSearchParams()
@@ -107,7 +108,7 @@ export default function Page() {
                   <Calculator className="h-5 w-5" />
                 </IconContainer>
               </div>
-              <p className="text-primary">{platformName} TaxAdvisor</p>
+              <p className="text-primary">{PLATFORM_NAME} TaxAdvisor</p>
               <p className="text-xs mt-2 text-neutral-300 p-6">
                 {uiConstants.aiSafetyStatement}
               </p>

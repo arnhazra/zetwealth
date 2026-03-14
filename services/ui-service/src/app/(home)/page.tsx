@@ -2,7 +2,7 @@
 import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
 import { AppsConfig, SolutionConfig } from "@/shared/constants/types"
-import { platformName, uiConstants } from "@/shared/constants/global-constants"
+import { uiConstants } from "@/shared/constants/global-constants"
 import {
   BoxIcon,
   Check,
@@ -26,6 +26,7 @@ import HomePageHeader from "@/shared/components/homepage-header"
 import { Badge } from "@/shared/components/ui/badge"
 import { SolutionCard } from "@/shared/components/solution-card"
 import IconContainer from "@/shared/components/icon-container"
+import { PLATFORM_NAME } from "@/shared/constants/config"
 
 export default function Page() {
   const router = useRouter()
@@ -146,7 +147,7 @@ export default function Page() {
         <div className="bg-background border border-border p-8 rounded-3xl flex flex-col hover:shadow-lg hover:shadow-primary/20">
           <div className="flex justify-between items-center mb-12">
             <div>
-              <p className="text-xl">{platformName}</p>
+              <p className="text-xl">{PLATFORM_NAME}</p>
               <h2 className="text-2xl">{openSourceConfig.data?.title}</h2>
             </div>
             <IconContainer>
@@ -165,7 +166,7 @@ export default function Page() {
           <div className="mt-8 flex justify-end">
             <Button variant="default" className="text-black" asChild>
               <a
-                href={`https://github.com/arnhazra/${platformName.toLowerCase()}`}
+                href={`https://github.com/arnhazra/${PLATFORM_NAME.toLowerCase()}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -185,7 +186,7 @@ export default function Page() {
         <div className="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
           <div className="flex flex-col items-center gap-4 md:flex-row md:gap-2">
             <p className="text-center text-sm leading-loose md:text-left">
-              © {new Date().getFullYear()} {platformName}{" "}
+              © {new Date().getFullYear()} {PLATFORM_NAME}{" "}
               {uiConstants.copyrightText}
             </p>
           </div>
