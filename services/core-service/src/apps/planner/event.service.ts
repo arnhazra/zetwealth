@@ -15,8 +15,8 @@ import { Cashflow } from "@/apps/cashflow/schemas/cashflow.schema"
 import { Expense } from "@/apps/expensetrack/schemas/expense.schema"
 import { User } from "@/auth/schemas/user.schema"
 import { formatCurrency } from "@/platform/widget/lib/format-currency"
-import { RedisService } from "@/shared/redis/redis.service"
 import { ExpenseCategoryConfig } from "@/shared/constants/types"
+import { ConfigService } from "@/platform/config/config.service"
 
 @Injectable()
 export class EventService {
@@ -24,7 +24,7 @@ export class EventService {
     private readonly queryBus: QueryBus,
     private readonly commandBus: CommandBus,
     private readonly eventEmitter: EventEmitter2,
-    private readonly redisService: RedisService
+    private readonly configService: ConfigService
   ) {}
 
   async createEvent(userId: string, requestBody: CreateEventRequestDto) {
@@ -43,7 +43,7 @@ export class EventService {
         FindEventsByUserQuery,
         Event[]
       >(new FindEventsByUserQuery(userId))
-      const expenseCategoryConfig = await this.redisService.get(
+      const expenseCategoryConfig = await this.configService.getConfig(
         "expense-category-config"
       )
 

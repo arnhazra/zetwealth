@@ -17,7 +17,7 @@ import { config } from "@/config"
     HttpModule,
     CqrsModule,
     EntityModule.forRoot(
-      config.APPS_DATABASE_URI,
+      config.AZURE_COSMOS_DB_CONNECTION_STRING,
       AppsDbConnectionMap.TaxAdvisor
     ),
     EntityModule.forFeature(

@@ -3,9 +3,9 @@ import { Thread } from "./schemas/thread.schema"
 import { config } from "@/config"
 import { AIMessage, createAgent, HumanMessage, SystemMessage } from "langchain"
 import { User } from "@/auth/schemas/user.schema"
-import { RedisService } from "@/shared/redis/redis.service"
 import { LLMService } from "@/shared/llm/llm.service"
 import { ChatOpenAI, ChatOpenAICallOptions } from "@langchain/openai"
+import { ConfigService } from "@/platform/config/config.service"
 
 export interface TaxAdvisorStrategyType {
   temperature: number
@@ -19,12 +19,14 @@ export interface TaxAdvisorStrategyType {
 @Injectable()
 export class TaxAdvisorStrategy {
   constructor(
-    private readonly redisService: RedisService,
+    private readonly configService: ConfigService,
     private readonly llmService: LLMService
   ) {}
 
   private async getSystemInstruction(user: User) {
-    const data = await this.redisService.get("taxadvisor-system-instruction")
+    const data = await this.configService.getConfig(
+      "taxadvisor-system-instruction"
+    )
     const content = data
       .replaceAll("{platformName}", config.PLATFORM_NAME)
       .replaceAll("{todaysDate}", new Date().toString())

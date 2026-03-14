@@ -23,7 +23,7 @@ import { CashflowAgent } from "./agents/cashflow.agent"
     HttpModule,
     CqrsModule,
     EntityModule.forRoot(
-      config.PLATFORM_DATABASE_URI,
+      config.AZURE_COSMOS_DB_CONNECTION_STRING,
       GeneralDbConnectionMap.Platform
     ),
     EntityModule.forFeature(

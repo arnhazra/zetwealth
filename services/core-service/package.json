@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@aws-crypto/sha256-js": "^5.2.0",
+    "@azure/app-configuration": "^1.11.0",
     "@langchain/core": "^1.1.31",
     "@langchain/openai": "^1.2.12",
     "@nestjs/axios": "^4.0.1",
@@ -30,7 +31,6 @@
     "date-fns": "^4.1.0",
     "dotenv": "^17.3.1",
     "google-auth-library": "^10.6.1",
-    "ioredis": "^5.10.0",
     "jsonwebtoken": "^9.0.3",
     "langchain": "^1.2.30",
     "mongoose": "^9.2.4",

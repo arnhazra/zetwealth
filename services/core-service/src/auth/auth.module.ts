@@ -22,7 +22,10 @@ import { FindUserByIdQueryHandler } from "./queries/handler/find-user-by-id.hand
   imports: [
     CqrsModule,
     HttpModule,
-    EntityModule.forRoot(config.AUTH_DATABASE_URI, GeneralDbConnectionMap.Auth),
+    EntityModule.forRoot(
+      config.AZURE_COSMOS_DB_CONNECTION_STRING,
+      GeneralDbConnectionMap.Auth
+    ),
     EntityModule.forFeature(
       [{ name: User.name, schema: UserSchema }],
       GeneralDbConnectionMap.Auth

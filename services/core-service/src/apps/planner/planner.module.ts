@@ -14,7 +14,10 @@ import { FindEventsByUserQueryHandler } from "./queries/handler/find-event-by-us
 @Module({
   imports: [
     CqrsModule,
-    EntityModule.forRoot(config.APPS_DATABASE_URI, AppsDbConnectionMap.Planner),
+    EntityModule.forRoot(
+      config.AZURE_COSMOS_DB_CONNECTION_STRING,
+      AppsDbConnectionMap.Planner
+    ),
     EntityModule.forFeature(
       [{ name: Event.name, schema: EventSchema }],
       AppsDbConnectionMap.Planner

@@ -4,13 +4,13 @@ import { Injectable } from "@nestjs/common"
 import { EventEmitter2 } from "@nestjs/event-emitter"
 import { formatCurrency } from "./lib/format-currency"
 import { format } from "date-fns"
-import { RedisService } from "@/shared/redis/redis.service"
+import { ConfigService } from "../config/config.service"
 
 @Injectable()
 export class WidgetService {
   constructor(
     private readonly eventEmitter: EventEmitter2,
-    private readonly redisService: RedisService
+    private readonly configService: ConfigService
   ) {}
 
   async getWidgets(userId: string) {
@@ -35,8 +35,10 @@ export class WidgetService {
       const goalPercentage =
         ((assetData ?? 0) * 100) / (goalData ? goalData?.goalAmount : 0) || 0
 
-      const widgetConfig = await this.redisService.get("widget-config")
-      const widgets = widgetConfig
+      const widgetConfig = await this.configService.getConfig("widget-config")
+      const stringifiedWidgetConfig = JSON.stringify(widgetConfig)
+
+      const widgets = stringifiedWidgetConfig
         .replaceAll(
           "{ASSET_VALUE}",
           formatCurrency(Number(assetData), user.baseCurrency)

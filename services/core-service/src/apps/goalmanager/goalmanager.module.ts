@@ -18,7 +18,7 @@ import { config } from "@/config"
   imports: [
     CqrsModule,
     EntityModule.forRoot(
-      config.APPS_DATABASE_URI,
+      config.AZURE_COSMOS_DB_CONNECTION_STRING,
       AppsDbConnectionMap.GoalManager
     ),
     EntityModule.forFeature(

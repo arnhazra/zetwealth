@@ -5,7 +5,6 @@ import { ChatOpenAI, ChatOpenAICallOptions } from "@langchain/openai"
 import { createAgent, SystemMessage, HumanMessage, AIMessage } from "langchain"
 import { User } from "@/auth/schemas/user.schema"
 import { GoalAgent } from "../agents/goal.agent"
-import { RedisService } from "@/shared/redis/redis.service"
 import { AssetGroupAgent } from "../agents/assetgroup.agent"
 import { AssetAgent } from "../agents/asset.agent"
 import { DebtAgent } from "../agents/debt.agent"
@@ -13,6 +12,7 @@ import { ExpenseAgent } from "../agents/expense.agent"
 import { LLMService } from "@/shared/llm/llm.service"
 import { CashflowAgent } from "../agents/cashflow.agent"
 import { EntityType } from "../dto/chat.dto"
+import { ConfigService } from "@/platform/config/config.service"
 
 export interface ChatArgs {
   thread: Thread[]
@@ -38,12 +38,14 @@ export class ChatStrategy {
     private readonly debtAgent: DebtAgent,
     private readonly expenseAgent: ExpenseAgent,
     private readonly cashflowAgent: CashflowAgent,
-    private readonly redisService: RedisService,
+    private readonly configService: ConfigService,
     private readonly llmService: LLMService
   ) {}
 
   private async getSummarizerSystemInstruction(args: SummarizeArgs) {
-    const data = await this.redisService.get("summarizer-system-instruction")
+    const data = await this.configService.getConfig(
+      "summarizer-system-instruction"
+    )
     return data
       .replaceAll("{platformName}", config.PLATFORM_NAME)
       .replaceAll("{userId}", String(args.user._id))
@@ -53,9 +55,9 @@ export class ChatStrategy {
   }
 
   private async getChatSystemInstruction(user: User) {
-    const data = await this.redisService.get("chat-system-instruction")
-    const appConfig = await this.redisService.get("app-config")
-    const solutionConfig = await this.redisService.get("solution-config")
+    const data = await this.configService.getConfig("chat-system-instruction")
+    const appConfig = await this.configService.getConfig("app-config")
+    const solutionConfig = await this.configService.getConfig("solution-config")
 
     return data
       .replaceAll("{platformName}", config.PLATFORM_NAME)
