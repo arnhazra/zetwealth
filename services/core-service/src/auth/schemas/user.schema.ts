@@ -34,4 +34,3 @@ export class User extends IdentifiableEntitySchmea {
 }
 
 export const UserSchema = createSchemaFromClass(User)
-UserSchema.index({ email: 1 })

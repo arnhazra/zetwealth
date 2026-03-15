@@ -8,7 +8,7 @@ export class LLMService {
 
   getLLM() {
     return new ChatOpenAI({
-      model: config.AZURE_OPENAZURE_OPENAI_NAME,
+      model: config.AZURE_OPENAI_MODEL_NAME,
       temperature: 0.8,
       topP: 0.8,
       apiKey: config.AZURE_OPENAI_API_KEY,
