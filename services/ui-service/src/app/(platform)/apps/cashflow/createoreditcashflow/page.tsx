@@ -54,7 +54,6 @@ type MessageType = "success" | "error"
 
 export default function Page() {
   const searchParams = useSearchParams()
-
   const cashflowId = searchParams.get("id")
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -64,20 +63,21 @@ export default function Page() {
     type: "success",
   })
 
+  const { data: assetOptions = [], isLoading: isAssetOptionsLoading } =
+    useQuery<Asset[]>({
+      queryKey: ["find-assets-by-type"],
+      queryUrl: `${endPoints.asset}/findassetsbytype`,
+      method: HTTPMethods.POST,
+      requestBody: { assetTypes: ["RETIREMENT", "LIQUID"] },
+      suspense: false,
+    })
+
   const cashflow = useQuery<Cashflow>({
-    queryKey: ["get-cashflow", cashflowId ?? ""],
+    queryKey: ["get-cashflow", cashflowId ?? "", isAssetOptionsLoading],
     queryUrl: `${endPoints.cashflow}/${cashflowId}`,
     method: HTTPMethods.GET,
     suspense: false,
-    enabled: !!cashflowId,
-  })
-
-  const { data: assetOptions = [] } = useQuery<Asset[]>({
-    queryKey: ["find-assets-by-type"],
-    queryUrl: `${endPoints.asset}/findassetsbytype`,
-    method: HTTPMethods.POST,
-    requestBody: { assetTypes: ["RETIREMENT", "LIQUID"] },
-    suspense: false,
+    enabled: !!cashflowId && !isAssetOptionsLoading,
   })
 
   const handleInputChange = <K extends keyof CashflowFormData>(
@@ -93,7 +93,10 @@ export default function Page() {
   useEffect(() => {
     if (
       !!cashflow.error ||
-      (!cashflow.isLoading && cashflowId && !cashflow.data)
+      (!cashflow.isLoading &&
+        cashflowId &&
+        !cashflow.data &&
+        !isAssetOptionsLoading)
     ) {
       router.push("/apps/cashflow/createoreditcashflow")
     }
@@ -107,7 +110,7 @@ export default function Page() {
         nextExecutionAt: cashflow.data.nextExecutionAt,
       })
     }
-  }, [cashflow.data, cashflow.error, cashflow.isLoading])
+  }, [cashflow.data, cashflow.error, cashflow.isLoading, isAssetOptionsLoading])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -116,7 +119,7 @@ export default function Page() {
 
     if (cashflowId) {
       try {
-        await api.post(`${endPoints.cashflow}/${cashflowId}`, {
+        await api.put(`${endPoints.cashflow}/${cashflowId}`, {
           json: formData,
         })
         setMessage({ msg: "Cashflow updated successfully!", type: "success" })

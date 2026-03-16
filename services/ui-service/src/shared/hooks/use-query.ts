@@ -8,7 +8,7 @@ import { useUserContext } from "@/context/user.provider"
 import api from "../lib/ky-api"
 
 interface QueryType<T> {
-  queryKey: string[]
+  queryKey: unknown[]
   queryUrl: string
   method: HTTPMethods
   requestBody?: object

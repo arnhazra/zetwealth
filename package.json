@@ -1,6 +1,6 @@
 {
   "name": "wallstreet",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "An Wealth Management Platform",
   "scripts": {
     "dev:core-service": "npm run dev --prefix services/core-service",

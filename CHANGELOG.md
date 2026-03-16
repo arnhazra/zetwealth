@@ -3,6 +3,7 @@
 ## Version 4.0.0
 
 - Migrated all the services from Vercel to Azure
+- Bug fixes & performance improvements
 
 ## Version 3.9.0
 
