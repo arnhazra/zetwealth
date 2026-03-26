@@ -6,10 +6,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/shared/components/ui/alert-dialog"
-import { PlannerEvent } from "@/shared/constants/types"
+import { CalendarEvent } from "@/shared/constants/types"
 import { format } from "date-fns"
 import SectionPanel from "../section-panel"
-import { Calendar, Plus, Trash } from "lucide-react"
+import { Calendar, Pen, Plus, Trash } from "lucide-react"
 import IconContainer from "../icon-container"
 import { Button } from "../ui/button"
 import Show from "../show"
@@ -17,6 +17,7 @@ import ky from "ky"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import notify from "@/shared/hooks/use-notify"
 import Link from "next/link"
+import { useRouter } from "nextjs-toploader/app"
 
 export function EventModal({
   open,
@@ -26,9 +27,10 @@ export function EventModal({
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
-  events: PlannerEvent[]
+  events: CalendarEvent[]
   selectedDate: Date | null
 }) {
+  const router = useRouter()
   const deleteEvent = async (eventId: string): Promise<void> => {
     try {
       await ky.delete(`${endPoints.events}/${eventId}`)
@@ -45,9 +47,8 @@ export function EventModal({
         <AlertDialogHeader>
           <div className="flex items-center justify-between gap-4">
             <AlertDialogTitle className="text-white">Events</AlertDialogTitle>
-
             <Link
-              href={`/apps/planner/addevent?selectedDate=${selectedDate ? selectedDate.toISOString() : ""}`}
+              href={`/apps/calendar/addorupdateevent?selectedDate=${selectedDate ? selectedDate.toISOString() : ""}`}
             >
               <Button
                 size="sm"
@@ -72,6 +73,19 @@ export function EventModal({
                 title={event.eventName}
                 content={format(event.eventDate, "PPP")}
                 actionComponents={[
+                  <Show condition={event.eventSource === "Custom"}>
+                    <Button
+                      size="icon"
+                      variant="default"
+                      onClick={() =>
+                        router.push(
+                          `/apps/calendar/addorupdateevent?id=${event._id}`
+                        )
+                      }
+                    >
+                      <Pen className="h-4 w-4" />
+                    </Button>
+                  </Show>,
                   <Show condition={event.eventSource === "Custom"}>
                     <Button
                       size="icon"

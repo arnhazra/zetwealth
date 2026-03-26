@@ -16,7 +16,7 @@ import {
   isSameDay,
 } from "date-fns"
 import useQuery from "@/shared/hooks/use-query"
-import { PlannerEvent } from "@/shared/constants/types"
+import { CalendarEvent } from "@/shared/constants/types"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
 import { EventModal } from "@/shared/components/event-modal"
@@ -38,8 +38,8 @@ export default function CalendarPage() {
     setSelectedMonth(`${format(currentDate, "yyyy-MM")}`)
   }, [currentDate])
 
-  const events = useQuery<PlannerEvent[]>({
-    queryKey: ["planner-events", selectedMonth],
+  const events = useQuery<CalendarEvent[]>({
+    queryKey: ["calendar-events", selectedMonth],
     queryUrl: buildQueryUrl(endPoints.events, {
       month: selectedMonth,
     }),
@@ -102,11 +102,11 @@ export default function CalendarPage() {
           </div>
           <div className="flex items-center gap-3">
             <IntelligenceSummarizer
-              entityType={EntityType.PLANNER_EVENT}
+              entityType={EntityType.CALENDAR_EVENT}
               entityDetails={`Summarize only for month: ${selectedMonth} - ${JSON.stringify(events.data)}`}
-              entityName={`planner events for ${format(currentDate, "MMM, yyyy")}`}
+              entityName={`calendar events for ${format(currentDate, "MMM, yyyy")}`}
             />
-            <Link href="/apps/planner/addevent">
+            <Link href="/apps/calendar/addorupdateevent">
               <Button
                 size="sm"
                 variant="default"

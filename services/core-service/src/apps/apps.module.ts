@@ -6,7 +6,7 @@ import { DiscoverModule } from "./discover/discover.module"
 import { ExpenseTrackModule } from "./expensetrack/expensetrack.module"
 import { TaxAdvisorModule } from "./taxadvisor/taxadvisor.module"
 import { CashFlowModule } from "./cashflow/cashflow.module"
-import { PlannerModule } from "./planner/planner.module"
+import { CalendarModule } from "./calendar/calendar.module"
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { PlannerModule } from "./planner/planner.module"
     DiscoverModule,
     TaxAdvisorModule,
     CashFlowModule,
-    PlannerModule,
+    CalendarModule,
   ],
 })
 export class AppsModule {}

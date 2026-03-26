@@ -10,17 +10,19 @@ import { EventRepository } from "./event.repository"
 import { CreateEventCommandHandler } from "./commands/handler/create-event.handler"
 import { DeleteEventCommandHandler } from "./commands/handler/delete-event.handler"
 import { FindEventsByUserQueryHandler } from "./queries/handler/find-event-by-user.handler"
+import { FindEventByIdQueryHandler } from "./queries/handler/find-event-by-id.handler"
+import { UpdateEventByIdCommandHandler } from "./commands/handler/update-event.handler"
 
 @Module({
   imports: [
     CqrsModule,
     EntityModule.forRoot(
       config.AZURE_COSMOS_DB_CONNECTION_STRING,
-      AppsDbConnectionMap.Planner
+      AppsDbConnectionMap.Calendar
     ),
     EntityModule.forFeature(
       [{ name: Event.name, schema: EventSchema }],
-      AppsDbConnectionMap.Planner
+      AppsDbConnectionMap.Calendar
     ),
   ],
   controllers: [EventController],
@@ -30,6 +32,8 @@ import { FindEventsByUserQueryHandler } from "./queries/handler/find-event-by-us
     CreateEventCommandHandler,
     DeleteEventCommandHandler,
     FindEventsByUserQueryHandler,
+    FindEventByIdQueryHandler,
+    UpdateEventByIdCommandHandler,
   ],
 })
-export class PlannerModule {}
+export class CalendarModule {}

@@ -1,6 +1,6 @@
 "use client"
 import type React from "react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/shared/components/ui/button"
 import {
   Card,
@@ -25,6 +25,10 @@ import api from "@/shared/lib/ky-api"
 import IconContainer from "@/shared/components/icon-container"
 import { useRouter } from "nextjs-toploader/app"
 import { useSearchParams } from "next/navigation"
+import { CalendarEvent } from "@/shared/constants/types"
+import useQuery from "@/shared/hooks/use-query"
+import HTTPMethods from "@/shared/constants/http-methods"
+import Show from "@/shared/components/show"
 
 interface EventFormData {
   eventDate?: string
@@ -35,6 +39,7 @@ type MessageType = "success" | "error"
 
 export default function Page() {
   const searchParams = useSearchParams()
+  const eventId = searchParams.get("id")
   const selectedDateParam = searchParams.get("selectedDate")
   const [formData, setFormData] = useState<EventFormData>({
     eventDate: selectedDateParam
@@ -44,6 +49,26 @@ export default function Page() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
+
+  const event = useQuery<CalendarEvent>({
+    queryKey: ["get-event-details", eventId ?? ""],
+    queryUrl: `${endPoints.events}/${eventId}`,
+    method: HTTPMethods.GET,
+    suspense: false,
+    enabled: !!eventId,
+  })
+
+  useEffect(() => {
+    if (!!event.error || (!event.isLoading && eventId && !event.data)) {
+      router.push("/apps/calendar/addorupdateevent")
+    }
+    if (event.data) {
+      setFormData({
+        eventDate: formatDateString(event.data.eventDate),
+        eventName: event.data.eventName,
+      })
+    }
+  }, [event.data, event.error, event.isLoading])
 
   const [message, setMessage] = useState<{ msg: string; type: MessageType }>({
     msg: "",
@@ -60,24 +85,40 @@ export default function Page() {
     }))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault()
     setIsSubmitting(true)
     setMessage({ msg: "", type: "success" })
 
-    try {
-      await api.post(endPoints.events, {
-        json: formData,
-      })
-      setMessage({ msg: "Event added successfully!", type: "success" })
-      router.push("/apps/planner")
-    } catch (error) {
-      setMessage({
-        msg: "Failed to add event. Please try again.",
-        type: "error",
-      })
-    } finally {
-      setIsSubmitting(false)
+    if (eventId) {
+      try {
+        await api.put(`${endPoints.events}/${eventId}`, {
+          json: formData,
+        })
+        setMessage({ msg: "Event updated successfully!", type: "success" })
+      } catch (error) {
+        setMessage({
+          msg: "Failed to update Event. Please try again.",
+          type: "error",
+        })
+      } finally {
+        setIsSubmitting(false)
+      }
+    } else {
+      try {
+        await api.post(endPoints.events, {
+          json: formData,
+        })
+        setMessage({ msg: "Event added successfully!", type: "success" })
+        setFormData({})
+      } catch (error) {
+        setMessage({
+          msg: "Failed to add event. Please try again.",
+          type: "error",
+        })
+      } finally {
+        setIsSubmitting(false)
+      }
     }
   }
 
@@ -90,7 +131,9 @@ export default function Page() {
               <IconContainer>
                 <CalendarIcon className="h-4 w-4" />
               </IconContainer>
-              Add Event
+              <Show condition={!!eventId} fallback="Add Event">
+                Edit Event
+              </Show>
             </CardTitle>
             <CardDescription className="text-primary">
               Fill in the details for your event

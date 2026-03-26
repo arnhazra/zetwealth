@@ -15,7 +15,7 @@ export enum EntityType {
   NEWS = "news",
   EXPENSE = "expense",
   CASHFLOW = "cashflow",
-  PLANNER_EVENT = "event",
+  CALENDAR_EVENT = "event",
 }
 
 export type EntityMap = {

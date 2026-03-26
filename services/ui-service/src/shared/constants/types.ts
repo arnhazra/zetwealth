@@ -216,7 +216,7 @@ export interface Cashflow {
   createdAt: string
 }
 
-export interface PlannerEvent {
+export interface CalendarEvent {
   _id: string
   userId: string
   eventName: string

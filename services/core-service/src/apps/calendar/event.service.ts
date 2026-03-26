@@ -17,6 +17,8 @@ import { User } from "@/auth/schemas/user.schema"
 import { formatCurrency } from "@/platform/widget/lib/format-currency"
 import { ExpenseCategoryConfig } from "@/shared/constants/types"
 import { ConfigService } from "@/platform/config/config.service"
+import { UpdateEventCommand } from "./commands/impl/update-event.command"
+import { FindEventByIdQuery } from "./queries/impl/find-event-by-id.query"
 
 @Injectable()
 export class EventService {
@@ -27,7 +29,7 @@ export class EventService {
     private readonly configService: ConfigService
   ) {}
 
-  @OnEvent(AppEventMap.CreatePlannerEvent)
+  @OnEvent(AppEventMap.CreateCalendarEvent)
   async createEvent(userId: string, requestBody: CreateEventRequestDto) {
     try {
       return await this.commandBus.execute<CreateEventCommand, Event>(
@@ -38,7 +40,7 @@ export class EventService {
     }
   }
 
-  @OnEvent(AppEventMap.GetPlannerEvents)
+  @OnEvent(AppEventMap.GetCalendarEvents)
   async findMyEventsByMonth(userId: string, selectedMonth: string) {
     try {
       const events = await this.queryBus.execute<
@@ -186,6 +188,32 @@ export class EventService {
       ].filter((event) => !!event)
 
       return allEvents
+    } catch (error) {
+      throw new Error(statusMessages.connectionError)
+    }
+  }
+
+  async findById(userId: string, eventId: string) {
+    try {
+      const result = await this.queryBus.execute(
+        new FindEventByIdQuery(userId, eventId)
+      )
+      return result
+    } catch (error) {
+      throw new Error(statusMessages.connectionError)
+    }
+  }
+
+  async updateById(
+    userId: string,
+    eventId: string,
+    dto: CreateEventRequestDto
+  ) {
+    try {
+      const result = await this.commandBus.execute(
+        new UpdateEventCommand(userId, eventId, dto)
+      )
+      return result
     } catch (error) {
       throw new Error(statusMessages.connectionError)
     }

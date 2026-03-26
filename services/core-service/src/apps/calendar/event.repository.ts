@@ -10,7 +10,7 @@ import {
 @Injectable()
 export class EventRepository extends EntityRepository<Event> {
   constructor(
-    @InjectEntityModel(Event.name, AppsDbConnectionMap.Planner)
+    @InjectEntityModel(Event.name, AppsDbConnectionMap.Calendar)
     private eventModel: EntityModel<Event>
   ) {
     super(eventModel)

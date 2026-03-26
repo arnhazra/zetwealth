@@ -4,6 +4,7 @@
 
 - Migrated all the services from Vercel to Azure
 - Bug fixes & performance improvements
+- Added edit event option on calendar
 
 ## Version 3.9.0
 
@@ -31,7 +32,7 @@
 
 - Code refactoring & optimization
 - Changes in date handling in schemas across services
-- UI change for Month navigation in Planner & ExpenseTrack
+- UI change for Month navigation in Calendar & ExpenseTrack
 - Rebranding of 2 applications
 - Removed legacy OTP based authentication
 
@@ -43,7 +44,7 @@
 ## Version 3.4.0
 
 - Dependency updates & performance improvements
-- Added Planner app on the platform
+- Added Calendar app on the platform
 
 ## Version 3.3.0
 

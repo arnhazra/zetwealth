@@ -20,5 +20,5 @@ export const endPoints = {
   expense: `${CORE_SERVICE_URL_BY_ENV}/apps/expensetrack/expense`,
   taxAdvisor: `${CORE_SERVICE_URL_BY_ENV}/apps/taxadvisor`,
   cashflow: `${CORE_SERVICE_URL_BY_ENV}/apps/cashflow`,
-  events: `${CORE_SERVICE_URL_BY_ENV}/apps/planner/event`,
+  events: `${CORE_SERVICE_URL_BY_ENV}/apps/calendar/event`,
 }

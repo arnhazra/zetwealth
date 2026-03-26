@@ -3,7 +3,7 @@ import { tool } from "langchain"
 import { Injectable } from "@nestjs/common"
 import { EventEmitter2 } from "@nestjs/event-emitter"
 import { z } from "zod"
-import { Event } from "@/apps/planner/schemas/event.schema"
+import { Event } from "@/apps/calendar/schemas/event.schema"
 
 @Injectable()
 export class EventAgent {
@@ -13,7 +13,7 @@ export class EventAgent {
     async ({ userId, eventMonth }: { userId: string; eventMonth: string }) => {
       try {
         const events: Event[] = await this.eventEmitter.emitAsync(
-          AppEventMap.GetPlannerEvents,
+          AppEventMap.GetCalendarEvents,
           userId,
           eventMonth
         )
@@ -49,7 +49,7 @@ export class EventAgent {
     }) => {
       try {
         await this.eventEmitter.emitAsync(
-          AppEventMap.CreatePlannerEvent,
+          AppEventMap.CreateCalendarEvent,
           userId,
           {
             eventName,

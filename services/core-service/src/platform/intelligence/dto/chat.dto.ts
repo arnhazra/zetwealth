@@ -6,7 +6,7 @@ export enum EntityType {
   DEBT = "debt",
   GOAL = "goal",
   NEWS = "news",
-  PLANNER_EVENT = "event",
+  CALENDAR_EVENT = "event",
 }
 
 export class ChatDto {
