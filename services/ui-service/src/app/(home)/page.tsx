@@ -9,8 +9,8 @@ import {
   Coins,
   Lightbulb,
   BookOpenIcon,
-  Github,
   Play,
+  Code2,
 } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/shared/lib/utils"
@@ -172,7 +172,7 @@ export default function Page() {
                 rel="noopener noreferrer"
               >
                 View Source Code
-                <Github />
+                <Code2 />
               </a>
             </Button>
           </div>

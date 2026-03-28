@@ -53,6 +53,9 @@
     "typescript": "^5.9.3"
   },
   "overrides": {
-    "p-retry": "2.0.0"
+    "p-retry": "2.0.0",
+    "ajv": "^8.18.0",
+    "picomatch": "^4.0.4",
+    "path-to-regexp": "^8.4.0"
   }
 }
