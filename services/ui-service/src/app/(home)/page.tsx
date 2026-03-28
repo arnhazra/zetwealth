@@ -9,8 +9,8 @@ import {
   Coins,
   Lightbulb,
   BookOpenIcon,
-  Play,
   Code2,
+  ArrowRight,
 } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/shared/lib/utils"
@@ -76,7 +76,7 @@ export default function Page() {
           )}
         >
           {uiConstants.getStartedButton}
-          <Play className="ms-2 h-4 w-4" />
+          <ArrowRight className="ms-2 h-4 w-4" />
         </Link>
       </div>
     </section>

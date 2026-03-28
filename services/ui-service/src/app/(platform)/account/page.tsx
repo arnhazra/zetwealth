@@ -158,13 +158,7 @@ export default function Page() {
           content={
             <>
               An Intelligent system integrated deeply within {PLATFORM_NAME}{" "}
-              platform. This uses AI to enhance your experience. View the{" "}
-              <span
-                className="text-primary cursor-pointer"
-                onClick={() => viewAIDataAgreement("link")}
-              >
-                Intelligence Data Agreement.
-              </span>
+              platform.
             </>
           }
           actionComponents={[
@@ -187,7 +181,7 @@ export default function Page() {
             </IconContainer>
           }
           title={`${PLATFORM_NAME} Analytics`}
-          content="Choose whether to save the things you do. If disabled, we still collect anonymous analytics data to improve the app"
+          content="Choose whether to save the things you do"
           actionComponents={[
             <Switch
               checked={user.analyticsData}
