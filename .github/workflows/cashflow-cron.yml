@@ -16,7 +16,7 @@ jobs:
             echo "Attempt $i..."
 
             response=$(curl -s -o /dev/null -w "%{http_code}" \
-              -X POST https://core-service-wallstreet.azurewebsites.net/apps/cashflow/execute)
+              -X POST ${{ secrets.CORE_SERVICE_URL }}/apps/cashflow/execute)
 
             if [[ "$response" == "200" || "$response" == "201" || "$response" == "202" ]]; then
               echo "Cashflow execution succeeded with status $response"

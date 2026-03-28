@@ -1,4 +1,4 @@
-export const PLATFORM_NAME = "WallStreet"
+export const PLATFORM_NAME = process.env.NEXT_PUBLIC_PLATFORM_NAME!
 export const GOOGLE_OAUTH_CLIENT_ID =
   "211974992845-eas8uh5t2ki6jft4tajq57ppr8skseau.apps.googleusercontent.com"
 

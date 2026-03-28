@@ -27,7 +27,7 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: core-service-wallstreet
+          app-name: ${{ secrets.CORE_SERVICE_APP_NAME }}
           publish-profile: ${{ secrets.AZURE_CORE_APP_PUBLISH_PROFILE }}
           package: services/core-service
 
@@ -47,11 +47,13 @@ jobs:
 
       - name: Build Next.js
         working-directory: services/ui-service
+        env:
+          NEXT_PUBLIC_PLATFORM_NAME: ${{ secrets.NEXT_PUBLIC_PLATFORM_NAME }}
         run: npm run build
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: wallstreet
+          app-name: ${{ secrets.UI_SERVICE_APP_NAME }}
           publish-profile: ${{ secrets.AZURE_UI_APP_PUBLISH_PROFILE }}
           package: services/ui-service

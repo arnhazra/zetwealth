@@ -14,7 +14,7 @@ jobs:
         run: |
           for attempt in {1..3}; do
             response=$(curl -s -o /tmp/core-health.json -w "%{http_code}" \
-              https://core-service-wallstreet.azurewebsites.net/health)
+              ${{ secrets.CORE_SERVICE_URL }}/health)
 
             cat /tmp/core-health.json
 
@@ -36,7 +36,7 @@ jobs:
         run: |
           for attempt in {1..3}; do
             response=$(curl -s -o /tmp/ui-health.json -w "%{http_code}" \
-              https://wallstreet.azurewebsites.net/api/health)
+              ${{ secrets.UI_SERVICE_URL }}/api/health)
 
             cat /tmp/ui-health.json
 
