@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react"
 import { Button } from "@/shared/components/ui/button"
 import { Input } from "@/shared/components/ui/input"
 import { ScrollArea } from "@/shared/components/ui/scroll-area"
-import { Bot, User, ArrowUp, Calculator } from "lucide-react"
+import { Bot, User, ArrowUp, BadgePercent } from "lucide-react"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import { uiConstants } from "@/shared/constants/global-constants"
 import MarkdownRenderer from "@/shared/components/markdown"
@@ -105,7 +105,7 @@ export default function Page() {
             <div className="text-center mt-8 max-w-xl mx-auto">
               <div className="flex justify-center mb-4">
                 <IconContainer>
-                  <Calculator className="h-4 w-4" />
+                  <BadgePercent className="h-4 w-4" />
                 </IconContainer>
               </div>
               <p className="text-primary">{PLATFORM_NAME} TaxAdvisor</p>

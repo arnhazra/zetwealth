@@ -17,7 +17,7 @@ import {
 } from "@/shared/constants/types"
 import {
   Banknote,
-  Calculator,
+  BadgePercent,
   CreditCard,
   ExternalLink,
   GoalIcon,
@@ -53,7 +53,7 @@ const entityIconMap = {
   [EntityType.GOAL]: <GoalIcon className="h-4 w-4" />,
   [EntityType.NEWS]: <Newspaper className="h-4 w-4" />,
   [EntityType.CASHFLOW]: <Workflow className="h-4 w-4" />,
-  [EntityType.THREAD]: <Calculator className="h-4 w-4" />,
+  [EntityType.THREAD]: <BadgePercent className="h-4 w-4" />,
 }
 
 type EntityCardProps<T extends keyof EntityMap> = {
