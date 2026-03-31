@@ -15,7 +15,6 @@ import {
 import Link from "next/link"
 import { cn } from "@/shared/lib/utils"
 import { Button, buttonVariants } from "@/shared/components/ui/button"
-import Show from "@/shared/components/show"
 import Loading from "../loading"
 import useQuery from "@/shared/hooks/use-query"
 import { AppCard } from "@/shared/components/app-card"
@@ -36,21 +35,18 @@ export default function Page() {
     queryKey: ["app-config"],
     queryUrl: `${endPoints.getConfig}/app-config`,
     method: HTTPMethods.GET,
-    suspense: false,
   })
 
   const solutions = useQuery<SolutionConfig>({
     queryKey: ["solution-config"],
     queryUrl: `${endPoints.getConfig}/solution-config`,
     method: HTTPMethods.GET,
-    suspense: false,
   })
 
   const openSourceConfig = useQuery<any>({
     queryKey: ["open-source-config"],
     queryUrl: `${endPoints.getConfig}/open-source-config`,
     method: HTTPMethods.GET,
-    suspense: false,
   })
 
   const renderHeroSection = (
@@ -208,12 +204,7 @@ export default function Page() {
   if (!checked) return <Loading />
 
   return (
-    <Show
-      condition={
-        !openSourceConfig.isLoading && !apps.isLoading && !solutions.isLoading
-      }
-      fallback={<Loading />}
-    >
+    <>
       <div className="min-h-screen w-full text-white">
         <HomePageHeader />
         {renderHeroSection}
@@ -222,6 +213,6 @@ export default function Page() {
         {renderOpenSourceSection}
       </div>
       {renderFooterSection}
-    </Show>
+    </>
   )
 }
