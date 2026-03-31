@@ -7,6 +7,16 @@
   --color-border: #27272a;
   --color-primary: #20d760;
   --color-secondary: #ff2056;
+  --color-neutral-950: #0a0a0a;
+  --color-neutral-900: #121212;
+  --color-neutral-800: #1e1e1e;
+  --color-neutral-700: #27272a;
+  --color-neutral-600: #3f3f46;
+  --color-neutral-500: #52525b;
+  --color-neutral-400: #71717a;
+  --color-neutral-300: #a1a1aa;
+  --color-neutral-200: #d4d4d8;
+  --color-neutral-100: #f4f4f5;
 }
 
 @layer base {

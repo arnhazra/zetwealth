@@ -165,12 +165,7 @@ export default function CalendarPage() {
                         className="flex items-center justify-between text-[10px] leading-tight"
                       >
                         <div className="flex items-center gap-1.5 overflow-hidden">
-                          <div
-                            className={cn(
-                              "h-3 w-3 shrink-0 rounded-full",
-                              `bg-green-500`
-                            )}
-                          />
+                          <div className="h-3 w-3 shrink-0 rounded-full bg-primary" />
                           <span className="truncate text-neutral-300">
                             {event.eventName}
                           </span>
