@@ -3,7 +3,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from "@nestjs/common"
-import { config } from "src/config"
+import { config } from "@/config"
 import { statusMessages } from "@/shared/constants/status-messages"
 import { OnEvent } from "@nestjs/event-emitter"
 import { AppEventMap } from "@/shared/constants/app-events.map"

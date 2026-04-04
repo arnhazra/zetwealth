@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common"
-import { config } from "src/config"
+import { config } from "@/config"
 import { GeneralDbConnectionMap } from "@/shared/entity/entity-db-connection.map"
 import { AnalyticsModule } from "./analytics/analytics.module"
 import { EntityModule } from "@/shared/entity/entity.module"
