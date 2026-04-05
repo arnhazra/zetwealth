@@ -108,7 +108,7 @@ export default function Page() {
           icon={
             <Avatar className="h-8 w-8 cursor-pointer">
               <AvatarImage src={user.avatar ?? ""} alt={user.name} />
-              <AvatarFallback className="bg-neutral-800">
+              <AvatarFallback className="bg-theme-800">
                 <UserIcon className="h-4 w-4 text-primary" />
               </AvatarFallback>
             </Avatar>

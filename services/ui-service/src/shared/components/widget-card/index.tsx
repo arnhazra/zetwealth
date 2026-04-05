@@ -14,7 +14,7 @@ export default function WidgetCard({ widget }: WidgetCardProps) {
     <Card className="bg-background/2 backdrop-blur-sm border border-border rounded-3xl relative overflow-hidden hover:shadow-md hover:shadow-primary/20">
       <CardContent className="-mt-2 -mb-1">
         <div className="flex items-center justify-between">
-          <span className="text-sm text-neutral-300">{widget.title}</span>
+          <span className="text-sm text-theme-300">{widget.title}</span>
           <IconContainer>
             <WidgetIcon className="h-4 w-4" />
           </IconContainer>

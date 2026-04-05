@@ -152,7 +152,7 @@ export default function Page() {
     <div className="mx-auto grid w-full items-start gap-3">
       <div className="flex gap-4">
         <Select value={category} onValueChange={setSelectedCategory}>
-          <SelectTrigger className="w-40 bg-neutral-800 text-white border border-border rounded-lg">
+          <SelectTrigger className="w-40 bg-theme-800 text-white border border-border rounded-lg">
             <SelectValue placeholder="All Categories" />
           </SelectTrigger>
           <SelectContent className="bg-background text-white border border-border rounded-lg">
@@ -173,23 +173,23 @@ export default function Page() {
           </SelectContent>
         </Select>
         <div className="flex">
-          <div className="flex items-center rounded-md bg-neutral-800 border border-border p-0.5">
+          <div className="flex items-center rounded-md bg-theme-800 border border-border p-0.5">
             <Button
               variant="ghost"
               size="icon"
               onClick={prevMonth}
-              className="h-8 w-8 text-neutral-400 hover:bg-neutral-800 hover:text-neutral-100"
+              className="h-8 w-8 text-theme-400 hover:bg-theme-800 hover:text-theme-100"
             >
               <Icons.ChevronLeft className="h-4 w-4" />
             </Button>
-            <p className="text-sm font-medium tracking-tight text-neutral-100">
+            <p className="text-sm font-medium tracking-tight text-theme-100">
               {format(currentDate, "MMM, yyyy")}
             </p>
             <Button
               variant="ghost"
               size="icon"
               onClick={nextMonth}
-              className="h-8 w-8 text-neutral-400 hover:bg-neutral-800 hover:text-neutral-100"
+              className="h-8 w-8 text-theme-400 hover:bg-theme-800 hover:text-theme-100"
             >
               <Icons.ChevronRight className="h-4 w-4" />
             </Button>

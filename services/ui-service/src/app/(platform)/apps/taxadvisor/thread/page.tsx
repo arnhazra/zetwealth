@@ -114,7 +114,7 @@ export default function Page() {
                   </IconContainer>
                 </div>
                 <p className="text-primary">{PLATFORM_NAME} TaxAdvisor</p>
-                <p className="text-xs mt-2 text-neutral-300 p-6">
+                <p className="text-xs mt-2 text-theme-300 p-6">
                   {uiConstants.aiSafetyStatement}
                 </p>
                 <p className="text-white text-lg sm:text-xl md:text-xl lg:text-2xl mt-4">
@@ -139,7 +139,7 @@ export default function Page() {
 
                   <div
                     className={`max-w-[80%] p-3 rounded-lg ${
-                      index % 2 === 0 ? "text-white" : "text-neutral-100"
+                      index % 2 === 0 ? "text-white" : "text-theme-100"
                     }`}
                     style={{
                       backgroundColor:
@@ -181,13 +181,13 @@ export default function Page() {
                   }}
                 >
                   <div className="flex space-x-1">
-                    <div className="w-1 h-1 bg-neutral-400 rounded-full animate-bounce"></div>
+                    <div className="w-1 h-1 bg-theme-400 rounded-full animate-bounce"></div>
                     <div
-                      className="w-1 h-1 bg-neutral-400 rounded-full animate-bounce"
+                      className="w-1 h-1 bg-theme-400 rounded-full animate-bounce"
                       style={{ animationDelay: "0.1s" }}
                     ></div>
                     <div
-                      className="w-1 h-1 bg-neutral-400 rounded-full animate-bounce"
+                      className="w-1 h-1 bg-theme-400 rounded-full animate-bounce"
                       style={{ animationDelay: "0.2s" }}
                     ></div>
                   </div>
@@ -206,7 +206,7 @@ export default function Page() {
           }`}
         >
           <form onSubmit={hitAPI} className="w-full max-w-3xl mx-auto">
-            <div className="relative bg-neutral-900 border border-neutral-700 rounded-full p-2 ps-4 pe-4 shadow-lg">
+            <div className="relative bg-theme-900 border border-theme-700 rounded-full p-2 ps-4 pe-4 shadow-lg">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-3">
                   <div className="flex-1">
@@ -216,14 +216,14 @@ export default function Page() {
                       onChange={handleInputChange}
                       placeholder="Ask me to calculate your taxes"
                       disabled={isLoading}
-                      className="bg-transparent border-none text-neutral-300 placeholder:text-neutral-500 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none outline-none ring-0 text-sm px-0"
+                      className="bg-transparent border-none text-theme-300 placeholder:text-theme-500 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none outline-none ring-0 text-sm px-0"
                     />
                   </div>
                   <Button
                     type="submit"
                     disabled={isLoading || !prompt.trim()}
                     size="icon"
-                    className="bg-neutral-700 hover:bg-neutral-600 text-white h-8 w-8 rounded-full"
+                    className="bg-theme-700 hover:bg-theme-600 text-white h-8 w-8 rounded-full"
                   >
                     <ArrowUp className="h-4 w-4" />
                   </Button>

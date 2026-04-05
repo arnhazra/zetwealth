@@ -55,7 +55,7 @@ export default function Page() {
         <h1 className="text-white text-xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight mb-4 max-w-[40rem]">
           {uiConstants.homeHeader}
         </h1>
-        <p className="max-w-[35rem] leading-normal text-neutral-300 sm:text-lg sm:leading-8">
+        <p className="max-w-[35rem] leading-normal text-theme-300 sm:text-lg sm:leading-8">
           {uiConstants.homeIntro}
         </p>
         <p className="max-w-[35rem] leading-normal text-primary sm:text-lg sm:leading-8 mb-6">

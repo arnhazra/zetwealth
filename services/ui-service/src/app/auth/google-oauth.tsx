@@ -27,7 +27,7 @@ export default function GoogleOAuth({ handleSuccess }: GoogleOAuthProps) {
   return (
     <Button
       variant="default"
-      className="w-full h-12 bg-neutral-800 hover:bg-neutral-800 text-white flex items-center justify-center gap-2"
+      className="w-full h-12 bg-theme-800 hover:bg-theme-800 text-white flex items-center justify-center gap-2"
       onClick={() => login()}
     >
       Continue with Google

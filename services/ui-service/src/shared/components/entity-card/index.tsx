@@ -263,7 +263,7 @@ export function EntityCard<T extends keyof EntityMap>({
           </div>
         </CardHeader>
         <CardContent>
-          <p className="text-sm line-clamp-3 mt-2 text-neutral-300">
+          <p className="text-sm line-clamp-3 mt-2 text-theme-300">
             {entityDescription || "No description available"}
           </p>
           <div className="flex justify-between items-center mt-4">
@@ -287,7 +287,7 @@ export function EntityCard<T extends keyof EntityMap>({
             <Button
               variant="default"
               asChild
-              className="w-full gap-2 bg-border hover:bg-border bg-neutral-800 hover:bg-neutral-800/90"
+              className="w-full gap-2 bg-border hover:bg-border bg-theme-800 hover:bg-theme-800/90"
             >
               <Link
                 href={(entity as Article).url ?? ""}
@@ -369,9 +369,7 @@ export function EntityCard<T extends keyof EntityMap>({
         <CardContent>
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-neutral-300">
-                {info.infoHeader}
-              </span>
+              <span className="text-sm text-theme-300">{info.infoHeader}</span>
               <span className="text-sm font-medium">
                 <Show
                   condition={
@@ -386,7 +384,7 @@ export function EntityCard<T extends keyof EntityMap>({
             </div>
             <Show condition={!!valuation.valuationHeader}>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-neutral-300">
+                <span className="text-sm text-theme-300">
                   {valuation.valuationHeader}
                 </span>
                 {typeof valuation.valuationAmount === "string" ? (

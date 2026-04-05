@@ -151,7 +151,7 @@ export default function Intelligence() {
             variant="ghost"
             size="sm"
             onClick={() => setIsOpen(false)}
-            className="text-neutral-400 hover:text-white bg-none hover:bg-background"
+            className="text-theme-400 hover:text-white bg-none hover:bg-background"
           >
             <PanelRightClose className="h-4 w-4" />
           </Button>
@@ -167,16 +167,16 @@ export default function Intelligence() {
                   </IconContainer>
                 </div>
                 <p className="text-white">{PLATFORM_NAME} Intelligence</p>
-                <p className="text-xs mt-2 text-neutral-300 p-6">
+                <p className="text-xs mt-2 text-theme-300 p-6">
                   {uiConstants.aiSafetyStatement}
                 </p>
-                <p className="text-sm mt-2 text-neutral-400 mb-4">
+                <p className="text-sm mt-2 text-theme-400 mb-4">
                   Try these actions
                 </p>
                 {suggestedPrompts.map((item, index) => (
                   <Badge
                     key={index}
-                    className="text-neutral-300 bg-neutral-800 hover:bg-neutral-700 p-1 ps-4 pe-4 ms-2 mb-2 cursor-pointer"
+                    className="text-theme-300 bg-theme-800 hover:bg-theme-700 p-1 ps-4 pe-4 ms-2 mb-2 cursor-pointer"
                     onClick={(): void => {
                       setPrompt(item)
                       invokeChatAPI(item, false)
@@ -203,7 +203,7 @@ export default function Intelligence() {
 
                   <div
                     className={`max-w-[80%] p-3 rounded-3xl ${
-                      index % 2 === 0 ? "text-white" : "text-neutral-100"
+                      index % 2 === 0 ? "text-white" : "text-theme-100"
                     }`}
                     style={{
                       backgroundColor:
@@ -245,13 +245,13 @@ export default function Intelligence() {
                   }}
                 >
                   <div className="flex space-x-1">
-                    <div className="w-1 h-1 bg-neutral-400 rounded-full animate-bounce"></div>
+                    <div className="w-1 h-1 bg-theme-400 rounded-full animate-bounce"></div>
                     <div
-                      className="w-1 h-1 bg-neutral-400 rounded-full animate-bounce"
+                      className="w-1 h-1 bg-theme-400 rounded-full animate-bounce"
                       style={{ animationDelay: "0.1s" }}
                     ></div>
                     <div
-                      className="w-1 h-1 bg-neutral-400 rounded-full animate-bounce"
+                      className="w-1 h-1 bg-theme-400 rounded-full animate-bounce"
                       style={{ animationDelay: "0.2s" }}
                     ></div>
                   </div>
@@ -269,7 +269,7 @@ export default function Intelligence() {
               variant="outline"
               size="sm"
               onClick={clearChat}
-              className="text-xs text-neutral-400 hover:text-white bg-transparent hover:bg-transparent mb-2"
+              className="text-xs text-theme-400 hover:text-white bg-transparent hover:bg-transparent mb-2"
             >
               <BadgeMinus className="h-3 w-3 mr-1" />
               Clear Chat
@@ -282,7 +282,7 @@ export default function Intelligence() {
             }}
           >
             <div className="w-full max-w-4xl mx-auto">
-              <div className="relative bg-neutral-900 border border-border rounded-full p-2 ps-4 pe-4 shadow-lg">
+              <div className="relative bg-theme-900 border border-border rounded-full p-2 ps-4 pe-4 shadow-lg">
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center gap-3">
                     <div className="flex-1">
@@ -292,14 +292,14 @@ export default function Intelligence() {
                         onChange={(e) => setPrompt(e.target.value)}
                         placeholder="Ask Anything"
                         disabled={isLoading}
-                        className="bg-transparent border-none text-neutral-300 placeholder:text-neutral-500 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none outline-none ring-0 text-sm px-0"
+                        className="bg-transparent border-none text-theme-300 placeholder:text-theme-500 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none outline-none ring-0 text-sm px-0"
                       />
                     </div>
                     <Button
                       type="submit"
                       disabled={isLoading || !prompt.trim()}
                       size="icon"
-                      className="bg-neutral-700 hover:bg-neutral-600 text-white h-8 w-8 rounded-full"
+                      className="bg-theme-700 hover:bg-theme-600 text-white h-8 w-8 rounded-full"
                     >
                       <ArrowUp className="h-4 w-4" />
                     </Button>

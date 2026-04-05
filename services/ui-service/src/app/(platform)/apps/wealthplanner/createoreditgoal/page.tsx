@@ -121,8 +121,8 @@ export default function Page() {
     <div className="min-h-screen p-6">
       <div className="max-w-4xl mx-auto">
         <Card className="bg-background border-border">
-          <CardHeader className="border-b border-neutral-800">
-            <CardTitle className="text-2xl flex items-center gap-2 text-neutral-100">
+          <CardHeader className="border-b border-theme-800">
+            <CardTitle className="text-2xl flex items-center gap-2 text-theme-100">
               <IconContainer>
                 <GoalIcon className="h-4 w-4" />
               </IconContainer>
@@ -137,14 +137,14 @@ export default function Page() {
           <CardContent className="p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label className="text-neutral-200">Goal Date</Label>
+                <Label className="text-theme-200">Goal Date</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
                       className={cn(
-                        "w-full justify-start text-left font-normal bg-background border-border text-neutral-100 hover:bg-background",
-                        !formData.goalDate && "text-neutral-500"
+                        "w-full justify-start text-left font-normal bg-background border-border text-theme-100 hover:bg-background",
+                        !formData.goalDate && "text-theme-500"
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4" />
@@ -165,14 +165,14 @@ export default function Page() {
                         handleInputChange("goalDate", formatDateString(date))
                       }
                       showOutsideDays={false}
-                      className="bg-background text-neutral-100"
+                      className="bg-background text-theme-100"
                     />
                   </PopoverContent>
                 </Popover>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="goalAmount" className="text-neutral-200">
+                <Label htmlFor="goalAmount" className="text-theme-200">
                   Goal Amount
                 </Label>
                 <Input
@@ -188,7 +188,7 @@ export default function Page() {
                     )
                   }
                   placeholder="0.00"
-                  className="bg-background border-border text-neutral-100 placeholder:text-neutral-500 focus:border-neutral-600"
+                  className="bg-background border-border text-theme-100 placeholder:text-theme-500 focus:border-theme-600"
                 />
               </div>
 

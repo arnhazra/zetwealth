@@ -75,7 +75,7 @@ function DropdownMenuItem({
       data-variant={variant}
       className={cn(
         "relative flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm select-none outline-none transition-colors",
-        "data-[highlighted]:bg-neutral-800 data-[highlighted]:text-white",
+        "data-[highlighted]:bg-theme-800 data-[highlighted]:text-white",
         "data-[variant=destructive]:text-destructive data-[variant=destructive]:data-[highlighted]:bg-red-100",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",

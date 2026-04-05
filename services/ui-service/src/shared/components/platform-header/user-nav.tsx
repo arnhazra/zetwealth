@@ -34,7 +34,7 @@ export function UserNav() {
       <DropdownMenuTrigger asChild>
         <Avatar className="cursor-pointer h-8 w-8">
           <AvatarImage src={user.avatar ?? ""} alt={user.name} />
-          <AvatarFallback className="bg-neutral-800">
+          <AvatarFallback className="bg-theme-800">
             <User className="h-4 w-4 text-primary" />
           </AvatarFallback>
         </Avatar>
@@ -50,7 +50,7 @@ export function UserNav() {
             <p className="text-xs leading-none">{user.email}</p>
           </div>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator className="bg-neutral-800" />
+        <DropdownMenuSeparator className="bg-theme-800" />
         <DropdownMenuGroup>
           <Link href="/account">
             <DropdownMenuItem>Account</DropdownMenuItem>

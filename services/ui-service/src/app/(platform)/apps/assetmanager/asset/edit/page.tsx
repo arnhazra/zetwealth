@@ -205,9 +205,9 @@ export default function Page() {
   return (
     <div className="min-h-screen p-6">
       <div className="max-w-4xl mx-auto">
-        <Card className="bg-neutral-900 border-neutral-800">
-          <CardHeader className="border-b border-neutral-800">
-            <CardTitle className="text-2xl flex items-center gap-2 text-neutral-100">
+        <Card className="bg-theme-900 border-theme-800">
+          <CardHeader className="border-b border-theme-800">
+            <CardTitle className="text-2xl flex items-center gap-2 text-theme-100">
               <IconContainer>
                 <Banknote className="h-4 w-4" />
               </IconContainer>
@@ -220,7 +220,7 @@ export default function Page() {
           <CardContent className="p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="assetgroupId" className="text-neutral-200">
+                <Label htmlFor="assetgroupId" className="text-theme-200">
                   Select Asset Group
                 </Label>
                 <Select value={formData?.assetgroupId} disabled required>
@@ -232,7 +232,7 @@ export default function Page() {
                       <SelectItem
                         key={assetgroup._id}
                         value={assetgroup._id}
-                        className="text-neutral-100 focus:bg-neutral-700"
+                        className="text-theme-100 focus:bg-theme-700"
                       >
                         {assetgroup.assetgroupName}
                       </SelectItem>
@@ -242,7 +242,7 @@ export default function Page() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="assetType" className="text-neutral-200">
+                <Label htmlFor="assetType" className="text-theme-200">
                   Asset Type
                 </Label>
                 <Select value={formData?.assetType} disabled required>
@@ -254,7 +254,7 @@ export default function Page() {
                       <SelectItem
                         key={value}
                         value={value}
-                        className="text-neutral-100 focus:bg-neutral-700"
+                        className="text-theme-100 focus:bg-theme-700"
                       >
                         <div className="flex items-center gap-2">{label}</div>
                       </SelectItem>
@@ -265,7 +265,7 @@ export default function Page() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="assetName" className="text-neutral-200">
+                  <Label htmlFor="assetName" className="text-theme-200">
                     Asset Name
                   </Label>
                   <Input
@@ -280,7 +280,7 @@ export default function Page() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="identifier" className="text-neutral-200">
+                  <Label htmlFor="identifier" className="text-theme-200">
                     Identifier
                   </Label>
                   <Input
@@ -299,18 +299,18 @@ export default function Page() {
               {/* Conditional Fields */}
               {showDateFields && (
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold flex items-center gap-2 text-neutral-100">
-                    <CalendarIcon className="h-4 w-4 text-neutral-400" />
+                  <h3 className="text-lg font-semibold flex items-center gap-2 text-theme-100">
+                    <CalendarIcon className="h-4 w-4 text-theme-400" />
                     Date Information
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label className="text-neutral-200">Start Date</Label>
+                      <Label className="text-theme-200">Start Date</Label>
                       <Popover>
                         <PopoverTrigger asChild>
                           <Button
                             variant="outline"
-                            className="w-full justify-start text-left font-normal bg-background border-border hover:bg-background text-white hover:text-neutral-500"
+                            className="w-full justify-start text-left font-normal bg-background border-border hover:bg-background text-white hover:text-theme-500"
                           >
                             <CalendarIcon className="mr-2 h-4 w-4" />
                             {formData.startDate
@@ -318,7 +318,7 @@ export default function Page() {
                               : "Pick a date"}
                           </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0 bg-background border-neutral-700 rounded-lg">
+                        <PopoverContent className="w-auto p-0 bg-background border-theme-700 rounded-lg">
                           <Calendar
                             mode="single"
                             selected={
@@ -341,18 +341,18 @@ export default function Page() {
                                 formatDateString(date)
                               )
                             }
-                            className="bg-background text-neutral-100 rounded-lg border-neutral-700"
+                            className="bg-background text-theme-100 rounded-lg border-theme-700"
                           />
                         </PopoverContent>
                       </Popover>
                     </div>
                     <div className="space-y-2">
-                      <Label className="text-neutral-200">Maturity Date</Label>
+                      <Label className="text-theme-200">Maturity Date</Label>
                       <Popover>
                         <PopoverTrigger asChild>
                           <Button
                             variant="outline"
-                            className="w-full justify-start text-left font-normal bg-background border-border hover:bg-background text-white hover:text-neutral-500"
+                            className="w-full justify-start text-left font-normal bg-background border-border hover:bg-background text-white hover:text-theme-500"
                           >
                             <CalendarIcon className="mr-2 h-4 w-4" />
                             {formData.maturityDate
@@ -360,7 +360,7 @@ export default function Page() {
                               : "Pick a date"}
                           </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0 bg-background border-neutral-700 rounded-lg">
+                        <PopoverContent className="w-auto p-0 bg-background border-theme-700 rounded-lg">
                           <Calendar
                             mode="single"
                             selected={
@@ -394,7 +394,7 @@ export default function Page() {
                               )
                             }
                             initialFocus
-                            className="bg-background text-neutral-100 rounded-lg border-neutral-700"
+                            className="bg-background text-theme-100 rounded-lg border-theme-700"
                           />
                         </PopoverContent>
                       </Popover>
@@ -405,8 +405,8 @@ export default function Page() {
 
               {(showAmountInvested || showExpectedReturn) && (
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold flex items-center gap-2 text-neutral-100">
-                    <Banknote className="h-4 w-4 text-neutral-400" />
+                  <h3 className="text-lg font-semibold flex items-center gap-2 text-theme-100">
+                    <Banknote className="h-4 w-4 text-theme-400" />
                     Investment Details
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -414,7 +414,7 @@ export default function Page() {
                       <div className="space-y-2">
                         <Label
                           htmlFor="amountInvested"
-                          className="text-neutral-200"
+                          className="text-theme-200"
                         >
                           Amount Invested
                         </Label>
@@ -438,7 +438,7 @@ export default function Page() {
                       <div className="space-y-2">
                         <Label
                           htmlFor="expectedReturnRate"
-                          className="text-neutral-200"
+                          className="text-theme-200"
                         >
                           Expected Rate of Return (%)
                         </Label>
@@ -464,14 +464,14 @@ export default function Page() {
 
               {showRecurringFields && (
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-neutral-100">
+                  <h3 className="text-lg font-semibold text-theme-100">
                     Recurring Contribution
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label
                         htmlFor="contributionAmount"
-                        className="text-neutral-200"
+                        className="text-theme-200"
                       >
                         Contribution Amount
                       </Label>
@@ -493,7 +493,7 @@ export default function Page() {
                     <div className="space-y-2">
                       <Label
                         htmlFor="contributionFrequency"
-                        className="text-neutral-200"
+                        className="text-theme-200"
                       >
                         Contribution Frequency
                       </Label>
@@ -515,7 +515,7 @@ export default function Page() {
                               <SelectItem
                                 key={value}
                                 value={value}
-                                className="text-neutral-100 focus:bg-neutral-700"
+                                className="text-theme-100 focus:bg-theme-700"
                               >
                                 {label}
                               </SelectItem>
@@ -530,13 +530,13 @@ export default function Page() {
 
               {showValuationOnPurchase && (
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-neutral-100">
+                  <h3 className="text-lg font-semibold text-theme-100">
                     Valuation
                   </h3>
                   <div className="space-y-2">
                     <Label
                       htmlFor="valuationOnPurchase"
-                      className="text-neutral-200"
+                      className="text-theme-200"
                     >
                       Valuation on Purchase
                     </Label>
@@ -560,13 +560,13 @@ export default function Page() {
 
               {showCurrentValuation && (
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-neutral-100">
+                  <h3 className="text-lg font-semibold text-theme-100">
                     Current Value
                   </h3>
                   <div className="space-y-2">
                     <Label
                       htmlFor="currentValuation"
-                      className="text-neutral-200"
+                      className="text-theme-200"
                     >
                       Current Valuation
                     </Label>
@@ -590,12 +590,12 @@ export default function Page() {
 
               {showEquityFields && (
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-neutral-100">
+                  <h3 className="text-lg font-semibold text-theme-100">
                     Equity Details
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="units" className="text-neutral-200">
+                      <Label htmlFor="units" className="text-theme-200">
                         Number of Units
                       </Label>
                       <Input
@@ -615,7 +615,7 @@ export default function Page() {
                     <div className="space-y-2">
                       <Label
                         htmlFor="unitPurchasePrice"
-                        className="text-neutral-200"
+                        className="text-theme-200"
                       >
                         Unit Purchase Price
                       </Label>

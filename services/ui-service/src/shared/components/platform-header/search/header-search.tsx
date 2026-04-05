@@ -55,7 +55,7 @@ export default function HeaderSearch() {
             <Button
               variant="default"
               size="icon"
-              className="bg-neutral-800 hover:bg-neutral-700 rounded-full h-10 w-10"
+              className="bg-theme-700 hover:bg-theme-700 rounded-full h-10 w-10"
             >
               <HomeIcon className="h-4 w-4" />
             </Button>
@@ -72,14 +72,14 @@ export default function HeaderSearch() {
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <Search className="h-4 w-4 text-neutral-400" />
+                <Search className="h-4 w-4 text-theme-400" />
               </div>
               <Input
                 name="q"
                 type="search"
                 placeholder={`What ${getSearchLabel(pathName) ?? ""} are you looking for?`}
                 className={cn(
-                  "w-full h-10 rounded-full bg-neutral-800 py-2 pl-9 pr-3 text-sm text-white placeholder:text-neutral-400 focus-visible:ring-0 focus-visible:ring-neutral-900",
+                  "w-full h-10 rounded-full bg-theme-800 py-2 pl-9 pr-3 text-sm text-white placeholder:text-theme-400 focus-visible:ring-0 focus-visible:ring-theme-900",
                   "pointer-events-auto",
                   "border-border"
                 )}

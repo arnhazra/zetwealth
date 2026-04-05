@@ -74,27 +74,27 @@ export default function CalendarPage() {
     : []
 
   return (
-    <div className="flex h-screen flex-col pb-4 text-neutral-400">
+    <div className="flex h-screen flex-col pb-4 text-theme-400">
       <div className="flex flex-1 flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl">
         <header className="flex h-16 items-center justify-between border-b border-border px-6">
           <div className="flex">
-            <div className="flex items-center rounded-md bg-neutral-800 border border-border p-0.5">
+            <div className="flex items-center rounded-md bg-theme-800 border border-border p-0.5">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={prevMonth}
-                className="h-8 w-8 text-neutral-400 hover:bg-neutral-800 hover:text-neutral-100"
+                className="h-8 w-8 text-theme-400 hover:bg-theme-800 hover:text-theme-100"
               >
                 <ChevronLeft className="h-4 w-4" />
               </Button>
-              <p className="text-sm font-medium tracking-tight text-neutral-100">
+              <p className="text-sm font-medium tracking-tight text-theme-100">
                 {format(currentDate, "MMM, yyyy")}
               </p>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={nextMonth}
-                className="h-8 w-8 text-neutral-400 hover:bg-neutral-800 hover:text-neutral-100"
+                className="h-8 w-8 text-theme-400 hover:bg-theme-800 hover:text-theme-100"
               >
                 <ChevronRight className="h-4 w-4" />
               </Button>
@@ -110,7 +110,7 @@ export default function CalendarPage() {
               <Button
                 size="sm"
                 variant="default"
-                className="gap-2 border-neutral-700 bg-primary text-black hover:bg-primary/90"
+                className="gap-2 border-theme-700 bg-primary text-black hover:bg-primary/90"
               >
                 <Plus className="h-4 w-4" />
                 Add Event
@@ -140,7 +140,7 @@ export default function CalendarPage() {
                 <div
                   key={day.toString()}
                   className={cn(
-                    "group relative border-b border-r border-border p-2 transition-colors hover:bg-neutral-900/50 cursor-pointer",
+                    "group relative border-b border-r border-border p-2 transition-colors hover:bg-theme-900/50 cursor-pointer",
                     i % 7 === 6 && "border-r-0",
                     i >= calendarDays.length - 7 && "border-b-0"
                   )}
@@ -150,9 +150,9 @@ export default function CalendarPage() {
                     className={cn(
                       "flex h-6 w-6 items-center justify-center text-sm font-medium rounded-full transition-colors",
                       isSameMonth(day, monthStart)
-                        ? "text-neutral-200"
-                        : "text-neutral-600",
-                      isToday && "bg-neutral-100 text-black"
+                        ? "text-theme-200"
+                        : "text-theme-600",
+                      isToday && "bg-theme-100 text-black"
                     )}
                   >
                     {day.getDate()}
@@ -166,7 +166,7 @@ export default function CalendarPage() {
                       >
                         <div className="flex items-center gap-1.5 overflow-hidden">
                           <div className="h-3 w-3 shrink-0 rounded-full bg-primary" />
-                          <span className="truncate text-neutral-300">
+                          <span className="truncate text-theme-300">
                             {event.eventName}
                           </span>
                         </div>
