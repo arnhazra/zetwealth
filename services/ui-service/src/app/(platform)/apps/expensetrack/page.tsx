@@ -1,5 +1,6 @@
 "use client"
 import { useUserContext } from "@/context/user.provider"
+import { ResourceType } from "@/shared/components/resource-card/data"
 import IconContainer from "@/shared/components/icon-container"
 import SectionPanel from "@/shared/components/section-panel"
 import Show from "@/shared/components/show"
@@ -147,109 +148,100 @@ export default function Page() {
   })
 
   return (
-    <div className="mx-auto flex w-full gap-3">
-      <div className="w-full lg:w-[70%] grid items-start gap-3">
-        <div className="flex gap-4">
-          <Select value={category} onValueChange={setSelectedCategory}>
-            <SelectTrigger className="w-40 bg-theme-800 text-white border border-border rounded-lg">
-              <SelectValue placeholder="All Categories" />
-            </SelectTrigger>
-            <SelectContent className="bg-background text-white border border-border rounded-lg">
-              <SelectItem key="all" value="all" className="rounded-lg">
-                All Categories
-              </SelectItem>
-              {expenseCategoryConfig.data?.expenseCategories.map((category) => {
-                return (
-                  <SelectItem
-                    key={category.value}
-                    value={category.value}
-                    className="rounded-lg"
-                  >
-                    {category.displayName}
-                  </SelectItem>
-                )
-              })}
-            </SelectContent>
-          </Select>
-          <div className="flex">
-            <div className="flex items-center rounded-md bg-theme-800 border border-border p-0.5">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={prevMonth}
-                className="h-8 w-8 text-theme-400 hover:bg-theme-800 hover:text-theme-100"
-              >
-                <Icons.ChevronLeft className="h-4 w-4" />
-              </Button>
-              <p className="text-sm font-medium tracking-tight text-theme-100">
-                {format(currentDate, "MMM, yyyy")}
-              </p>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={nextMonth}
-                className="h-8 w-8 text-theme-400 hover:bg-theme-800 hover:text-theme-100"
-              >
-                <Icons.ChevronRight className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-          <div className="flex gap-2 justify-end">
-            <Link href="/apps/expensetrack/createoreditexpense">
-              <Button
-                size="icon"
-                variant="default"
-                className="bg-primary hover:bg-primary"
-              >
-                <Icons.Plus className="h-4 w-4 text-black" />
-              </Button>
-            </Link>
+    <div className="mx-auto grid w-full items-start gap-3">
+      <div className="flex gap-4">
+        <Select value={category} onValueChange={setSelectedCategory}>
+          <SelectTrigger className="w-40 bg-theme-800 text-white border border-border rounded-lg">
+            <SelectValue placeholder="All Categories" />
+          </SelectTrigger>
+          <SelectContent className="bg-background text-white border border-border rounded-lg">
+            <SelectItem key="all" value="all" className="rounded-lg">
+              All Categories
+            </SelectItem>
+            {expenseCategoryConfig.data?.expenseCategories.map((category) => {
+              return (
+                <SelectItem
+                  key={category.value}
+                  value={category.value}
+                  className="rounded-lg"
+                >
+                  {category.displayName}
+                </SelectItem>
+              )
+            })}
+          </SelectContent>
+        </Select>
+        <div className="flex">
+          <div className="flex items-center rounded-md bg-theme-800 border border-border p-0.5">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={prevMonth}
+              className="h-8 w-8 text-theme-400 hover:bg-theme-800 hover:text-theme-100"
+            >
+              <Icons.ChevronLeft className="h-4 w-4" />
+            </Button>
+            <p className="text-sm font-medium tracking-tight text-theme-100">
+              {format(currentDate, "MMM, yyyy")}
+            </p>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={nextMonth}
+              className="h-8 w-8 text-theme-400 hover:bg-theme-800 hover:text-theme-100"
+            >
+              <Icons.ChevronRight className="h-4 w-4" />
+            </Button>
           </div>
         </div>
-        <SectionPanel
-          icon={
-            <IconContainer>
-              <Icons.LayoutDashboard className="h-4 w-4" />
-            </IconContainer>
-          }
-          content={
-            <>
-              <p className="text-primary">
-                Total expense:{" "}
-                {formatCurrency(
-                  totalExpense.data?.total ?? 0,
-                  user.baseCurrency
-                )}
-              </p>
-              <Show condition={!category || category !== "all"}>
-                <p className="text-primary">
-                  {
-                    expenseCategoryConfig.data?.expenseCategories.find(
-                      (item) => item.value === category
-                    )?.displayName
-                  }
-                  :{" "}
-                  {formatCurrency(expenses.data?.total ?? 0, user.baseCurrency)}
-                </p>
-              </Show>
-            </>
-          }
-          title={`Your ${format(currentDate, "MMM, yyyy")}`}
-        />
-        <Show
-          condition={!!expenses.data?.expenses?.length}
-          fallback={
-            <p className="text-center text-secondary">
-              No recorded expenses to show
+      </div>
+      <SectionPanel
+        icon={
+          <IconContainer>
+            <Icons.LayoutDashboard className="h-4 w-4" />
+          </IconContainer>
+        }
+        content={
+          <>
+            <p className="text-primary">
+              Total expense:{" "}
+              {formatCurrency(totalExpense.data?.total ?? 0, user.baseCurrency)}
             </p>
-          }
-        >
-          {renderExpenses}
-        </Show>
-      </div>
-      <div className="hidden lg:block lg:w-[40%]">
-        {/* Reserved for future content */}
-      </div>
+            <Show condition={!category || category !== "all"}>
+              <p className="text-primary">
+                {
+                  expenseCategoryConfig.data?.expenseCategories.find(
+                    (item) => item.value === category
+                  )?.displayName
+                }
+                : {formatCurrency(expenses.data?.total ?? 0, user.baseCurrency)}
+              </p>
+            </Show>
+          </>
+        }
+        actionComponents={[
+          <Link href="/apps/expensetrack/createoreditexpense">
+            <Button
+              size="icon"
+              variant="default"
+              className="bg-primary hover:bg-primary"
+            >
+              <Icons.Plus className="h-4 w-4 text-black" />
+            </Button>
+          </Link>,
+        ]}
+        title={`Your ${format(currentDate, "MMM, yyyy")}`}
+      />
+      <Show
+        condition={!!expenses.data?.expenses?.length}
+        fallback={
+          <p className="text-center text-secondary">
+            No recorded expenses to show
+          </p>
+        }
+      >
+        {renderExpenses}
+      </Show>
     </div>
   )
 }
