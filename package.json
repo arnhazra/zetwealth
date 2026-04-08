@@ -1,6 +1,6 @@
 {
   "name": "zetwealth",
-  "version": "4.1.0",
+  "version": "3.5.0",
   "description": "An Wealth Management Platform",
   "scripts": {
     "dev:core-service": "npm run dev --prefix services/core-service",

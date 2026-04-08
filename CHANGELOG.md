@@ -1,73 +1,45 @@
 # Changelog
 
-## Version 4.1.0
+## Version 3.5.0
 
 - Removed custom request analytics
 - Removed AI summarization assistant
 - Fixed text overflow issues
 - Rebranded Intelligence as Cowork
 
-## Version 4.0.1
+## Version 3.4.0
 
 - Changed the intelligence & taxadvisor to actual stream response
 - Added CSS Variables for theme switching
-
-## Version 4.0.0
-
 - Migrated all the services from Vercel to Azure
 - Bug fixes & performance improvements
 - Added edit event option on calendar
-
-## Version 3.9.0
-
 - Enhanced structure by rebranding Spaces to AssetGroups
 - Added Configurations in repository
 
-## Version 3.8.0
+## Version 3.3.0
 
 - Updated cashflow app to have update & delete cashflow functionality
 - Dependency updates, Bug fixes & performance improvements
 - Added detailed architecture & workflows in readme
-
-## Version 3.7.0
-
 - Merged Intelligence Summarizer API to Chat API
 - Removed Intelligence Summarizer modal and integrated summarizer with chat sidebar
 
-## Version 3.6.1
+## Version 3.2.0
 
 - Implemented Google OAuth with PKCE flow and deprecated legacy flow
 - Migrated from GPT OSS to GPT 4o for better reasoning
 - Added intelligence layer to all new apps
-
-## Version 3.6.0
-
 - Code refactoring & optimization
 - Changes in date handling in schemas across services
 - UI change for Month navigation in Calendar & ExpenseTrack
 - Rebranding of 2 applications
 - Removed legacy OTP based authentication
 
-## Version 3.5.0
-
-- UI Changes, Performance improvements
-- Bug fixes & dependency updates
-
-## Version 3.4.0
-
-- Dependency updates & performance improvements
-- Added Calendar app on the platform
-
-## Version 3.3.0
-
-- Dependency updates & performance improvements
-
-## Version 3.2.0
-
-- Dependency updates & performance improvements
-
 ## Version 3.1.0
 
+- Added Calendar app on the platform
+- Dependency updates & performance improvements
 - Added cashflow agent
 - Code optimization, bug fixes & performance improvements
 
@@ -84,35 +56,18 @@
 - Migrated AI models from GPT 4.1 to GPT OSS hosted on Nvidia Cloud
 - Implemented token refresh and automatic retry for failed requests
 - Refactored components extensively to align with the updated design system
-
-## Version 2.9.0
-
 - Dependency upgrades & bug fixes
 - Fix security vulnerability of nextjs 16
-
-## Version 2.8.0
-
 - Minor updates across services
 - Dependency upgrades & bug fixes
-
-## Version 2.7.0
-
-- Dependency upgrades & bug fixes
-
-## Version 2.6.0
-
-- Peer Dependency upgrades & bug fixes
 - Minor UI modernization & Code refactoring
-
-## Version 2.5.0
-
 - Added TaxAdvisor application
 - Dependency updates & bug fixes
 - Added multi agent architecture for intelligence
 - Fixed a tanstack query issue where data was cached even after user logged out
 - Created entity schema to improve code reusability for mongoose & nest-mongoose
 
-## Version 2.4.0
+## Version 2.9.0
 
 - Added edit option for expenses
 - Rebranding of products to apps
@@ -120,19 +75,19 @@
 - Architectural changes across services
 - Minor bug fixes & performance improvements
 
-## Version 2.3.0
+## Version 2.8.0
 
 - Dependency updates & bug fixes
 - Introduction of ExpenseTrack app
 - Minor tweaks & improvements across UI
 
-## Version 2.2.0
+## Version 2.7.0
 
 - Rebranding of FinanceNews app to Discover
 - Revamped architecture of intelligence summarizer
 - Added turn off feature for Intelligence & data usage agreement
 
-## Version 2.1.0
+## Version 2.6.0
 
 - Added analytics trend for all type of entities
 - Enhanced structure by rebranding Institutions to Spaces
@@ -141,7 +96,7 @@
 - Implemented improved navigation with home button integration in sidebar
 - Improved analytics capabilities with rebranded Analytics module and Anonymous Analytics support
 
-## Version 2.0.0
+## Version 2.5.0
 
 - Refined user interface design
 - Introduced Finance News application
@@ -152,75 +107,63 @@
 - Enhanced Intelligence architecture with integrated news summarization capabilities
 - Transformed Intelligence from standalone application to platform-wide service layer
 
-## Version 1.9.1
+## Version 2.4.0
 
 - Implemented UI refinements
 - Performed dependency updates and resolved system bugs
 
-## Version 1.9.0
+## Version 2.3.0
 
 - Refined user interface elements
 - Implemented standardized date formatting
 - Updated system dependencies and resolved bugs
 
-## Version 1.8.1
+## Version 2.2.0
 
 - Enhanced code performance and efficiency
 - Updated system dependencies and resolved bugs
 
-## Version 1.8.0
+## Version 2.1.0
 
 - Updated system dependencies
 - Upgraded AI model from Gemini to GPT 4.1
 - Performed code optimization and bug resolution
 - Established standardized asset type conventions
 
-## Version 1.7.3
+## Version 2.0.0
 
 - Implemented debt and goal creation tools in Intelligence module
-
-## Version 1.7.2
-
 - Enhanced error handling protocols
 - Migrated configuration management to Redis
 - Implemented Redis integration for configuration handling
-
-## Version 1.7.1
-
 - Enhanced error handling system
 - Updated application dependencies
 - Refined attribute update functionality
-
-## Version 1.7.0
-
 - Optimized attribute update functionality
 - Implemented code improvements and new product integration
-
-## Version 1.6.0
-
 - Implemented various system improvements
 - Deployed comprehensive entity summarization system
 - Resolved Intelligence chat issues and enhanced agents
 
-## Version 1.5.0
+## Version 1.9.0
 
 - Delivered significant user interface enhancements
 - Released unified platform with modular product architecture
 - Implemented architectural improvements for enhanced scalability
 
-## Version 1.4.2
+## Version 1.8.0
 
 - Optimized codebase
 - Implemented secure OTP authentication system
 - Updated dependencies and resolved system issues
 
-## Version 1.4.1
+## Version 1.7.0
 
 - Updated system dependencies
 - Integrated Google OAuth functionality
 - Deployed enhanced authentication workflow
 
-## Version 1.4.0
+## Version 1.6.0
 
 - Added advanced agentic workflows
 - Enhanced asset valuation calculation
@@ -228,19 +171,19 @@
 - Implemented asset maturity warning system
 - Rebranded Portfolio module to Institutions
 
-## Version 1.3.1
+## Version 1.5.0
 
 - Updated application packages
 - Optimized code and resolved issues
 - Upgraded Node.js and NPM environments
 
-## Version 1.3.0
+## Version 1.4.0
 
 - Enhanced UI and codebase optimization
 - Extended agentic workflow capabilities
 - Improved system performance and stability
 
-## Version 1.2.1
+## Version 1.3.0
 
 - Refined agent logic systems
 - Optimized API architecture for valuation process
