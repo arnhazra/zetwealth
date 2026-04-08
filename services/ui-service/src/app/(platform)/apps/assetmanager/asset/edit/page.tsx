@@ -110,7 +110,7 @@ export default function Page() {
     }
 
     if (asset.data) {
-      const { presentValuation, _id, userId, ...otherValues } = asset.data
+      const { currentValuation, _id, userId, ...otherValues } = asset.data
       setFormData(otherValues)
     }
   }, [asset.data, asset.error, asset.isLoading])

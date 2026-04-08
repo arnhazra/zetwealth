@@ -51,7 +51,7 @@ export class AssetService {
 
           return {
             ...(asset.toObject?.() ?? asset),
-            presentValuation: valuation,
+            currentValuation: valuation,
             isMaturityApproaching: isMaturityApproaching(asset),
             isMatured: isMatured(asset),
           }
@@ -86,7 +86,7 @@ export class AssetService {
 
           return {
             ...(asset.toObject?.() ?? asset),
-            presentValuation: valuation,
+            currentValuation: valuation,
             isMaturityApproaching: isMaturityApproaching(asset),
             isMatured: isMatured(asset),
           }
@@ -108,7 +108,7 @@ export class AssetService {
 
       return {
         ...(asset.toObject?.() ?? asset),
-        presentValuation: valuation,
+        currentValuation: valuation,
         isMaturityApproaching: isMaturityApproaching(asset),
         isMatured: isMatured(asset),
       }

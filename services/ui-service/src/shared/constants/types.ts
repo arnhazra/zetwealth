@@ -57,7 +57,7 @@ export interface AssetGroup {
   _id: string
   userId: string
   assetgroupName: string
-  presentValuation?: number | null
+  currentValuation?: number | null
   assetCount?: number | null
   createdAt: string
 }
@@ -69,7 +69,7 @@ export interface Asset {
   assetType: AssetType // COMMON
   assetName: string // COMMON
   identifier: string // COMMON
-  presentValuation?: number | null // COMMON
+  currentValuation?: number | null // COMMON
   createdAt: Date // COMMON
   isMaturityApproaching: boolean // COMMON
   isMatured: boolean // COMMON
@@ -80,7 +80,6 @@ export interface Asset {
   contributionAmount?: number // RECURRING_DEPOSIT
   contributionFrequency?: RecurringFrequency // RECURRING_DEPOSIT
   valuationOnPurchase?: number // REAL_ESTATE, METAL, OTHER
-  currentValuation?: number // LIQUID, RETIREMENT, REAL_ESTATE, METAL, OTHER
   units?: number // EQUITY, CRYPTO
   unitPurchasePrice?: number // EQUITY, CRYPTO
 }
@@ -117,7 +116,7 @@ export interface Goal {
 }
 
 export interface Valuation {
-  presentValuation?: number | null
+  currentValuation?: number | null
 }
 
 export interface Widget {

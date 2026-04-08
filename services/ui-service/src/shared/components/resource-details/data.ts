@@ -17,7 +17,6 @@ export const amountKeys = [
   "amountInvested",
   "contributionAmount",
   "currentValuation",
-  "presentValuation",
   "unitPurchasePrice",
   "valuationOnPurchase",
   "goalAmount",

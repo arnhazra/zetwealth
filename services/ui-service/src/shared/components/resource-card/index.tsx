@@ -100,7 +100,7 @@ export function ResourceCard<T extends keyof ResourceTypeMap>({
         })
         setValuation({
           valuationHeader: "Net Valuation",
-          valuationAmount: (resource as AssetGroup).presentValuation,
+          valuationAmount: (resource as AssetGroup).currentValuation,
         })
         const assetgroupCreatedAt = (resource as AssetGroup).createdAt
           ? formatDistanceToNow(
@@ -119,8 +119,8 @@ export function ResourceCard<T extends keyof ResourceTypeMap>({
           infoValue: (resource as Asset).identifier,
         })
         setValuation({
-          valuationHeader: "Present Valuation",
-          valuationAmount: (resource as Asset).presentValuation,
+          valuationHeader: "Current Valuation",
+          valuationAmount: (resource as Asset).currentValuation,
         })
         const assetCreatedAt = (resource as Asset).createdAt
           ? formatDistanceToNow(new Date((resource as Asset).createdAt ?? ""), {

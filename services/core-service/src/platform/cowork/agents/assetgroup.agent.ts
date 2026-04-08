@@ -92,7 +92,7 @@ export class AssetGroupAgent {
             assetgroupName
           )
         ).shift()
-        const valuation = assetgroup.presentValuation ?? 0
+        const valuation = assetgroup.currentValuation ?? 0
         return `Valuation is ${valuation}`
       } catch (error) {
         return "Unable to get the valuation"

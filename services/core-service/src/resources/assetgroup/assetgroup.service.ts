@@ -49,7 +49,7 @@ export class AssetGroupService {
         )
         return {
           ...(assetgroup.toObject?.() ?? assetgroup),
-          presentValuation: valuation.total,
+          currentValuation: valuation.total,
           assetCount: valuation.assetCount,
         }
       })
@@ -69,7 +69,7 @@ export class AssetGroupService {
       )
       return {
         ...(assetgroup.toObject?.() ?? assetgroup),
-        presentValuation: valuation.total,
+        currentValuation: valuation.total,
         assetCount: valuation.assetCount,
       }
     } catch (error) {
