@@ -17,7 +17,7 @@ export function PricingCard({ plan }: PricingCardProps) {
       <div className="mb-6">
         <div className="w-fit mb-4">
           <IconContainer>
-            <Icon className="h-4 w-4" />
+            <Icon className="h-6 w-6" />
           </IconContainer>
         </div>
         <h2 className="text-3xl font-semibold">{plan.name}</h2>

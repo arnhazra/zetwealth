@@ -1,10 +1,6 @@
 import { PLATFORM_NAME } from "./config"
 
 export const uiConstants = {
-  homeHeader: "Invest for future",
-  homeIntro:
-    "Intelligently manage your wealth — track assets, monitor net worth, liabilities, goals & expenses to unlock real-time insights.",
-  openSourceIntro: `${PLATFORM_NAME} is an open source wealth management platform.`,
   connectionErrorMessage: "Unable to connect. Please check your internet.",
   authVerificationMessage: "Checking your credentials",
   errorMessage: "Page not found",
@@ -20,7 +16,6 @@ export const uiConstants = {
   confirmDescription:
     "This action cannot be undone. Click continue to proceed, or cancel to go back.",
   copyrightText: ` Inc. All rights reserved.`,
-  openSourceTitle: `Open Source`,
   privacyPolicyStatement: `By using ${PLATFORM_NAME}, you agree to our Privacy Policy.`,
   newsFallbackImageUrl:
     "https://images.unsplash.com/photo-1444653614773-995cb1ef9efa?ixlib=rb-4.1.0&auto=format&fit=crop&q=80&w=512",
