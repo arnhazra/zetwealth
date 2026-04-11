@@ -68,7 +68,7 @@ export class WidgetService {
           formatCurrency(debtData.totalEMI, user.baseCurrency)
         )
 
-      return JSON.parse(widgets)
+      return JSON.parse(widgets).widgets
     } catch (error) {
       throw error
     }
