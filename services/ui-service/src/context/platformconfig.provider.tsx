@@ -51,7 +51,7 @@ export function PlatformConfigProvider({ children }: { children: ReactNode }) {
   const platformConfig: PlatformConfig = {
     ...homeConfig,
     ...constantsConfig,
-    ...widgetConfig,
+    widgetConfig,
   } as PlatformConfig
 
   return (

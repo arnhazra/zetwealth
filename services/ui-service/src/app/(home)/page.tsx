@@ -4,6 +4,8 @@ import { ArrowRightCircle } from "lucide-react"
 import * as Icons from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/shared/lib/utils"
+import { formatCurrency } from "@/shared/lib/format-currency"
+import { Currency } from "country-code-enum"
 import { buttonVariants, Button } from "@/shared/components/ui/button"
 import Loading from "../loading"
 import { AppCard } from "@/shared/components/app-card"
@@ -13,6 +15,7 @@ import Cookies from "js-cookie"
 import HomePageHeader from "@/shared/components/homepage-header"
 import { FeatureCard } from "@/shared/components/feature-card"
 import { PricingCard } from "@/shared/components/pricing-card"
+import WidgetCard from "@/shared/components/widget-card"
 
 export default function Page() {
   const router = useRouter()
@@ -86,6 +89,65 @@ export default function Page() {
       <div className="mx-auto grid w-full max-w-[68rem] justify-start gap-4 sm:grid-cols-1 md:max-w-[35rem] md:grid-cols-1 lg:max-w-[50rem] lg:grid-cols-2 xl:max-w-[68rem] xl:grid-cols-3">
         {platformConfig?.appConfig?.apps?.map((app) => (
           <AppCard key={app.appName} app={app} />
+        ))}
+      </div>
+    </section>
+  )
+
+  const resolveWidgetPlaceholders = () => {
+    const widgets = platformConfig?.widgetConfig?.widgets
+    if (!widgets) return []
+
+    const now = new Date()
+    const monthYear = now.toLocaleString("en-US", {
+      month: "long",
+      year: "numeric",
+    })
+
+    const assetValue = (Math.floor(Math.random() * 900) + 100) * 1_000_000
+    const expenseValue = (Math.floor(Math.random() * 9) + 1) * 1_00000
+    const goalAmount = (Math.floor(Math.random() * 500) + 10) * 1_000_0000
+    const remainingDebt = (Math.floor(Math.random() * 200) + 50) * 1_000
+    const totalEmi = (Math.floor(Math.random() * 5) + 1) * 1_000
+
+    const replacements: Record<string, string> = {
+      ASSET_VALUE: formatCurrency(assetValue, Currency.USD),
+      EXPENSE_VALUE: formatCurrency(expenseValue, Currency.USD),
+      GOAL_AMOUNT: formatCurrency(goalAmount, Currency.USD),
+      REMAINING_DEBT: formatCurrency(remainingDebt, Currency.USD),
+      TOTAL_EMI: formatCurrency(totalEmi, Currency.USD),
+      MONTH_YEAR: monthYear,
+      GOAL_PERCENTAGE: String(
+        assetValue / goalAmount > 1
+          ? 100
+          : Math.floor((assetValue / goalAmount) * 100)
+      ),
+    }
+
+    const json = JSON.stringify(widgets)
+    const resolved = json.replace(
+      /\{([A-Z_]+)\}/g,
+      (_, key) => replacements[key] ?? `{${key}}`
+    )
+    return JSON.parse(resolved)
+  }
+
+  const renderDynamicStatsSection = (
+    <section
+      id="dynamic-stats"
+      className="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-8 space-y-6 py-8 md:py-12 lg:py-24"
+    >
+      <div className="mx-auto flex w-full max-w-[68rem] flex-col items-start space-y-4 text-left">
+        <h1 className="font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-6 tracking-wide">
+          {platformConfig?.widgetConfig?.title}
+        </h1>
+        <p className="max-w-[58rem] leading-normal sm:text-lg sm:leading-7">
+          {platformConfig?.widgetConfig?.desc}
+        </p>
+      </div>
+      <div className="mx-auto grid w-full max-w-[68rem] justify-start gap-4 sm:grid-cols-1 md:max-w-[35rem] md:grid-cols-1 lg:max-w-[50rem] lg:grid-cols-2 xl:max-w-[68rem] xl:grid-cols-4">
+        {resolveWidgetPlaceholders().map((widget: any) => (
+          <WidgetCard widget={widget} key={widget.icon} />
         ))}
       </div>
     </section>
@@ -205,6 +267,7 @@ export default function Page() {
         {renderHeroSection}
         {renderFeaturesSection}
         {renderAppsSection}
+        {renderDynamicStatsSection}
         {renderServiceTiersSection()}
         {renderSubscriptionSection}
       </div>
