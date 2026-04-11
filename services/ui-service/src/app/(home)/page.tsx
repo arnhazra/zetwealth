@@ -96,9 +96,9 @@ export default function Page() {
     const TierIcon = (Icons as any)[config?.icon ?? "Shapes"] ?? Icons.Shapes
 
     return (
-      <section id="service-tiers" className="py-8 md:py-12">
+      <section id="service-tiers" className="py-8 md:py-12 ">
         <div className="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto grid w-full max-w-[68rem] gap-10 rounded-[2rem] border border-theme-800 bg-theme-900 px-6 py-8 sm:px-10 sm:py-10 lg:grid-cols-[1.05fr_1fr] lg:px-12 lg:py-12">
+          <div className="mx-auto grid w-full max-w-[68rem] gap-10 rounded-[2rem] bg-background border border-border px-6 py-8 sm:px-10 sm:py-10 lg:grid-cols-[1.05fr_1fr] lg:px-12 lg:py-12">
             <div className="flex flex-col items-start justify-between">
               <div>
                 <TierIcon
