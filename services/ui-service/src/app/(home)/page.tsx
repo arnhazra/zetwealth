@@ -12,7 +12,6 @@ import Cookies from "js-cookie"
 import HomePageHeader from "@/shared/components/homepage-header"
 import { FeatureCard } from "@/shared/components/feature-card"
 import { PricingCard } from "@/shared/components/pricing-card"
-import { fraunces } from "../layout"
 
 export default function Page() {
   const router = useRouter()
@@ -51,9 +50,7 @@ export default function Page() {
       className="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-8 space-y-6 py-8 md:py-12 lg:py-24 lg:rounded-3xl"
     >
       <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
-        <h1
-          className={`${fraunces.className} font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-6 tracking-wide`}
-        >
+        <h1 className="font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-6 tracking-wide">
           {platformConfig?.featureConfig.title}
         </h1>
         <p className="max-w-[85%] leading-normal sm:text-lg sm:leading-7">
@@ -79,9 +76,7 @@ export default function Page() {
         className="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-8 space-y-6 py-8 md:py-12 lg:py-24"
       >
         <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
-          <h1
-            className={`${fraunces.className} font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-6 tracking-wide`}
-          >
+          <h1 className="font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-6 tracking-wide">
             {platformConfig?.appConfig.title}
           </h1>
           <p className="max-w-[85%] leading-normal sm:text-lg sm:leading-7">
@@ -101,9 +96,7 @@ export default function Page() {
     <section id="pricing" className="py-8 md:py-12 lg:py-24">
       <div className="mx-auto max-w-[70rem] px-4 sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-[64rem] flex-col items-center justify-center text-center mb-8">
-          <h1
-            className={`${fraunces.className} font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-6 tracking-wide`}
-          >
+          <h1 className="font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-6 tracking-wide">
             {platformConfig?.subscriptionConfig?.title}
           </h1>
           <p className="max-w-[85%] leading-normal sm:text-lg sm:leading-7 mb-2">

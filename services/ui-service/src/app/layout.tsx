@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import { Quicksand, Fraunces } from "next/font/google"
+import { Quicksand } from "next/font/google"
 import Providers from "@/shared/providers"
 import NextTopLoader from "nextjs-toploader"
 import "../shared/styles/globals.css"
@@ -7,10 +7,6 @@ import { colorVars } from "@/shared/styles/color-vars"
 import { PLATFORM_NAME } from "@/shared/constants/config"
 
 export const quickSand = Quicksand({ subsets: ["latin"], weight: ["700"] })
-export const fraunces = Fraunces({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-})
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
