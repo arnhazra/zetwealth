@@ -9,7 +9,6 @@ interface PricingCardProps {
 }
 
 export function PricingCard({ plan }: PricingCardProps) {
-  const isPro = plan.name.toLowerCase() === "pro"
   const Icon = (Icons as any)[plan.icon] || Icons.HelpCircle
 
   return (
@@ -21,16 +20,15 @@ export function PricingCard({ plan }: PricingCardProps) {
           </IconContainer>
         </div>
         <h2 className="text-3xl font-medium">{plan.name}</h2>
-        <p className="text-xl font-bold mt-4">
-          ${plan.price}
-          <span className="text-sm font-normal text-muted-foreground">
-            /year
-          </span>
-        </p>
+        <div className="mt-4">
+          <p className="text-xl font-bold">${plan.price}</p>
+          <p className="text-sm font-normal text-muted-foreground mt-1">
+            Per Year
+          </p>
+        </div>
       </div>
       <Button
-        variant={isPro ? "default" : "outline"}
-        className={`w-full rounded-2xl mb-6 ${isPro ? "text-black" : ""}`}
+        className="w-full rounded-2xl mb-6 h-11 bg-theme-100 text-black hover:bg-theme-200"
         asChild
       >
         <Link href="/dashboard">Get Started</Link>

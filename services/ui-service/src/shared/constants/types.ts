@@ -184,7 +184,7 @@ export interface CalendarEvent {
   eventSource: string
 }
 
-export interface HomeConfig {
+export interface HeroConfig {
   title: string
   description: string
   getStartedUrl: string
@@ -253,12 +253,36 @@ export interface HomeNavigationConfig {
   navigationItems: NavigationItem[]
 }
 
-export interface PlatformConfig {
-  homeConfig: HomeConfig
-  appConfig: AppConfig
-  featureConfig: FeatureConfig
-  widgetConfig: WidgetConfig
-  subscriptionConfig: SubscriptionConfig
-  homeNavigationConfig: HomeNavigationConfig
+export interface ServiceTier {
+  name: string
+  description: string
+}
+
+export interface ServiceTierConfig {
+  title: string
+  icon: string
+  description: string
+  learnMoreUrl: string
+  learnMoreText: string
+  contactUrl: string
+  contactText: string
+  tiers: ServiceTier[]
+}
+
+export interface ConstantConfig {
   otherConstants: Record<string, string>
+}
+
+export interface HomeConfig {
+  homeNavigationConfig: HomeNavigationConfig
+  heroConfig: HeroConfig
+  featureConfig: FeatureConfig
+  appConfig: AppConfig
+  serviceTiersConfig: ServiceTierConfig
+  subscriptionConfig: SubscriptionConfig
+}
+
+export interface PlatformConfig extends HomeConfig {
+  otherConstants: Record<string, string>
+  widgetConfig: WidgetConfig
 }
