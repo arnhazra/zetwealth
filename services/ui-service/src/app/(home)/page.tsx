@@ -1,11 +1,9 @@
 "use client"
 import { usePlatformConfig } from "@/context/platformconfig.provider"
-import { ArrowRightCircle } from "lucide-react"
 import Link from "next/link"
-import { cn } from "@/shared/lib/utils"
 import { formatCurrency } from "@/shared/lib/format-currency"
 import { Currency } from "country-code-enum"
-import { buttonVariants, Button } from "@/shared/components/ui/button"
+import { Button } from "@/shared/components/ui/button"
 import Loading from "../loading"
 import { AppCard } from "@/shared/components/app-card"
 import { useRouter } from "nextjs-toploader/app"
@@ -31,19 +29,11 @@ export default function Page() {
         <p className="max-w-[35rem] leading-normal text-theme-100 sm:text-lg sm:leading-8 mb-4">
           {platformConfig?.heroConfig.description}
         </p>
-        <Link
-          href={platformConfig?.heroConfig.getStartedUrl ?? ""}
-          className={cn(
-            buttonVariants({
-              variant: "default",
-              className:
-                "bg-primary hover:bg-primary text-black rounded-2xl h-10 w-36",
-            })
-          )}
-        >
-          {platformConfig?.otherConstants.getStartedButton}
-          <ArrowRightCircle className="h-4 w-4" />
-        </Link>
+        <Button variant="default" className="text-black hover:text-black w-36">
+          <Link href={platformConfig?.heroConfig.getStartedUrl ?? ""}>
+            {platformConfig?.otherConstants.getStartedButton}
+          </Link>
+        </Button>
       </div>
     </section>
   )
