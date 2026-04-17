@@ -94,7 +94,7 @@ export default function Page() {
   const viewAIDataAgreement = async (from: string) => {
     const consent = await confirm({
       title: `${PLATFORM_NAME} Intelligence Data Agreement`,
-      desc: platformConfig?.otherConstants.useIntelligenceStatement ?? "",
+      desc: platformConfig?.otherConstants.useAIStatement ?? "",
     })
 
     if (from === "switch" && !consent) {
