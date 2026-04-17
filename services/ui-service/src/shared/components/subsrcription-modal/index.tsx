@@ -1,5 +1,6 @@
-import { Check, Wallet } from "lucide-react"
+import { Check, TrendingUp, Wallet } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
+import Cookies from "js-cookie"
 import {
   Dialog,
   DialogContent,
@@ -40,19 +41,32 @@ export function SubscriptionModal() {
     }
   }
 
+  const signOut = async () => {
+    const refreshToken = Cookies.get("refreshToken")
+    await api.post(endPoints.signOut, {
+      json: { allDevices: false, refreshToken },
+    })
+    Cookies.remove("accessToken")
+    Cookies.remove("refreshToken")
+    window.location.replace("/")
+  }
+
   return (
     <Dialog
       open={!subscription || !subscription?.isActive}
       onOpenChange={() => undefined}
     >
       <DialogOverlay className="bg-black/40 backdrop-blur-sm" />
-      <DialogContent className="max-w-[25rem] sm:max-w-[25rem] bg-background/60 backdrop-blur-md border-border text-white">
+      <DialogContent
+        showCloseButton={false}
+        className="max-w-[25rem] sm:max-w-[25rem] bg-background/60 backdrop-blur-md border-border text-white"
+      >
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-lg">
             <IconContainer>
-              <Wallet className="h-4 w-4" />
+              <TrendingUp className="h-4 w-4" />
             </IconContainer>
-            {PLATFORM_NAME} Subscription
+            {PLATFORM_NAME} {platformConfig?.subscriptionConfig.planName}
           </DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground">
             You need to subscribe to contiue
@@ -76,6 +90,9 @@ export function SubscriptionModal() {
             onClick={() => activateSubscription()}
           >
             Activate Subscription
+          </Button>
+          <Button variant="link" onClick={() => signOut()}>
+            Sign Out
           </Button>
         </div>
       </DialogContent>

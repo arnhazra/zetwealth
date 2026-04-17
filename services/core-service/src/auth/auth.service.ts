@@ -66,6 +66,10 @@ export class AuthService {
         const newUser = await this.commandBus.execute<CreateUserCommand, User>(
           new CreateUserCommand(email, name)
         )
+        await this.eventEmitter.emitAsync(
+          AppEventMap.ActivateTrialSubscription,
+          String(newUser._id)
+        )
 
         const tokenPayload = {
           id: String(newUser._id),

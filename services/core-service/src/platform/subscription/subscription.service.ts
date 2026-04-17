@@ -90,6 +90,16 @@ export class SubscriptionService {
     }
   }
 
+  @OnEvent(AppEventMap.ActivateTrialSubscription)
+  async activateTrial(userId: string) {
+    try {
+      await this.commandBus.execute(new CreateSubscriptionCommand(userId, 0))
+      return { success: true }
+    } catch (error) {
+      throw new Error()
+    }
+  }
+
   @OnEvent(AppEventMap.GetSubscriptionDetails)
   async getMySubscription(userId: string) {
     try {
