@@ -26,7 +26,7 @@ export class SubscriptionService {
   async createCheckoutSession(userId: string): Promise<{ url: string | null }> {
     try {
       const homeConfig = await this.configService.getConfig("home-config")
-      const subscriptionPrice = Number(homeConfig.subscriptionConfig.offerPrice)
+      const subscriptionPrice = Number(homeConfig.subscriptionConfig.price)
 
       const session = await this.stripe.checkout.sessions.create({
         payment_method_types: ["card"],

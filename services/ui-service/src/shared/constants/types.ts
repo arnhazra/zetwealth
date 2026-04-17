@@ -247,8 +247,8 @@ export interface WidgetConfig {
 export interface SubscriptionConfig {
   title: string
   desc: string
-  price: string
-  offerPrice: string
+  price: number
+  planName: string
   icon: string
   dialog: string
   features: string[]

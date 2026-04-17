@@ -60,7 +60,7 @@ export function SubscriptionModal() {
         </DialogHeader>
         <div className="flex flex-col gap-4 pt-2">
           <p className="text-3xl font-bold text-primary">
-            ${platformConfig?.subscriptionConfig.offerPrice}
+            ${platformConfig?.subscriptionConfig.price}
             <span className="text-sm font-normal ml-1">/year</span>
           </p>
           <ul className="grid gap-2 text-sm text-muted-foreground">
