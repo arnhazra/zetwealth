@@ -11,9 +11,9 @@ import {
   Globe,
   Pen,
   Leaf,
-  PieChart,
   Sparkle,
 } from "lucide-react"
+import * as Icons from "lucide-react"
 import EditCurrency from "@/shared/components/edit-currency"
 import { usePromptContext } from "@/shared/providers/prompt.provider"
 import notify from "@/shared/hooks/use-notify"
@@ -32,10 +32,13 @@ import { PLATFORM_NAME } from "@/shared/constants/config"
 import { usePlatformConfig } from "@/context/platformconfig.provider"
 
 export default function Page() {
-  const [{ user }, dispatch] = useUserContext()
+  const [{ user, subscription }, dispatch] = useUserContext()
   const { prompt } = usePromptContext()
   const { confirm } = useConfirmContext()
   const { platformConfig } = usePlatformConfig()
+  const SubscriptionIcon =
+    (Icons as any)[platformConfig?.subscriptionConfig?.icon ?? "Shapes"] ??
+    Icons.Shapes
 
   const editName = async () => {
     const { hasConfirmed, value } = await prompt(false, "Your Name", user.name)
@@ -191,6 +194,19 @@ export default function Page() {
               }
             />,
           ]}
+        />
+        <SectionPanel
+          icon={
+            <IconContainer>
+              <SubscriptionIcon className="h-4 w-4" />
+            </IconContainer>
+          }
+          title={`${PLATFORM_NAME} ${platformConfig?.subscriptionConfig.planName}`}
+          content={
+            subscription?.isActive && subscription?.endsAt
+              ? `Valid until ${new Date(subscription.endsAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}`
+              : "No active subscription"
+          }
         />
         <SectionPanel
           icon={

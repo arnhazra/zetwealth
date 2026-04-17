@@ -106,7 +106,7 @@ export default function Page() {
           {platformConfig?.widgetConfig?.desc}
         </p>
       </div>
-      <div className="mx-auto grid w-full max-w-[68rem] justify-start gap-4 sm:grid-cols-1 md:max-w-[35rem] md:grid-cols-1 lg:max-w-[50rem] lg:grid-cols-2 xl:max-w-[68rem] xl:grid-cols-4">
+      <div className="mx-auto grid w-full max-w-[68rem] grid-cols-1 gap-4 lg:max-w-[50rem] lg:grid-cols-2 xl:max-w-[68rem] xl:grid-cols-4">
         {resolveWidgetPlaceholders(platformConfig).map(
           (widget: any, index: number) => (
             <ScrollReveal
@@ -124,7 +124,8 @@ export default function Page() {
 
   const renderPricingSection = () => {
     const config = platformConfig?.subscriptionConfig
-    const TierIcon = (Icons as any)[config?.icon ?? "Shapes"] ?? Icons.Shapes
+    const SubscriptionIcon =
+      (Icons as any)[config?.icon ?? "Shapes"] ?? Icons.Shapes
 
     return (
       <section
@@ -143,7 +144,7 @@ export default function Page() {
           <div className="mx-auto grid w-full max-w-[68rem] gap-10 rounded-[2rem] bg-background border border-border px-6 py-8 sm:px-10 sm:py-10 lg:grid-cols-[1.05fr_1fr] lg:px-12 lg:py-12">
             <div className="flex flex-col items-start justify-between">
               <div>
-                <TierIcon
+                <SubscriptionIcon
                   className="mb-8 h-12 w-12 text-theme-100"
                   strokeWidth={1.5}
                 />
