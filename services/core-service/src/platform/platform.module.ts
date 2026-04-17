@@ -3,7 +3,7 @@ import { config } from "@/config"
 import { DbConnectionMap } from "@/shared/entity/entity-db-connection.map"
 import { EntityModule } from "@/shared/entity/entity.module"
 import { ConfigModule } from "./config/config.module"
-import { CoworkModule } from "./cowork/cowork.module"
+import { IntelligenceModule } from "./intelligence/intelligence.module"
 import { WidgetModule } from "./widget/widget.module"
 import { SubscriptionModule } from "./subscription/subscription.module"
 
@@ -14,7 +14,7 @@ import { SubscriptionModule } from "./subscription/subscription.module"
       DbConnectionMap.Platform
     ),
     ConfigModule,
-    CoworkModule,
+    IntelligenceModule,
     WidgetModule,
     SubscriptionModule,
   ],

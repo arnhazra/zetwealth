@@ -27,7 +27,7 @@ export class User extends IdentifiableEntitySchmea {
   reduceCarbonEmissions: boolean
 
   @EntityProp({ type: Boolean, default: true })
-  useCowork: boolean
+  useAI: boolean
 }
 
 export const UserSchema = createSchemaFromClass(User)

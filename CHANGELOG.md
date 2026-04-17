@@ -5,7 +5,6 @@
 - Removed custom request analytics
 - Removed AI summarization assistant
 - Fixed text overflow issues
-- Rebranded Intelligence as Cowork
 
 ## Version 3.4.0
 

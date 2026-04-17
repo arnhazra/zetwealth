@@ -7,7 +7,7 @@ import {
   ObjectIdType,
 } from "@/shared/entity/entity.schema"
 
-@Entity({ collection: "cowork-threads" })
+@Entity({ collection: "intelligence-threads" })
 export class Thread extends IdentifiableEntitySchmea {
   @EntityProp({ type: ObjectIdType, required: true })
   readonly threadId: ObjectId

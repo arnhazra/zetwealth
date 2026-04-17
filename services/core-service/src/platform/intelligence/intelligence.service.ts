@@ -11,7 +11,7 @@ import { ChatArgs, ChatStrategy } from "./strategies/chat.strategy"
 import { createOrConvertObjectId } from "@/shared/entity/entity.schema"
 
 @Injectable()
-export class CoworkService {
+export class IntelligenceService {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,

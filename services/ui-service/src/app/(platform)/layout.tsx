@@ -13,7 +13,7 @@ import Loading from "../loading"
 import { useQuery as useBaseQuery } from "@tanstack/react-query"
 import PlatformHeader from "@/shared/components/platform-header"
 import { useUserContext } from "@/context/user.provider"
-import Cowork from "@/shared/components/cowork"
+import Intelligence from "@/shared/components/intelligence"
 import notify from "@/shared/hooks/use-notify"
 import api from "@/shared/lib/ky-api"
 import { usePlatformConfig } from "@/context/platformconfig.provider"
@@ -69,7 +69,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
       <div className="w-full mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8 mt-4">
         {children}
       </div>
-      <Cowork />
+      <Intelligence />
       <SubscriptionModal />
     </div>
   )

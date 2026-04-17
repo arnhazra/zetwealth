@@ -61,7 +61,7 @@ export default function Page() {
             >
               <FeatureCard
                 feature={feature}
-                ai={feature.displayName.includes("Cowork")}
+                ai={feature.displayName.includes("Intelligence")}
               />
             </ScrollReveal>
           )
