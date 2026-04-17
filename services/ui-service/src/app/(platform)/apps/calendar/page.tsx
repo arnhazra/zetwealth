@@ -141,7 +141,7 @@ export default function CalendarPage() {
                 >
                   <span
                     className={cn(
-                      "flex h-6 w-6 items-center justify-center text-sm font-medium rounded-full transition-colors",
+                      "flex h-6 w-6 items-center justify-center text-sm font-medium rounded-2xl transition-colors",
                       isSameMonth(day, monthStart)
                         ? "text-theme-200"
                         : "text-theme-600",
@@ -158,7 +158,7 @@ export default function CalendarPage() {
                         className="flex items-center justify-between text-[10px] leading-tight"
                       >
                         <div className="flex items-center gap-1.5 overflow-hidden">
-                          <div className="h-3 w-3 shrink-0 rounded-full bg-primary" />
+                          <div className="h-3 w-3 shrink-0 rounded-2xl bg-primary" />
                           <span className="truncate text-theme-300">
                             {event.eventName}
                           </span>

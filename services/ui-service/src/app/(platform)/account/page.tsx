@@ -3,7 +3,6 @@ import CopyToClipboard from "@/shared/components/copy"
 import SectionPanel from "../../../shared/components/section-panel"
 import { Button } from "@/shared/components/ui/button"
 import { endPoints } from "@/shared/constants/api-endpoints"
-import { uiConstants } from "@/shared/constants/global-constants"
 import { useUserContext } from "@/context/user.provider"
 import {
   UserIcon,
@@ -12,9 +11,9 @@ import {
   Globe,
   Pen,
   Leaf,
-  PieChart,
   Sparkle,
 } from "lucide-react"
+import * as Icons from "lucide-react"
 import EditCurrency from "@/shared/components/edit-currency"
 import { usePromptContext } from "@/shared/providers/prompt.provider"
 import notify from "@/shared/hooks/use-notify"
@@ -30,11 +29,16 @@ import { useConfirmContext } from "@/shared/providers/confirm.provider"
 import api from "@/shared/lib/ky-api"
 import type { User } from "@/shared/constants/types"
 import { PLATFORM_NAME } from "@/shared/constants/config"
+import { usePlatformConfig } from "@/context/platformconfig.provider"
 
 export default function Page() {
-  const [{ user }, dispatch] = useUserContext()
+  const [{ user, subscription }, dispatch] = useUserContext()
   const { prompt } = usePromptContext()
   const { confirm } = useConfirmContext()
+  const { platformConfig } = usePlatformConfig()
+  const SubscriptionIcon =
+    (Icons as any)[platformConfig?.subscriptionConfig?.icon ?? "Shapes"] ??
+    Icons.Shapes
 
   const editName = async () => {
     const { hasConfirmed, value } = await prompt(false, "Your Name", user.name)
@@ -49,7 +53,7 @@ export default function Page() {
           },
         })
       } catch (error) {
-        notify(uiConstants.genericError, "error")
+        notify(platformConfig?.otherConstants.genericError, "error")
       }
     }
   }
@@ -83,20 +87,20 @@ export default function Page() {
         },
       })
     } catch (error) {
-      notify(uiConstants.genericError, "error")
+      notify(platformConfig?.otherConstants.genericError, "error")
     }
   }
 
   const viewAIDataAgreement = async (from: string) => {
     const consent = await confirm({
-      title: `${PLATFORM_NAME} Cowork Data Agreement`,
-      desc: uiConstants.useCoworkStatement,
+      title: `${PLATFORM_NAME} Intelligence Data Agreement`,
+      desc: platformConfig?.otherConstants.useAIStatement ?? "",
     })
 
     if (from === "switch" && !consent) {
-      updateAttribute("useCowork", false)
+      updateAttribute("useIntelligence", false)
     } else {
-      updateAttribute("useCowork", true)
+      updateAttribute("useIntelligence", true)
     }
   }
 
@@ -154,7 +158,7 @@ export default function Page() {
               <Sparkle className="h-4 w-4" />
             </IconContainer>
           }
-          title={`${PLATFORM_NAME} Cowork`}
+          title={`${PLATFORM_NAME} Intelligence`}
           content={
             <>
               An Intelligent system integrated deeply within {PLATFORM_NAME}{" "}
@@ -163,10 +167,10 @@ export default function Page() {
           }
           actionComponents={[
             <Switch
-              checked={user.useCowork}
+              checked={user.useIntelligence}
               onCheckedChange={(value) => {
                 if (!value) {
-                  updateAttribute("useCowork", value)
+                  updateAttribute("useIntelligence", value)
                 } else {
                   viewAIDataAgreement("switch")
                 }
@@ -190,6 +194,19 @@ export default function Page() {
               }
             />,
           ]}
+        />
+        <SectionPanel
+          icon={
+            <IconContainer>
+              <SubscriptionIcon className="h-4 w-4" />
+            </IconContainer>
+          }
+          title={`${PLATFORM_NAME} ${platformConfig?.subscriptionConfig.planName}`}
+          content={
+            subscription?.isActive && subscription?.endsAt
+              ? `Valid until ${new Date(subscription.endsAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}`
+              : "No active subscription"
+          }
         />
         <SectionPanel
           icon={

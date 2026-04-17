@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link"
 import { TrendingUp, PanelLeft } from "lucide-react"
 import { Button, buttonVariants } from "@/shared/components/ui/button"
@@ -7,13 +8,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/shared/components/ui/sheet"
-import { generalUserLinks } from "./data"
-import { uiConstants } from "@/shared/constants/global-constants"
 import { cn } from "@/shared/lib/utils"
 import IconContainer from "../icon-container"
 import { PLATFORM_NAME } from "@/shared/constants/config"
+import { usePlatformConfig } from "@/context/platformconfig.provider"
 
 export default function HomePageHeader() {
+  const { platformConfig } = usePlatformConfig()
+
   return (
     <header className="relative z-50 top-0 flex h-[64px] items-center bg-background text-white">
       <div className="mx-auto flex w-full max-w-[90rem] items-center justify-between px-4 md:px-6">
@@ -27,32 +29,31 @@ export default function HomePageHeader() {
           {PLATFORM_NAME}
         </Link>
 
-        <nav className="hidden md:flex items-center justify-start gap-3 flex-1">
-          {generalUserLinks.map((item, index) => (
-            <Link
-              key={index}
-              href={item.link}
-              className="text-sm font-medium text-white hover:text-primary mx-3"
-              target={item.external ? "_blank" : ""}
-              rel={item.external ? "noopener noreferrer" : ""}
-            >
-              {item.displayName}
-            </Link>
-          ))}
-        </nav>
-
         <nav className="hidden md:flex items-center justify-end gap-3 flex-1">
+          {platformConfig?.homeNavigationConfig.navigationItems.map(
+            (item, index) => (
+              <Link
+                key={index}
+                href={item.link}
+                className="text-sm font-bold text-theme-200 hover:text-primary mx-3"
+                target={item.external ? "_blank" : ""}
+                rel={item.external ? "noopener noreferrer" : ""}
+              >
+                {item.displayName}
+              </Link>
+            )
+          )}
           <Link
             href="/dashboard"
             className={cn(
               buttonVariants({
                 variant: "default",
                 className:
-                  "bg-primary hover:bg-primary text-black rounded-full h-9",
+                  "bg-primary hover:bg-primary text-black rounded-2xl h-9",
               })
             )}
           >
-            {uiConstants.getStartedButton}
+            {platformConfig?.otherConstants.getStartedButton}
           </Link>
         </nav>
 
@@ -80,17 +81,19 @@ export default function HomePageHeader() {
                   </IconContainer>
                 </Link>
 
-                {generalUserLinks.map((item, index) => (
-                  <Link
-                    key={index}
-                    href={item.link}
-                    className="text-white hover:text-primary"
-                    target={item.external ? "_blank" : ""}
-                    rel={item.external ? "noopener noreferrer" : ""}
-                  >
-                    {item.displayName}
-                  </Link>
-                ))}
+                {platformConfig?.homeNavigationConfig.navigationItems.map(
+                  (item, index) => (
+                    <Link
+                      key={index}
+                      href={item.link}
+                      className="text-white hover:text-primary"
+                      target={item.external ? "_blank" : ""}
+                      rel={item.external ? "noopener noreferrer" : ""}
+                    >
+                      {item.displayName}
+                    </Link>
+                  )
+                )}
               </nav>
             </SheetContent>
           </Sheet>

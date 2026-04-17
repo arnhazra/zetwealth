@@ -6,7 +6,6 @@ import { Input } from "@/shared/components/ui/input"
 import { ScrollArea } from "@/shared/components/ui/scroll-area"
 import { Bot, User, ArrowUp, BadgePercent } from "lucide-react"
 import { endPoints } from "@/shared/constants/api-endpoints"
-import { uiConstants } from "@/shared/constants/global-constants"
 import MarkdownRenderer from "@/shared/components/markdown"
 import Show from "@/shared/components/show"
 import { Thread } from "@/shared/constants/types"
@@ -19,6 +18,7 @@ import IconContainer from "@/shared/components/icon-container"
 import { colorVars } from "@/shared/styles/color-vars"
 import { PLATFORM_NAME } from "@/shared/constants/config"
 import Loading from "@/app/loading"
+import { usePlatformConfig } from "@/context/platformconfig.provider"
 
 export default function Page() {
   const searchParams = useSearchParams()
@@ -26,6 +26,7 @@ export default function Page() {
   const tId = searchParams.get("threadId")
   const [threadId, setThreadId] = useState<string | null>(tId)
   const [prompt, setPrompt] = useState("")
+  const { platformConfig } = usePlatformConfig()
   const [messages, setMessages] = useState<string[]>([])
   const [isLoading, setLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -115,7 +116,7 @@ export default function Page() {
                 </div>
                 <p className="text-primary">{PLATFORM_NAME} TaxAdvisor</p>
                 <p className="text-xs mt-2 text-theme-300 p-6">
-                  {uiConstants.aiSafetyStatement}
+                  {platformConfig?.otherConstants.aiSafetyStatement}
                 </p>
                 <p className="text-white text-lg sm:text-xl md:text-xl lg:text-2xl mt-4">
                   Let's calculate your taxes
@@ -132,7 +133,7 @@ export default function Page() {
                   }`}
                 >
                   {index % 2 !== 0 && (
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-primary">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-2xl flex items-center justify-center bg-primary">
                       <Bot className="h-4 w-4 text-white" />
                     </div>
                   )}
@@ -155,7 +156,7 @@ export default function Page() {
 
                   {index % 2 === 0 && (
                     <div
-                      className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center"
+                      className="flex-shrink-0 w-8 h-8 rounded-2xl flex items-center justify-center"
                       style={{ backgroundColor: colorVars.border }}
                     >
                       <User className="h-4 w-4 text-white" />
@@ -168,7 +169,7 @@ export default function Page() {
             {isLoading && messages[messages.length - 1] === "" && (
               <div className="flex items-start space-x-2">
                 <div
-                  className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center"
+                  className="flex-shrink-0 w-8 h-8 rounded-2xl flex items-center justify-center"
                   style={{ backgroundColor: colorVars.primary }}
                 >
                   <Bot className="h-4 w-4 text-white" />
@@ -181,13 +182,13 @@ export default function Page() {
                   }}
                 >
                   <div className="flex space-x-1">
-                    <div className="w-1 h-1 bg-theme-400 rounded-full animate-bounce"></div>
+                    <div className="w-1 h-1 bg-theme-400 rounded-2xl animate-bounce"></div>
                     <div
-                      className="w-1 h-1 bg-theme-400 rounded-full animate-bounce"
+                      className="w-1 h-1 bg-theme-400 rounded-2xl animate-bounce"
                       style={{ animationDelay: "0.1s" }}
                     ></div>
                     <div
-                      className="w-1 h-1 bg-theme-400 rounded-full animate-bounce"
+                      className="w-1 h-1 bg-theme-400 rounded-2xl animate-bounce"
                       style={{ animationDelay: "0.2s" }}
                     ></div>
                   </div>
@@ -206,7 +207,7 @@ export default function Page() {
           }`}
         >
           <form onSubmit={hitAPI} className="w-full max-w-3xl mx-auto">
-            <div className="relative bg-theme-900 border border-theme-700 rounded-full p-2 ps-4 pe-4 shadow-lg">
+            <div className="relative bg-theme-900 border border-theme-700 rounded-2xl p-2 ps-4 pe-4 shadow-lg">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-3">
                   <div className="flex-1">
@@ -223,7 +224,7 @@ export default function Page() {
                     type="submit"
                     disabled={isLoading || !prompt.trim()}
                     size="icon"
-                    className="bg-theme-700 hover:bg-theme-600 text-white h-8 w-8 rounded-full"
+                    className="bg-theme-700 hover:bg-theme-600 text-white h-8 w-8 rounded-2xl"
                   >
                     <ArrowUp className="h-4 w-4" />
                   </Button>

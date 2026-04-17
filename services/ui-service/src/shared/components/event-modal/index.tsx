@@ -13,11 +13,11 @@ import { Calendar, Pen, Plus, Trash } from "lucide-react"
 import IconContainer from "../icon-container"
 import { Button } from "../ui/button"
 import Show from "../show"
-import ky from "ky"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import notify from "@/shared/hooks/use-notify"
 import Link from "next/link"
 import { useRouter } from "nextjs-toploader/app"
+import api from "@/shared/lib/ky-api"
 
 export function EventModal({
   open,
@@ -33,7 +33,7 @@ export function EventModal({
   const router = useRouter()
   const deleteEvent = async (eventId: string): Promise<void> => {
     try {
-      await ky.delete(`${endPoints.events}/${eventId}`)
+      await api.delete(`${endPoints.events}/${eventId}`)
       onOpenChange(false)
       notify("Event deleted successfully.", "success")
     } catch (error) {

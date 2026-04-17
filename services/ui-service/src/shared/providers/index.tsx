@@ -2,6 +2,7 @@
 import { ReactNode } from "react"
 import { FetchProvider } from "./fetch.provider"
 import { UserStateProvider } from "../../context/user.provider"
+import { PlatformConfigProvider } from "../../context/platformconfig.provider"
 import { ConfirmProvider } from "./confirm.provider"
 import { PromptProvider } from "./prompt.provider"
 import { TooltipProvider } from "../components/ui/tooltip"
@@ -16,18 +17,20 @@ export default function Providers({ children }: { children: ReactNode }) {
       <TooltipProvider>
         <FetchProvider>
           <UserStateProvider>
-            <ConfirmProvider>
-              <PromptProvider>{children}</PromptProvider>
-            </ConfirmProvider>
-            <Toaster
-              position="bottom-right"
-              toastOptions={{
-                style: {
-                  background: colorVars.background,
-                  borderColor: colorVars.border,
-                },
-              }}
-            />
+            <PlatformConfigProvider>
+              <ConfirmProvider>
+                <PromptProvider>{children}</PromptProvider>
+              </ConfirmProvider>
+              <Toaster
+                position="bottom-right"
+                toastOptions={{
+                  style: {
+                    background: colorVars.background,
+                    borderColor: colorVars.border,
+                  },
+                }}
+              />
+            </PlatformConfigProvider>
           </UserStateProvider>
         </FetchProvider>
       </TooltipProvider>

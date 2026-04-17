@@ -14,7 +14,7 @@ export function AppCard({ app }: AppCardProps) {
 
   return (
     <Link href={app.url} className="h-full">
-      <Card className="bg-background border border-border p-2 rounded-3xl hover:shadow-lg hover:shadow-primary/20 cursor-pointer h-full flex flex-col">
+      <Card className="bg-background border border-border p-2 rounded-3xl hover:shadow-lg hover:shadow-primary/10 cursor-pointer h-full flex flex-col">
         <CardHeader className="flex justify-between mt-6 items-center">
           <div>
             <p className="text-xs">{PLATFORM_NAME}</p>

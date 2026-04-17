@@ -24,7 +24,9 @@ export class TaxStrategy {
   ) {}
 
   private async getSystemInstruction(user: User) {
-    const data = await this.configService.getConfig("tax-system-instruction")
+    const data = await this.configService.getConfig(
+      "taxadvisor-system-instruction"
+    )
     const content = data
       .replaceAll("{platformName}", config.PLATFORM_NAME)
       .replaceAll("{todaysDate}", new Date().toString())

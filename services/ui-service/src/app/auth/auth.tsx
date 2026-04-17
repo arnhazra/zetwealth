@@ -1,5 +1,5 @@
 "use client"
-import { uiConstants } from "@/shared/constants/global-constants"
+import { usePlatformConfig } from "@/context/platformconfig.provider"
 import Cookies from "js-cookie"
 import {
   Card,
@@ -19,13 +19,14 @@ interface AuthProviderProps {
 }
 
 export default function AuthProvider({ onAuthorized }: AuthProviderProps) {
+  const { platformConfig } = usePlatformConfig()
   const googleOAuthLogin = (userData: any) => {
     try {
       Cookies.set("accessToken", userData.accessToken, defaultCookieOptions)
       Cookies.set("refreshToken", userData.refreshToken, defaultCookieOptions)
       onAuthorized(true)
     } catch (error: any) {
-      notify(uiConstants.connectionErrorMessage, "error")
+      notify(platformConfig?.otherConstants.connectionErrorMessage, "error")
       onAuthorized(false)
     }
   }
@@ -46,7 +47,7 @@ export default function AuthProvider({ onAuthorized }: AuthProviderProps) {
               <GoogleOAuth handleSuccess={googleOAuthLogin} />
             </div>
             <div className="mt-4 text-sm">
-              {uiConstants.privacyPolicyStatement}
+              {platformConfig?.otherConstants.privacyPolicyStatement}
             </div>
           </CardContent>
         </Card>

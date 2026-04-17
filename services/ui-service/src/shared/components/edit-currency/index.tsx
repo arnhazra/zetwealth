@@ -18,10 +18,10 @@ import {
 } from "../ui/select"
 import { useUserContext } from "@/context/user.provider"
 import { endPoints } from "@/shared/constants/api-endpoints"
-import { uiConstants } from "@/shared/constants/global-constants"
 import notify from "@/shared/hooks/use-notify"
 import { Currency } from "country-code-enum"
 import api from "@/shared/lib/ky-api"
+import { usePlatformConfig } from "@/context/platformconfig.provider"
 
 export default function EditCurrency({
   baseCurrency,
@@ -31,6 +31,7 @@ export default function EditCurrency({
   const [open, setOpen] = useState(false)
   const [, dispatch] = useUserContext()
   const [value, setValue] = useState<Currency>(baseCurrency)
+  const { platformConfig } = usePlatformConfig()
 
   const saveCurrency = async () => {
     try {
@@ -43,7 +44,7 @@ export default function EditCurrency({
       })
       setOpen(false)
     } catch (error) {
-      notify(uiConstants.genericError, "error")
+      notify(platformConfig?.otherConstants.genericError, "error")
     }
   }
 

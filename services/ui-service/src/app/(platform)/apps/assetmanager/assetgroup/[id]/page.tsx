@@ -9,7 +9,7 @@ import { Layers2, Pen, Trash } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
 import { useRouter } from "nextjs-toploader/app"
 import { useConfirmContext } from "@/shared/providers/confirm.provider"
-import { uiConstants } from "@/shared/constants/global-constants"
+import { usePlatformConfig } from "@/context/platformconfig.provider"
 import notify from "@/shared/hooks/use-notify"
 import IconContainer from "@/shared/components/icon-container"
 import {
@@ -53,9 +53,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     )
   })
 
+  const { platformConfig } = usePlatformConfig()
   const handleDeleteAssetGroup = async () => {
     if (assets.data?.length) {
-      notify(uiConstants.assetgroupDeleteWarning, "warning")
+      notify(platformConfig?.otherConstants.assetgroupDeleteWarning, "warning")
       return
     }
     const confirmed = await confirm({
@@ -68,7 +69,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         await api.delete(`${endPoints.assetgroup}/${assetgroupId}`)
         router.push("/apps/assetmanager")
       } catch (error) {
-        notify(uiConstants.assetgroupDeleteFailed, "error")
+        notify(platformConfig?.otherConstants.assetgroupDeleteFailed, "error")
       }
     }
   }

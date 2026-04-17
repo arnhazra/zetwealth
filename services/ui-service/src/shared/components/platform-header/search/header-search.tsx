@@ -55,7 +55,7 @@ export default function HeaderSearch() {
             <Button
               variant="default"
               size="icon"
-              className="bg-theme-700 hover:bg-theme-700 rounded-full h-10 w-10"
+              className="bg-theme-700 hover:bg-theme-700 rounded-2xl h-10 w-10"
             >
               <HomeIcon className="h-4 w-4" />
             </Button>
@@ -79,7 +79,7 @@ export default function HeaderSearch() {
                 type="search"
                 placeholder={`What ${getSearchLabel(pathName) ?? ""} are you looking for?`}
                 className={cn(
-                  "w-full h-10 rounded-full bg-theme-800 py-2 pl-9 pr-3 text-sm text-white placeholder:text-theme-400 focus-visible:ring-0 focus-visible:ring-theme-900",
+                  "w-full h-10 rounded-2xl bg-theme-800 py-2 pl-9 pr-3 text-sm text-white placeholder:text-theme-400 focus-visible:ring-0 focus-visible:ring-theme-900",
                   "pointer-events-auto",
                   "border-border"
                 )}

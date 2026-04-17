@@ -5,7 +5,7 @@ import {
 } from "@nestjs/common"
 import { config } from "@/config"
 import { statusMessages } from "@/shared/constants/status-messages"
-import { OnEvent } from "@nestjs/event-emitter"
+import { EventEmitter2, OnEvent } from "@nestjs/event-emitter"
 import { AppEventMap } from "@/shared/constants/app-events.map"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { FindUserByEmailQuery } from "./queries/impl/find-user-by-email.query"
@@ -25,6 +25,7 @@ import { generateToken, TokenType, verifyToken } from "@/auth/utils/jwt.util"
 import { Currency } from "country-code-enum"
 import * as jwt from "jsonwebtoken"
 import { OAuth2Client } from "google-auth-library"
+import { Subscription } from "@/platform/subscription/schemas/subscription.schema"
 
 @Injectable()
 export class AuthService {
@@ -32,7 +33,8 @@ export class AuthService {
 
   constructor(
     private readonly queryBus: QueryBus,
-    private readonly commandBus: CommandBus
+    private readonly commandBus: CommandBus,
+    private readonly eventEmitter: EventEmitter2
   ) {
     this.googleOAuthClient = new OAuth2Client(
       config.GOOGLE_OAUTH_CLIENT_ID,
@@ -63,6 +65,10 @@ export class AuthService {
       } else {
         const newUser = await this.commandBus.execute<CreateUserCommand, User>(
           new CreateUserCommand(email, name)
+        )
+        await this.eventEmitter.emitAsync(
+          AppEventMap.ActivateTrialSubscription,
+          String(newUser._id)
         )
 
         const tokenPayload = {
@@ -172,7 +178,21 @@ export class AuthService {
       )
 
       if (user) {
-        return { user }
+        const subscriptionRes: Subscription[] =
+          await this.eventEmitter.emitAsync(
+            AppEventMap.GetSubscriptionDetails,
+            userId
+          )
+
+        let subscription: Subscription | null
+
+        if (!subscriptionRes || !subscriptionRes.length) {
+          subscription = null
+        } else {
+          subscription = subscriptionRes.shift()
+        }
+
+        return { user, subscription }
       } else {
         throw new Error(statusMessages.invalidUser)
       }

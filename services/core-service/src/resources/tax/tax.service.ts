@@ -58,7 +58,7 @@ export class TaxService {
     const threadId =
       aiGenerationDto.threadId ?? createOrConvertObjectId().toString()
     const thread = await this.getThreadById(threadId, !aiGenerationDto.threadId)
-
+    let fullResponse = ""
     const user: User = (
       await this.eventEmitter.emitAsync(AppEventMap.GetUserDetails, userId)
     ).shift()
@@ -72,10 +72,6 @@ export class TaxService {
       user,
     }
 
-    yield { type: "threadId", data: threadId }
-
-    let fullResponse = ""
-
     for await (const token of this.strategy.adviseStream(args)) {
       fullResponse += token
       yield { type: "token", data: token }
@@ -84,5 +80,7 @@ export class TaxService {
     await this.commandBus.execute<CreateThreadCommand, Thread>(
       new CreateThreadCommand(String(user._id), threadId, prompt, fullResponse)
     )
+
+    yield { type: "threadId", data: threadId }
   }
 }

@@ -12,7 +12,7 @@ import { Badge } from "../ui/badge"
 import { formatKey, formatValue } from "@/shared/lib/format-key-value"
 import { Pen, Trash } from "lucide-react"
 import notify from "@/shared/hooks/use-notify"
-import { uiConstants } from "@/shared/constants/global-constants"
+import { usePlatformConfig } from "@/context/platformconfig.provider"
 import { useConfirmContext } from "@/shared/providers/confirm.provider"
 import { Button } from "../ui/button"
 import { useUserContext } from "@/context/user.provider"
@@ -51,6 +51,7 @@ export function ResourceDetails({
   const [open, setOpen] = useState(false)
   const queryClient = useQueryClient()
   const { confirm } = useConfirmContext()
+  const { platformConfig } = usePlatformConfig()
   const [resourceBadgeText, setEnytityBadgeText] = useState("")
   const [displayName, setDisplayName] = useState("")
 
@@ -94,9 +95,12 @@ export function ResourceDetails({
             `${DeleteQueryKey[resourceType.toUpperCase() as keyof typeof DeleteQueryKey]}`,
           ],
         })
-        notify(`${uiConstants.resourceDeleted} ${resourceType}`, "success")
+        notify(
+          `${platformConfig?.otherConstants.resourceDeleted} ${resourceType}`,
+          "success"
+        )
       } catch (error) {
-        notify(uiConstants.genericError, "error")
+        notify(platformConfig?.otherConstants.genericError, "error")
       }
     }
   }

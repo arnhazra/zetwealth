@@ -130,3 +130,23 @@ select {
 button {
   cursor: pointer;
 }
+
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-hidden {
+  opacity: 0;
+  transform: translateY(32px);
+}
+
+.scroll-visible {
+  animation: card-enter 0.5s ease-out forwards;
+}

@@ -14,7 +14,6 @@ import {
   SelectValue,
 } from "@/shared/components/ui/select"
 import { endPoints } from "@/shared/constants/api-endpoints"
-import { uiConstants } from "@/shared/constants/global-constants"
 import HTTPMethods from "@/shared/constants/http-methods"
 import {
   ExpenseResponse,
@@ -32,12 +31,14 @@ import * as Icons from "lucide-react"
 import api from "@/shared/lib/ky-api"
 import Link from "next/link"
 import { addMonths, format, subMonths } from "date-fns"
+import { usePlatformConfig } from "@/context/platformconfig.provider"
 
 export default function Page() {
   const { confirm } = useConfirmContext()
   const [currentDate, setCurrentDate] = useState(new Date())
   const [{ searchKeyword, user }] = useUserContext()
   const queryClient = useQueryClient()
+  const { platformConfig } = usePlatformConfig()
   const [category, setSelectedCategory] = useState("all")
   const [selectedMonth, setSelectedMonth] = useState(
     `${format(currentDate, "yyyy-MM")}`
@@ -88,9 +89,12 @@ export default function Page() {
         queryClient.refetchQueries({
           queryKey: ["get-expenses"],
         })
-        notify(`${uiConstants.resourceDeleted} expense`, "success")
+        notify(
+          `${platformConfig?.otherConstants.resourceDeleted} expense`,
+          "success"
+        )
       } catch (error) {
-        notify(uiConstants.genericError, "error")
+        notify(platformConfig?.otherConstants.genericError, "error")
       }
     }
   }

@@ -11,6 +11,7 @@ import { User } from "@/auth/schemas/user.schema"
 import { Request } from "express"
 import { TokenType, verifyToken } from "@/auth/utils/jwt.util"
 import * as jwt from "jsonwebtoken"
+import { SubscriptionRes } from "@/shared/constants/types"
 
 export interface ModRequest extends Request {
   user: {
@@ -38,6 +39,13 @@ export class AuthGuard implements CanActivate {
         AppEventMap.GetUserDetails,
         userId
       )
+
+      const subscriptionResponse: SubscriptionRes | null = (
+        await this.eventEmitter.emitAsync(
+          AppEventMap.GetSubscriptionDetails,
+          userId
+        )
+      ).shift()
 
       if (!userResponse || !userResponse.length) {
         throw new UnauthorizedException(statusMessages.invalidUser)

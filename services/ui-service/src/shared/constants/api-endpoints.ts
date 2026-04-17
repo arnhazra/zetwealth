@@ -7,8 +7,10 @@ export const endPoints = {
   updateAttribute: "/auth/attribute",
   // Platform Service
   getConfig: "/platform/config",
-  cowork: "/platform/cowork",
+  intelligence: "/platform/intelligence",
   widgets: "/platform/widgets",
+  createCheckoutSession: "/platform/subscription/checkout",
+  subscribe: "/platform/subscription/subscribe",
   // Resource Service
   assetgroup: "/resource/assetgroup",
   asset: "/resource/asset",

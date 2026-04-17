@@ -10,7 +10,7 @@ import {
   AlertDialogTitle,
 } from "@/shared/components/ui/alert-dialog"
 import { Button } from "@/shared/components/ui/button"
-import { uiConstants } from "@/shared/constants/global-constants"
+import { usePlatformConfig } from "@/context/platformconfig.provider"
 
 interface ModalProps {
   title: string
@@ -19,6 +19,7 @@ interface ModalProps {
 
 function useConfirm() {
   const [show, setShow] = useState(false)
+  const { platformConfig } = usePlatformConfig()
   const [message, setMessage] = useState<ModalProps>({ title: "", desc: "" })
   const [resolveCallback, setResolveCallback] = useState<
     (choice: boolean) => void
@@ -51,7 +52,7 @@ function useConfirm() {
         <AlertDialogHeader>
           <AlertDialogTitle>{message.title}</AlertDialogTitle>
           <AlertDialogDescription className="text-theme-300">
-            {message.desc ?? uiConstants.confirmDescription}
+            {message.desc ?? platformConfig?.otherConstants.confirmDescription}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

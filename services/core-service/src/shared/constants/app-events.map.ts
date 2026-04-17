@@ -1,6 +1,8 @@
 export enum AppEventMap {
   // General Events
   GetUserDetails = "getUserDetails",
+  GetSubscriptionDetails = "getSubscriptionDetails",
+  ActivateTrialSubscription = "activateTrialSubscription",
   // AssetManager Events
   CreateAssetGroup = "createAssetGroup",
   GetAssetGroupList = "getAssetGroupList",

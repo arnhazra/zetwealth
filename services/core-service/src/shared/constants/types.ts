@@ -1,3 +1,5 @@
+import { Subscription } from "@/platform/subscription/schemas/subscription.schema"
+
 export enum AssetType {
   LUMPSUM_DEPOSIT = "LUMPSUM_DEPOSIT",
   RECURRING_DEPOSIT = "RECURRING_DEPOSIT",
@@ -36,4 +38,8 @@ export interface ExpenseCategoryConfig {
     value: ExpenseCategory
     icon: string
   }[]
+}
+
+export interface SubscriptionRes extends Subscription {
+  isActive: boolean
 }

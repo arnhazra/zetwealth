@@ -10,4 +10,5 @@ export const statusMessages = {
   refreshTokenExpired: "Refresh token expired",
   refreshTokenInvalid: "Invalid refresh token",
   refreshTokenMissing: "Refresh token missing",
+  subscriptionFailure: "Failed to activate subscription",
 }

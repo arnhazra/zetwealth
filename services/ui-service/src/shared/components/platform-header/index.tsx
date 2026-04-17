@@ -4,23 +4,16 @@ import HeaderSearch from "./search/header-search"
 import { UserNav } from "./user-nav"
 import IconContainer from "../icon-container"
 import { usePathname } from "next/navigation"
-import useQuery from "@/shared/hooks/use-query"
-import { AppsConfig } from "@/shared/constants/types"
-import { endPoints } from "@/shared/constants/api-endpoints"
-import HTTPMethods from "@/shared/constants/http-methods"
 import Show from "../show"
 import * as Icons from "lucide-react"
 import { PLATFORM_NAME } from "@/shared/constants/config"
+import { usePlatformConfig } from "@/context/platformconfig.provider"
 
 export default function PlatformHeader() {
   const pathName = usePathname()
-  const apps = useQuery<AppsConfig>({
-    queryKey: ["app-config"],
-    queryUrl: `${endPoints.getConfig}/app-config`,
-    method: HTTPMethods.GET,
-  })
+  const { platformConfig } = usePlatformConfig()
 
-  const selectedApp = apps.data?.apps.find((app) =>
+  const selectedApp = platformConfig?.appConfig?.apps.find((app) =>
     pathName.includes(app.appName)
   )
 
