@@ -37,11 +37,11 @@
     "pathe": "^2.0.3",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
-    "stripe": "^22.0.1"
+    "stripe": "^22.0.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.21",
-    "@nestjs/schematics": "^11.0.10",
+    "@nestjs/schematics": "^11.1.0",
     "@nestjs/testing": "^11.1.19",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
