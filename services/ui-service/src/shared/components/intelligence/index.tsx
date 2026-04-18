@@ -110,7 +110,7 @@ export default function Intelligence() {
         onClick={() => setIsOpen(true)}
         variant="default"
         size="icon"
-        className="h-11 w-11 fixed bottom-6 right-6 z-50 text-white ui-soft-gradient text-white rounded-2xl transition"
+        className="h-11 w-11 fixed bottom-6 right-6 z-50 text-white ui-soft-gradient text-white rounded-full transition"
       >
         <Sparkle className="h-4 w-4" />
       </Button>

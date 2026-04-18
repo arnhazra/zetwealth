@@ -1,11 +1,7 @@
-import { config } from "@/config"
-
-const prefix = config.NODE_ENV
-
 export const DbConnectionMap = {
-  Auth: `${prefix}_auth`,
-  Platform: `${prefix}_platform`,
-  Resource: `${prefix}_resource`,
+  Auth: "auth",
+  Platform: "platform",
+  Resource: "resource",
 } as const
 
 export type DbConnectionMapType =
