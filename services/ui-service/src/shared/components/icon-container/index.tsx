@@ -9,7 +9,7 @@ interface IconContainerProps {
 const IconContainer = ({ ai, children }: IconContainerProps) => {
   return (
     <div
-      className={`p-2 bg-primary rounded-xl ${ai ? "ui-soft-gradient text-white" : "text-black"}`}
+      className={`p-2 bg-primary rounded-full ${ai ? "ui-soft-gradient text-white" : "text-black"}`}
     >
       {children}
     </div>
