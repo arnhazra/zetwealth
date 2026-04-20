@@ -17,7 +17,7 @@ export default function Error({ error }: { error?: Error }) {
         <CardHeader>
           <CardTitle className="text-2xl">Error</CardTitle>
           <CardDescription className="text-white break-all">
-            {error?.message ?? "Seems like an error occured here, click retry"}
+            Seems like an error occured here
           </CardDescription>
         </CardHeader>
         <CardFooter>
