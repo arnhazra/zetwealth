@@ -47,8 +47,6 @@ export class AuthGuard implements CanActivate {
         )
       ).shift()
 
-      console.log(subscriptionResponse)
-
       if (!userResponse || !userResponse.length) {
         throw new UnauthorizedException(statusMessages.invalidUser)
       }
