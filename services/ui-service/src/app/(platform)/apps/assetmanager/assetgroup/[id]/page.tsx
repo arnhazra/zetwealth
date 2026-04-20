@@ -21,11 +21,12 @@ import { useUserContext } from "@/context/user.provider"
 import { buildQueryUrl } from "@/shared/lib/build-url"
 import api from "@/shared/lib/ky-api"
 import Link from "next/link"
+import { formatCurrency } from "@/shared/lib/format-currency"
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id: assetgroupId = "" } = use(params)
   const router = useRouter()
-  const [{ searchKeyword }] = useUserContext()
+  const [{ searchKeyword, user }] = useUserContext()
   const { confirm } = useConfirmContext()
 
   const assetgroup = useQuery<AssetGroup>({
@@ -84,7 +85,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </IconContainer>
           }
           title={assetgroup.data?.assetgroupName || ""}
-          content="ASSET GROUP"
+          content={`Valuation: ${formatCurrency(assetgroup.data?.currentValuation ?? 0, user.baseCurrency)}`}
           actionComponents={[
             <Link
               href={`/apps/assetmanager/createoreditassetgroup?id=${assetgroupId}`}
