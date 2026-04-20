@@ -1,6 +1,6 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs"
 import { FindAssetsByAssetGroupQuery } from "../impl/find-assets-by-assetgroup.query"
-import { AssetRepository } from "../../asset.repository"
+import { AssetRepository } from "../../repositories/asset.repository"
 import {
   createOrConvertObjectId,
   QueryFilter,

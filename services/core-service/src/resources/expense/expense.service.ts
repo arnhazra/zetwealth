@@ -8,8 +8,6 @@ import { CreateExpenseRequestDto } from "./dto/request/create-expense.request.dt
 import { UpdateExpenseCommand } from "./commands/impl/update-expense.command"
 import { FindExpensesByUserQuery } from "./queries/impl/find-expense-by-user.query"
 import { FindExpenseByIdQuery } from "./queries/impl/find-expense-by-id.query"
-import { OnEvent } from "@nestjs/event-emitter"
-import { AppEventMap } from "@/shared/constants/app-events.map"
 import { ExpenseCategory } from "@/shared/constants/types"
 
 @Injectable()

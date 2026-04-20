@@ -1,6 +1,6 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs"
 import { FindAssetsByUserQuery } from "../impl/find-assets-by-user.query"
-import { AssetRepository } from "../../asset.repository"
+import { AssetRepository } from "../../repositories/asset.repository"
 import { createOrConvertObjectId } from "@/shared/entity/entity.schema"
 
 @QueryHandler(FindAssetsByUserQuery)

@@ -1,5 +1,5 @@
 import { ICommandHandler, CommandHandler } from "@nestjs/cqrs"
-import { AssetRepository } from "../../asset.repository"
+import { AssetRepository } from "../../repositories/asset.repository"
 import { createOrConvertObjectId } from "@/shared/entity/entity.schema"
 import { UpdateAssetCommand } from "../impl/update-asset.command"
 

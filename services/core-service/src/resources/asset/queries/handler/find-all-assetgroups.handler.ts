@@ -1,11 +1,11 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs"
 import { FindAllAssetGroupQuery } from "../impl/find-all-assetgroups.query"
-import { AssetGroupRepository } from "../../assetgroup.repository"
+import { AssetGroupRepository } from "../../../asset/repositories/assetgroup.repository"
 import {
   createOrConvertObjectId,
   QueryFilter,
 } from "@/shared/entity/entity.schema"
-import { AssetGroup } from "../../schemas/assetgroup.schema"
+import { AssetGroup } from "../../../asset/schemas/assetgroup.schema"
 
 @QueryHandler(FindAllAssetGroupQuery)
 export class FindAllAssetGroupQueryHandler implements IQueryHandler<FindAllAssetGroupQuery> {

@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common"
-import { Asset } from "./schemas/asset.schema"
+import { Asset } from "../schemas/asset.schema"
 import { DbConnectionMap } from "@/shared/entity/entity-db-connection.map"
 import {
   EntityModel,

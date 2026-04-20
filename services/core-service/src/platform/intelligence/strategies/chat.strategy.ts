@@ -10,7 +10,6 @@ import { Thread } from "../schemas/thread.schema"
 import { User } from "@/auth/schemas/user.schema"
 import { DebtAgent } from "@/resources/debt/debt.agent"
 import { GoalAgent } from "@/resources/goal/goal.agent"
-import { AssetGroupAgent } from "@/resources/assetgroup/assetgroup.agent"
 import { AssetAgent } from "@/resources/asset/asset.agent"
 import { ExpenseAgent } from "@/resources/expense/expense.agent"
 import { LLMService } from "@/shared/llm/llm.service"
@@ -32,7 +31,6 @@ export interface ChatArgs {
 @Injectable()
 export class ChatStrategy {
   constructor(
-    private readonly assetgroupAgent: AssetGroupAgent,
     private readonly assetAgent: AssetAgent,
     private readonly goalAgent: GoalAgent,
     private readonly debtAgent: DebtAgent,
@@ -60,9 +58,9 @@ export class ChatStrategy {
     return createAgent({
       model: llm,
       tools: [
-        this.assetgroupAgent.createAssetGroupTool,
-        this.assetgroupAgent.getAssetGroupListTool,
-        this.assetgroupAgent.getAssetGroupValuationTool,
+        this.assetAgent.createAssetGroupTool,
+        this.assetAgent.getAssetGroupListTool,
+        this.assetAgent.getAssetGroupValuationTool,
         this.assetAgent.getAssetTypesTool,
         this.assetAgent.getTotalAssetTool,
         this.assetAgent.getAssetListTool,

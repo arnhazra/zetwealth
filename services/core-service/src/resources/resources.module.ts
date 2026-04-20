@@ -7,7 +7,6 @@ import { EventModule } from "./event/event.module"
 import { EntityModule } from "@/shared/entity/entity.module"
 import { config } from "@/config"
 import { DbConnectionMap } from "@/shared/entity/entity-db-connection.map"
-import { AssetGroupModule } from "./assetgroup/assetgroup.module"
 import { AssetModule } from "./asset/asset.module"
 
 @Module({
@@ -16,13 +15,12 @@ import { AssetModule } from "./asset/asset.module"
       config.AZURE_COSMOS_DB_CONNECTION_STRING,
       DbConnectionMap.Resource
     ),
-    AssetGroupModule,
     AssetModule,
-    ExpenseModule,
-    GoalModule,
-    DebtModule,
     CashFlowModule,
+    DebtModule,
+    ExpenseModule,
     EventModule,
+    GoalModule,
   ],
 })
 export class ResourceModule {}

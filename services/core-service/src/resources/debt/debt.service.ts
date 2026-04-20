@@ -8,8 +8,6 @@ import { CreateDebtRequestDto } from "./dto/request/create-debt.request.dto"
 import { UpdateDebtCommand } from "./commands/impl/update-debt.command"
 import { FindDebtsByUserQuery } from "./queries/impl/find-debt-by-user.query"
 import { FindDebtByIdQuery } from "./queries/impl/find-debt-by-id.query"
-import { OnEvent } from "@nestjs/event-emitter"
-import { AppEventMap } from "@/shared/constants/app-events.map"
 import { calculateDebtDetails } from "./helpers/calculate-debt"
 
 @Injectable()

@@ -1,4 +1,4 @@
-import { AssetGroup } from "../../assetgroup/schemas/assetgroup.schema"
+import { AssetGroup } from "./assetgroup.schema"
 import { User } from "@/auth/schemas/user.schema"
 import { AssetType, RecurringFrequency } from "@/shared/constants/types"
 import {

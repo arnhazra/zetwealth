@@ -12,7 +12,6 @@ import { HttpModule } from "@nestjs/axios"
 import { ChatStrategy } from "./strategies/chat.strategy"
 import { AuthModule } from "@/auth/auth.module"
 import { AssetModule } from "@/resources/asset/asset.module"
-import { AssetGroupModule } from "@/resources/assetgroup/assetgroup.module"
 import { CashFlowModule } from "@/resources/cashflow/cashflow.module"
 import { DebtModule } from "@/resources/debt/debt.module"
 import { GoalModule } from "@/resources/goal/goal.module"
@@ -25,7 +24,6 @@ import { ExpenseModule } from "@/resources/expense/expense.module"
     CqrsModule,
     AuthModule,
     AssetModule,
-    AssetGroupModule,
     CashFlowModule,
     DebtModule,
     GoalModule,
