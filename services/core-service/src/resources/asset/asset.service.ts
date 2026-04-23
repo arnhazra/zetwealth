@@ -267,12 +267,12 @@ export class AssetService {
   async calculateTotalAssetValuation(
     dto: z.output<typeof GetTotalAssetValuationSchema>
   ) {
-    const reqUserId = typeof dto === "string" ? dto : dto.userId
+    const { userId } = dto
     try {
       const assets = await this.queryBus.execute<
         FindAssetsByUserQuery,
         Asset[]
-      >(new FindAssetsByUserQuery(reqUserId))
+      >(new FindAssetsByUserQuery(userId))
 
       const valuations = await Promise.all(
         assets.map((asset) => this.calculateAssetValuation(asset))
@@ -306,17 +306,12 @@ export class AssetService {
       "List all asset groups for a user with their current valuations and asset counts",
     schema: GetAssetGroupListSchema,
   })
-  async findMyAssetGroups(
-    dto: z.output<typeof GetAssetGroupListSchema>,
-    searchKeyword?: string
-  ) {
-    const userId = typeof dto === "string" ? dto : dto.userId
-    const keyword = typeof dto === "string" ? searchKeyword : dto.searchKeyword
-
+  async findMyAssetGroups(dto: z.output<typeof GetAssetGroupListSchema>) {
+    const { userId, searchKeyword } = dto
     const assetgroups = await this.queryBus.execute<
       FindAllAssetGroupQuery,
       AssetGroup[]
-    >(new FindAllAssetGroupQuery(userId, keyword))
+    >(new FindAllAssetGroupQuery(userId, searchKeyword))
 
     return await Promise.all(
       assetgroups.map(async (assetgroup) => {
