@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 3.6.0
+
+- Major change in Intelligence with dynamic multi agent architecture
+- Introduced One Pricing plan
+- Code refactoring, bug fixes
+
 ## Version 3.5.0
 
 - Removed custom request analytics
