@@ -201,7 +201,7 @@ export default function Intelligence() {
             )}
 
             {isLoading && messages[messages.length - 1] === "" && (
-              <div className="ms-2 text-sm font-medium bg-gradient-to-r from-gray-400 via-white to-gray-400 bg-[length:200%_100%] bg-clip-text text-transparent animate-shimmer">
+              <div className="ms-3 text-sm font-medium bg-gradient-to-r from-gray-400 via-white to-gray-400 bg-[length:200%_100%] bg-clip-text text-transparent animate-shimmer">
                 Generating ...
               </div>
             )}
