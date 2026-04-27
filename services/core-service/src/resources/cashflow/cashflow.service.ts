@@ -128,7 +128,7 @@ export class CashFlowService {
     await this.assetService.updateAssetById(
       stringifiedUserId,
       stringifiedAssetId,
-      updatePayload
+      { data: updatePayload }
     )
 
     cashflow.nextExecutionAt = computeNextDate(cashflow)

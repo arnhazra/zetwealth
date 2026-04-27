@@ -1,8 +1,8 @@
 export const DbConnectionMap = {
-  Auth: "auth",
-  Platform: "platform",
-  Intelligence: "intelligence",
-  Resource: "resource",
+  Auth: "dev_auth",
+  Platform: "dev_platform",
+  Intelligence: "dev_intelligence",
+  Resource: "dev_resource",
 } as const
 
 export type DbConnectionMapType =

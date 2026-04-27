@@ -1,6 +1,7 @@
 import { z } from "zod"
 import { AssetType, RecurringFrequency } from "@/shared/constants/types"
 import { dateString } from "@/shared/validators/zod.validators"
+import { createZodDto } from "nestjs-zod"
 
 const BaseAssetSchema = z.object({
   assetgroupId: z.string().min(1),
@@ -86,4 +87,7 @@ export const CreateAssetSchema = z.discriminatedUnion("assetType", [
   OtherSchema,
 ])
 
-export type CreateAssetRequestDto = z.infer<typeof CreateAssetSchema>
+const WrappedSchema = z.object({
+  data: CreateAssetSchema,
+})
+export class CreateAssetRequestDto extends createZodDto(WrappedSchema) {}
