@@ -30,8 +30,7 @@ import { AgentTool } from "@/intelligence/agent/agent.decorator"
 import {
   GetAssetGroupListSchema,
   GetAssetGroupValuationSchema,
-  GetTotalAssetValuationSchema,
-} from "./dto/request/assetagent.schema"
+} from "./dto/request/other.request.dto"
 import { z } from "zod"
 import { BaseAgentSchema } from "@/intelligence/agent/agent.schema"
 
@@ -264,11 +263,9 @@ export class AssetService {
     name: "get_total_asset_valuation",
     description:
       "Calculate and return the total current valuation of all assets for a user",
-    schema: GetTotalAssetValuationSchema,
+    schema: BaseAgentSchema,
   })
-  async calculateTotalAssetValuation(
-    dto: z.output<typeof GetTotalAssetValuationSchema>
-  ) {
+  async calculateTotalAssetValuation(dto: z.output<typeof BaseAgentSchema>) {
     const { userId } = dto
     try {
       const assets = await this.queryBus.execute<

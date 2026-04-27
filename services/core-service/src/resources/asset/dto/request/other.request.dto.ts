@@ -12,7 +12,3 @@ export const GetAssetGroupValuationSchema = z.object({
   userId: z.string().describe("user id of the user"),
   assetgroupName: z.string().describe("assetgroup name given by the user"),
 })
-
-export const GetTotalAssetValuationSchema = z.object({
-  userId: z.string().describe("user id of the user"),
-})
