@@ -1,7 +1,9 @@
-import { IsNotEmpty } from "class-validator"
+import { z } from "zod"
+import { createZodDto } from "nestjs-zod"
 
-export class ChatDto {
-  @IsNotEmpty()
-  prompt: string
-  threadId: string
-}
+export const ChatSchema = z.object({
+  prompt: z.string().min(1),
+  threadId: z.string().optional(),
+})
+
+export class ChatDto extends createZodDto(ChatSchema) {}

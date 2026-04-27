@@ -1,8 +1,9 @@
-import { IsNotEmpty } from "class-validator"
+import { z } from "zod"
+import { createZodDto } from "nestjs-zod"
 
-export class DeleteTokenDto {
-  @IsNotEmpty()
-  userId: string
+export const DeleteTokenSchema = z.object({
+  userId: z.string().min(1),
+  token: z.string().optional(),
+})
 
-  token?: string
-}
+export class DeleteTokenDto extends createZodDto(DeleteTokenSchema) {}

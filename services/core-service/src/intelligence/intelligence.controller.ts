@@ -14,6 +14,7 @@ import { IntelligenceService } from "./intelligence.service"
 import { ChatDto } from "./dto/chat.dto"
 import { AuthGuard, ModRequest } from "@/auth/auth.guard"
 import { statusMessages } from "@/shared/constants/status-messages"
+import setSSEHeaders from "./utils/header-util"
 
 @Controller("intelligence")
 export class IntelligenceController {
@@ -41,12 +42,8 @@ export class IntelligenceController {
     @Body() chatDto: ChatDto,
     @Res() res: Response
   ) {
-    res.setHeader("Content-Type", "text/event-stream")
-    res.setHeader("Cache-Control", "no-cache")
-    res.setHeader("Connection", "keep-alive")
-    res.flushHeaders()
-
     try {
+      setSSEHeaders(res)
       for await (const event of this.service.chatStream(
         chatDto,
         request.user.userId

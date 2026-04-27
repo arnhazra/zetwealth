@@ -1,16 +1,15 @@
+import { z } from "zod"
+import { createZodDto } from "nestjs-zod"
 import { ExpenseCategory } from "@/shared/constants/types"
-import { IsNumber, IsEnum, IsNotEmpty, Matches } from "class-validator"
+import { dateString } from "@/shared/validators/zod.validators"
 
-export class CreateExpenseRequestDto {
-  title?: string
+export const CreateExpenseSchema = z.object({
+  title: z.string().optional(),
+  expenseAmount: z.number(),
+  expenseCategory: z.enum(ExpenseCategory),
+  expenseDate: dateString,
+})
 
-  @IsNumber()
-  expenseAmount: number
-
-  @IsNotEmpty()
-  @IsEnum(ExpenseCategory)
-  expenseCategory: ExpenseCategory
-
-  @Matches(/^\d{4}-\d{2}-\d{2}$/)
-  expenseDate: string
-}
+export class CreateExpenseRequestDto extends createZodDto(
+  CreateExpenseSchema
+) {}

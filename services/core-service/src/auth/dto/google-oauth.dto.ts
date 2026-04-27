@@ -1,6 +1,8 @@
-import { IsNotEmpty } from "class-validator"
+import { z } from "zod"
+import { createZodDto } from "nestjs-zod"
 
-export class GoogleOAuthDto {
-  @IsNotEmpty()
-  readonly code: string
-}
+export const GoogleOAuthSchema = z.object({
+  code: z.string().min(1),
+})
+
+export class GoogleOAuthDto extends createZodDto(GoogleOAuthSchema) {}

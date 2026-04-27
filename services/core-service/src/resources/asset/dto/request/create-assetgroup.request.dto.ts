@@ -1,6 +1,10 @@
-import { IsNotEmpty } from "class-validator"
+import { z } from "zod"
+import { createZodDto } from "nestjs-zod"
 
-export class CreateAssetGroupRequestDto {
-  @IsNotEmpty()
-  assetgroupName: string
-}
+export const CreateAssetGroupSchema = z.object({
+  assetgroupName: z.string().min(1),
+})
+
+export class CreateAssetGroupRequestDto extends createZodDto(
+  CreateAssetGroupSchema
+) {}

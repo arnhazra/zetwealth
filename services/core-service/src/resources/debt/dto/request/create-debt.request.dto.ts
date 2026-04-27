@@ -1,23 +1,14 @@
-import { IsNotEmpty, IsNumber, IsString, Matches } from "class-validator"
+import { z } from "zod"
+import { createZodDto } from "nestjs-zod"
+import { dateString } from "@/shared/validators/zod.validators"
 
-export class CreateDebtRequestDto {
-  @IsNotEmpty()
-  @IsString()
-  debtPurpose: string
+export const CreateDebtSchema = z.object({
+  debtPurpose: z.string().min(1),
+  identifier: z.string().min(1),
+  startDate: dateString,
+  endDate: dateString,
+  principalAmount: z.number(),
+  interestRate: z.number(),
+})
 
-  @IsNotEmpty()
-  @IsString()
-  identifier: string
-
-  @Matches(/^\d{4}-\d{2}-\d{2}$/)
-  startDate: string
-
-  @Matches(/^\d{4}-\d{2}-\d{2}$/)
-  endDate: string
-
-  @IsNumber()
-  principalAmount: number
-
-  @IsNumber()
-  interestRate: number
-}
+export class CreateDebtRequestDto extends createZodDto(CreateDebtSchema) {}

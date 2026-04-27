@@ -18,6 +18,10 @@ import {
   FindCashflowsSchema,
 } from "./schemas/cashflowagent.schema"
 import { z } from "zod"
+import {
+  LiquidSchema,
+  RetirementSchema,
+} from "../asset/dto/request/create-asset.request.dto"
 
 @Injectable()
 export class CashFlowService {
@@ -108,14 +112,23 @@ export class CashFlowService {
         : -cashflow.amount
 
     const { assetgroupId, currentValuation, ...rest } = targetAsset
+    const stringifiedUserId = String(targetAsset.userId)
+    const stringifiedAssetId = String(targetAsset._id)
+
+    const updatePayload: z.infer<
+      typeof LiquidSchema | typeof RetirementSchema
+    > = {
+      assetName: targetAsset.assetName,
+      assetgroupId: String(assetgroupId),
+      currentValuation: targetAsset.currentValuation + delta,
+      identifier: targetAsset.identifier,
+      assetType: targetAsset.assetType as any,
+    }
+
     await this.assetService.updateAssetById(
-      String(targetAsset.userId),
-      String(targetAsset._id),
-      {
-        ...rest,
-        assetgroupId: String(targetAsset.assetgroupId),
-        currentValuation: targetAsset.currentValuation + delta,
-      }
+      stringifiedUserId,
+      stringifiedAssetId,
+      updatePayload
     )
 
     cashflow.nextExecutionAt = computeNextDate(cashflow)

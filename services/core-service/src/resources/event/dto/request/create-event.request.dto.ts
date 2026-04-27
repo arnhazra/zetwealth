@@ -1,9 +1,10 @@
-import { IsNotEmpty, Matches } from "class-validator"
+import { z } from "zod"
+import { createZodDto } from "nestjs-zod"
+import { dateString } from "@/shared/validators/zod.validators"
 
-export class CreateEventRequestDto {
-  @Matches(/^\d{4}-\d{2}-\d{2}$/)
-  eventDate: string
+export const CreateEventSchema = z.object({
+  eventDate: dateString,
+  eventName: z.string().min(1),
+})
 
-  @IsNotEmpty()
-  eventName: string
-}
+export class CreateEventRequestDto extends createZodDto(CreateEventSchema) {}

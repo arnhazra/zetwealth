@@ -1,16 +1,14 @@
+import { z } from "zod"
+import { createZodDto } from "nestjs-zod"
 import { ExpenseCategory } from "@/shared/constants/types"
-import { IsOptional, IsString, IsEnum } from "class-validator"
+import { monthString } from "@/shared/validators/zod.validators"
 
-export class FindMyExpensesQueryDto {
-  @IsOptional()
-  @IsString()
-  month?: string
+export const FindMyExpensesQuerySchema = z.object({
+  month: monthString.optional(),
+  searchKeyword: z.string().optional(),
+  category: z.enum(ExpenseCategory).optional(),
+})
 
-  @IsOptional()
-  @IsString()
-  searchKeyword?: string
-
-  @IsOptional()
-  @IsString()
-  category?: ExpenseCategory
-}
+export class FindMyExpensesQueryDto extends createZodDto(
+  FindMyExpensesQuerySchema
+) {}

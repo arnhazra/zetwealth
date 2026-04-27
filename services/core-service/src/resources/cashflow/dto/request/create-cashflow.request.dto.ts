@@ -1,22 +1,17 @@
-import { IsNumber, IsNotEmpty, IsEnum, Matches } from "class-validator"
+import { z } from "zod"
+import { createZodDto } from "nestjs-zod"
 import { FlowDirection, FlowFrequency } from "../../schemas/cashflow.schema"
+import { dateString } from "@/shared/validators/zod.validators"
 
-export class CreateCashFlowRequestDto {
-  @IsNotEmpty()
-  description: string
+export const CreateCashFlowSchema = z.object({
+  description: z.string().min(1),
+  targetAsset: z.string().min(1),
+  flowDirection: z.enum(FlowDirection),
+  amount: z.number(),
+  frequency: z.enum(FlowFrequency),
+  nextExecutionAt: dateString,
+})
 
-  @IsNotEmpty()
-  targetAsset: string
-
-  @IsEnum(FlowDirection)
-  flowDirection: FlowDirection
-
-  @IsNumber()
-  amount: number
-
-  @IsEnum(FlowFrequency)
-  frequency: FlowFrequency
-
-  @Matches(/^\d{4}-\d{2}-\d{2}$/)
-  nextExecutionAt: string
-}
+export class CreateCashFlowRequestDto extends createZodDto(
+  CreateCashFlowSchema
+) {}
