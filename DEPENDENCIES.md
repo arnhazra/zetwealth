@@ -3,8 +3,7 @@
 - @aws-crypto/sha256-js: AWS Crypto library for computing SHA-256 hashes in JavaScript.
 - @langchain/openai: Langchain integration with OpenAI models for efficient indexing and querying.
 - @nestjs: Fast backend framework for nodejs to build APIs, providing a robust structure for web applications.
-- class-transformer: Library for transforming plain JavaScript objects to class constructors and vice versa.
-- class-validator: Validation library for TypeScript and JavaScript that works both on the frontend and backend.
+- nestjs-zod: Validation library for TypeScript and JavaScript that works both on the frontend and backend.
 - dotenv: Loads environment variables from a .env file, enabling configuration management.
 - googleapis: Official Google library for interacting with Google APIs, including OAuth2 for authentication and authorization.
 - jsonwebtoken: Generates and validates JSON Web Tokens (JWTs) for user authentication and authorization in web applications.
