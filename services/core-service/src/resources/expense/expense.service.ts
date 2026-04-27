@@ -4,17 +4,17 @@ import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { Expense } from "./schemas/expense.schema"
 import { DeleteExpenseCommand } from "./commands/impl/delete-expense.command"
 import { CreateExpenseCommand } from "./commands/impl/create-expense.command"
-import { CreateExpenseRequestDto } from "./dto/request/create-expense.request.dto"
+import {
+  CreateExpenseRequestDto,
+  CreateExpenseServiceSchema,
+} from "./dto/request/create-expense.request.dto"
 import { UpdateExpenseCommand } from "./commands/impl/update-expense.command"
 import { FindExpensesByUserQuery } from "./queries/impl/find-expense-by-user.query"
 import { FindExpenseByIdQuery } from "./queries/impl/find-expense-by-id.query"
 import { ExpenseCategory } from "@/shared/constants/types"
 import { z } from "zod"
 import { AgentTool } from "@/intelligence/agent/agent.decorator"
-import {
-  CreateExpenseSchema,
-  GetExpensesByUserSchema,
-} from "./schemas/expenseagent.schema"
+import { FindMyExpensesServiceSchema } from "./dto/request/find-my-expenses.request.dto"
 
 @Injectable()
 export class ExpenseService {
@@ -34,9 +34,9 @@ export class ExpenseService {
   @AgentTool({
     name: "create_expense",
     description: "Create a new expense for a user",
-    schema: CreateExpenseSchema,
+    schema: CreateExpenseServiceSchema,
   })
-  async createExpense(dto: z.output<typeof CreateExpenseSchema>) {
+  async createExpense(dto: z.output<typeof CreateExpenseServiceSchema>) {
     try {
       const { userId, ...rest } = dto
       return await this.commandBus.execute<CreateExpenseCommand, Expense>(
@@ -50,9 +50,9 @@ export class ExpenseService {
   @AgentTool({
     name: "get_expenses_by_month",
     description: "List down expenses for an user for any given month",
-    schema: GetExpensesByUserSchema,
+    schema: FindMyExpensesServiceSchema,
   })
-  async findMyExpenses(dto: z.output<typeof GetExpensesByUserSchema>) {
+  async findMyExpenses(dto: z.output<typeof FindMyExpensesServiceSchema>) {
     try {
       const { userId, monthFilter, searchKeyword, expenseCategory } = dto
       return await this.queryBus.execute<FindExpensesByUserQuery>(

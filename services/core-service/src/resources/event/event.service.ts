@@ -4,7 +4,10 @@ import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { Event } from "./schemas/event.schema"
 import { DeleteEventCommand } from "./commands/impl/delete-event.command"
 import { CreateEventCommand } from "./commands/impl/create-event.command"
-import { CreateEventRequestDto } from "./dto/request/create-event.request.dto"
+import {
+  CreateEventRequestDto,
+  CreateEventServiceSchema,
+} from "./dto/request/create-event.request.dto"
 import { FindEventsByUserQuery } from "./queries/impl/find-event-by-user.query"
 import { Expense } from "@/resources/expense/schemas/expense.schema"
 import { formatCurrency } from "@/platform/widget/lib/format-currency"
@@ -19,12 +22,9 @@ import { ExpenseService } from "../expense/expense.service"
 import { GoalService } from "../goal/goal.service"
 import { CashFlowService } from "../cashflow/cashflow.service"
 import { AgentTool } from "@/intelligence/agent/agent.decorator"
-import {
-  CreateEventSchema,
-  GetEventByMonthSchema,
-} from "./schemas/eventagent.schema"
 import { z } from "zod"
 import { CalendarEvent } from "./dto/response/event-response.dto"
+import { FindEventByMonthServiceSchema } from "./dto/request/find-event.request.dto"
 
 @Injectable()
 export class EventService {
@@ -43,9 +43,9 @@ export class EventService {
   @AgentTool({
     name: "create_event",
     description: "Create a new event for a user",
-    schema: CreateEventSchema,
+    schema: CreateEventServiceSchema,
   })
-  async createEvent(dto: z.output<typeof CreateEventSchema>) {
+  async createEvent(dto: z.output<typeof CreateEventServiceSchema>) {
     try {
       const { userId, ...rest } = dto
       return await this.commandBus.execute<CreateEventCommand, Event>(
@@ -59,9 +59,11 @@ export class EventService {
   @AgentTool({
     name: "get_events_by_month",
     description: "List down events for an user for any given month",
-    schema: GetEventByMonthSchema,
+    schema: FindEventByMonthServiceSchema,
   })
-  async findMyEventsByMonth(dto: z.output<typeof GetEventByMonthSchema>) {
+  async findMyEventsByMonth(
+    dto: z.output<typeof FindEventByMonthServiceSchema>
+  ) {
     try {
       const { userId, eventMonth } = dto
       const events = await this.queryBus.execute<

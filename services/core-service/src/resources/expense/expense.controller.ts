@@ -15,7 +15,7 @@ import { ExpenseService } from "./expense.service"
 import { statusMessages } from "@/shared/constants/status-messages"
 import { AuthGuard, ModRequest } from "@/auth/auth.guard"
 import { CreateExpenseRequestDto } from "./dto/request/create-expense.request.dto"
-import { FindMyExpensesQueryDto } from "./dto/request/find-my-expenses.request.dto"
+import { FindMyExpensesDto } from "./dto/request/find-my-expenses.request.dto"
 
 @Controller("resource/expense")
 export class ExpenseController {
@@ -41,7 +41,7 @@ export class ExpenseController {
   @Get()
   async findMyExpenses(
     @Request() request: ModRequest,
-    @Query() dto: FindMyExpensesQueryDto
+    @Query() dto: FindMyExpensesDto
   ) {
     try {
       const { userId } = request.user
