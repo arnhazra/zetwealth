@@ -4,18 +4,18 @@ import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { Debt } from "./schemas/debt.schema"
 import { DeleteDebtCommand } from "./commands/impl/delete-debt.command"
 import { CreateDebtCommand } from "./commands/impl/create-debt.command"
-import { CreateDebtRequestDto } from "./dto/request/create-debt.request.dto"
+import {
+  CreateDebtRequestDto,
+  CreateDebtServiceSchema,
+} from "./dto/request/create-debt.request.dto"
 import { UpdateDebtCommand } from "./commands/impl/update-debt.command"
 import { FindDebtsByUserQuery } from "./queries/impl/find-debt-by-user.query"
 import { FindDebtByIdQuery } from "./queries/impl/find-debt-by-id.query"
 import { calculateDebtDetails } from "./helpers/calculate-debt"
 import { AgentTool } from "@/intelligence/agent/agent.decorator"
-import {
-  CreateDebtInputSchema,
-  GetDebtListInputSchema,
-} from "./schemas/debtagent.schema"
 import { z } from "zod"
 import { BaseAgentSchema } from "@/intelligence/agent/agent.schema"
+import { FindDebtListServiceSchema } from "./dto/request/find-debts.request.dto"
 
 @Injectable()
 export class DebtService {
@@ -27,9 +27,9 @@ export class DebtService {
   @AgentTool({
     name: "create_debt",
     description: "Create a new debt for a user",
-    schema: CreateDebtInputSchema,
+    schema: CreateDebtServiceSchema,
   })
-  async createDebt(dto: z.output<typeof CreateDebtInputSchema>) {
+  async createDebt(dto: z.output<typeof CreateDebtServiceSchema>) {
     try {
       const { userId, ...rest } = dto
       return await this.commandBus.execute<CreateDebtCommand, Debt>(
@@ -43,9 +43,9 @@ export class DebtService {
   @AgentTool({
     name: "get_debt_list",
     description: "List down all the debts for a user",
-    schema: GetDebtListInputSchema,
+    schema: FindDebtListServiceSchema,
   })
-  async findMyDebts(dto: z.output<typeof GetDebtListInputSchema>) {
+  async findMyDebts(dto: z.output<typeof FindDebtListServiceSchema>) {
     try {
       const { userId, searchKeyword } = dto
       const debts = await this.queryBus.execute<FindDebtsByUserQuery, Debt[]>(
