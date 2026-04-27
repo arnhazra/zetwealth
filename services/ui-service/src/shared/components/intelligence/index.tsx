@@ -19,7 +19,7 @@ import { suggestedPrompts } from "./data"
 import { Badge } from "../ui/badge"
 import { Thread } from "@/shared/constants/types"
 import IconContainer from "../icon-container"
-import { streamChatResponse } from "@/shared/lib/stream-response"
+import { streamConversationResponse } from "@/shared/lib/stream-response"
 import { useUserContext } from "@/context/user.provider"
 import useQuery from "@/shared/hooks/use-query"
 import HTTPMethods from "@/shared/constants/http-methods"
@@ -57,7 +57,7 @@ export default function Intelligence() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
 
-  const invokeChatAPI = async (userPrompt: string) => {
+  const invokeConversationAPI = async (userPrompt: string) => {
     const latestThreadId = sessionStorage.getItem("thread_id")
     setMessages((prev) => [...prev, userPrompt ?? ""])
     setPrompt("")
@@ -66,8 +66,8 @@ export default function Intelligence() {
     setMessages((prevMessages) => [...prevMessages, ""])
 
     try {
-      await streamChatResponse(
-        `${endPoints.intelligence}/chat`,
+      await streamConversationResponse(
+        `${endPoints.intelligence}/conversation`,
         {
           prompt: userPrompt,
           threadId: latestThreadId ?? undefined,
@@ -98,7 +98,7 @@ export default function Intelligence() {
     }
   }
 
-  const clearChat = () => {
+  const clearConversation = () => {
     setMessages([])
     sessionStorage.removeItem("thread_id")
   }
@@ -159,7 +159,7 @@ export default function Intelligence() {
                     className="text-theme-200 bg-theme-800 hover:bg-border p-1 ps-4 pe-4 ms-2 mb-2 cursor-pointer"
                     onClick={(): void => {
                       setPrompt(item)
-                      invokeChatAPI(item)
+                      invokeConversationAPI(item)
                     }}
                   >
                     {item}
@@ -216,18 +216,18 @@ export default function Intelligence() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={clearChat}
+                onClick={clearConversation}
                 className="text-xs text-theme-400 hover:text-white bg-transparent hover:bg-transparent mb-2"
               >
                 <BadgeMinus className="h-3 w-3 mr-1" />
-                Clear Chat
+                Clear Conversation
               </Button>
             </Show>
           </div>
           <form
             onSubmit={(e) => {
               e.preventDefault()
-              invokeChatAPI(prompt)
+              invokeConversationAPI(prompt)
             }}
           >
             <div className="w-full max-w-4xl mx-auto">

@@ -2,9 +2,12 @@ import { Injectable } from "@nestjs/common"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { CreateThreadCommand } from "./commands/impl/create-thread.command"
 import { Thread } from "./schemas/thread.schema"
-import { ChatDto } from "./dto/chat.dto"
+import { ConversationDto } from "./dto/conversation.dto"
 import { FetchThreadByIdQuery } from "./queries/impl/fetch-thread-by-id.query"
-import { ChatArgs, IntelligenceOrchestrator } from "./intelligence.orchestrator"
+import {
+  ConversationArgs,
+  IntelligenceOrchestrator,
+} from "./intelligence.orchestrator"
 import { createOrConvertObjectId } from "@/shared/entity/entity.schema"
 import { AuthService } from "@/auth/auth.service"
 
@@ -37,23 +40,23 @@ export class IntelligenceService {
     }
   }
 
-  async *chatStream(
-    chatDto: ChatDto,
+  async *conversation(
+    dto: ConversationDto,
     userId: string
   ): AsyncGenerator<{ type: string; data: string }> {
-    const { prompt } = chatDto
-    const threadId = chatDto.threadId ?? createOrConvertObjectId().toString()
-    const thread = await this.getThreadById(threadId, !chatDto.threadId)
+    const { prompt } = dto
+    const threadId = dto.threadId ?? createOrConvertObjectId().toString()
+    const thread = await this.getThreadById(threadId, !dto.threadId)
     let fullResponse = ""
     const user = await this.authService.findUserById(userId)
 
-    const args: ChatArgs = {
+    const args: ConversationArgs = {
       thread,
       prompt,
       user,
     }
 
-    for await (const token of this.orchestrator.chatStream(args)) {
+    for await (const token of this.orchestrator.conversation(args)) {
       fullResponse += token
       yield { type: "token", data: token }
     }

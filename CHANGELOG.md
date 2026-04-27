@@ -27,8 +27,8 @@
 - Updated cashflow app to have update & delete cashflow functionality
 - Dependency updates, Bug fixes & performance improvements
 - Added detailed architecture & workflows in readme
-- Merged Intelligence Summarizer API to Chat API
-- Removed Intelligence Summarizer modal and integrated summarizer with chat sidebar
+- Merged Intelligence Summarizer API to Conversation API
+- Removed Intelligence Summarizer modal and integrated summarizer with Conversation sidebar
 
 ## Version 3.2.0
 

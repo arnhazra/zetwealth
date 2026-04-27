@@ -11,7 +11,7 @@ import {
 } from "@nestjs/common"
 import { Response } from "express"
 import { IntelligenceService } from "./intelligence.service"
-import { ChatDto } from "./dto/chat.dto"
+import { ConversationDto } from "./dto/conversation.dto"
 import { AuthGuard, ModRequest } from "@/auth/auth.guard"
 import { statusMessages } from "@/shared/constants/status-messages"
 import setSSEHeaders from "./utils/header-util"
@@ -36,16 +36,16 @@ export class IntelligenceController {
   }
 
   @UseGuards(AuthGuard)
-  @Post("chat")
-  async chat(
+  @Post("conversation")
+  async conversation(
     @Request() request: ModRequest,
-    @Body() chatDto: ChatDto,
+    @Body() dto: ConversationDto,
     @Res() res: Response
   ) {
     try {
       setSSEHeaders(res)
-      for await (const event of this.service.chatStream(
-        chatDto,
+      for await (const event of this.service.conversation(
+        dto,
         request.user.userId
       )) {
         res.write(`data: ${JSON.stringify(event)}\n\n`)
