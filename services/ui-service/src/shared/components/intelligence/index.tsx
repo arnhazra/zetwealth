@@ -25,6 +25,7 @@ import useQuery from "@/shared/hooks/use-query"
 import HTTPMethods from "@/shared/constants/http-methods"
 import { colorVars } from "@/shared/styles/color-vars"
 import { PLATFORM_NAME } from "@/shared/constants/config"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 
 export default function Intelligence() {
   const { platformConfig } = usePlatformConfig()
@@ -111,7 +112,7 @@ export default function Intelligence() {
         size="icon"
         className="h-11 w-11 fixed bottom-6 right-6 z-50 text-white ui-soft-gradient text-white rounded-full transition"
       >
-        <Sparkle className="h-4 w-4" />
+        <Sparkle className="h-4 w-4 text-black" />
       </Button>
 
       {isOpen && (
@@ -189,12 +190,12 @@ export default function Intelligence() {
                   </div>
 
                   {index % 2 === 0 && (
-                    <div
-                      className="flex-shrink-0 w-8 h-8 rounded-2xl flex items-center justify-center"
-                      style={{ backgroundColor: colorVars.border }}
-                    >
-                      <User className="h-4 w-4 text-white" />
-                    </div>
+                    <Avatar className="h-5 w-5 cursor-pointer">
+                      <AvatarImage src={user.avatar ?? ""} alt={user.name} />
+                      <AvatarFallback className="bg-theme-800">
+                        <User className="h-4 w-4 text-primary" />
+                      </AvatarFallback>
+                    </Avatar>
                   )}
                 </div>
               )
