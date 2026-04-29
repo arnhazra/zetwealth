@@ -16,8 +16,8 @@ export default function Providers({ children }: { children: ReactNode }) {
     <GoogleOAuthProvider clientId={GOOGLE_OAUTH_CLIENT_ID}>
       <TooltipProvider>
         <FetchProvider>
-          <UserStateProvider>
-            <PlatformConfigProvider>
+          <PlatformConfigProvider>
+            <UserStateProvider>
               <ConfirmProvider>
                 <PromptProvider>{children}</PromptProvider>
               </ConfirmProvider>
@@ -30,8 +30,8 @@ export default function Providers({ children }: { children: ReactNode }) {
                   },
                 }}
               />
-            </PlatformConfigProvider>
-          </UserStateProvider>
+            </UserStateProvider>
+          </PlatformConfigProvider>
         </FetchProvider>
       </TooltipProvider>
     </GoogleOAuthProvider>
