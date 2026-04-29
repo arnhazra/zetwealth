@@ -138,7 +138,7 @@ export function ResourceDetails({
                   size="icon"
                   className="p-2 bg-primary hover:bg-primary"
                 >
-                  <Pen className="text-black h-4 w-4" />
+                  <Pen className="text-black h-4 w-4 text-black" />
                 </Button>
               </Link>
               <Button onClick={deleteResource} variant="secondary" size="icon">

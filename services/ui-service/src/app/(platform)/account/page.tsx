@@ -126,7 +126,7 @@ export default function Page() {
               variant="default"
               size="icon"
             >
-              <Pen className="h-4 w-4" />
+              <Pen className="h-4 w-4 text-black" />
             </Button>,
           ]}
         />
