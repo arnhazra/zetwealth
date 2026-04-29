@@ -1,6 +1,3 @@
 export class FindDebtByIdQuery {
-  constructor(
-    public readonly userId: string,
-    public readonly debtId: string
-  ) {}
+  constructor(public readonly debtId: string) {}
 }

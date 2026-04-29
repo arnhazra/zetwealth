@@ -22,13 +22,13 @@ export class DebtController {
 
   @UseGuards(AuthGuard)
   @Post()
-  async createDebt(
+  async create(
     @Body() dto: CreateDebtRequestDto,
     @Request() request: ModRequest
   ) {
     try {
       const { userId } = request.user
-      return await this.service.createDebt({ userId, ...dto })
+      return await this.service.create({ userId, ...dto })
     } catch (error) {
       throw new BadRequestException(statusMessages.connectionError)
     }
@@ -36,13 +36,13 @@ export class DebtController {
 
   @UseGuards(AuthGuard)
   @Get()
-  async findMyDebts(
+  async findAllByUserId(
     @Request() request: ModRequest,
     @Query("searchKeyword") searchKeyword?: string
   ) {
     try {
       const { userId } = request.user
-      return await this.service.findMyDebts({ userId, searchKeyword })
+      return await this.service.findAllByUserId({ userId, searchKeyword })
     } catch (error) {
       throw new BadRequestException(statusMessages.connectionError)
     }
@@ -50,12 +50,12 @@ export class DebtController {
 
   @UseGuards(AuthGuard)
   @Get("/:debtId")
-  async findDebtById(
+  async findById(
     @Request() request: ModRequest,
     @Param("debtId") debtId: string
   ) {
     try {
-      return await this.service.findDebtById(request.user.userId, debtId)
+      return await this.service.findById(request.user.userId, debtId)
     } catch (error) {
       throw new BadRequestException(statusMessages.connectionError)
     }
@@ -63,13 +63,13 @@ export class DebtController {
 
   @UseGuards(AuthGuard)
   @Put(":debtId")
-  async updateDebtById(
+  async updateById(
     @Body() requestBody: CreateDebtRequestDto,
     @Param("debtId") debtId: string,
     @Request() request: ModRequest
   ) {
     try {
-      return await this.service.updateDebtById(
+      return await this.service.updateById(
         request.user.userId,
         debtId,
         requestBody
@@ -81,12 +81,12 @@ export class DebtController {
 
   @UseGuards(AuthGuard)
   @Delete("/:debtId")
-  async deleteDebt(
+  async deleteById(
     @Request() request: ModRequest,
     @Param("debtId") debtId: string
   ) {
     try {
-      return await this.service.deleteDebt(request.user.userId, debtId)
+      return await this.service.deleteById(request.user.userId, debtId)
     } catch (error) {
       throw new BadRequestException(statusMessages.connectionError)
     }

@@ -16,6 +16,7 @@ import { AgentTool } from "@/intelligence/agent/agent.decorator"
 import { z } from "zod"
 import { BaseAgentSchema } from "@/intelligence/agent/agent.schema"
 import { FindDebtListServiceSchema } from "./dto/request/find-debts.request.dto"
+import { assertOwnership } from "@/shared/utils/assert-ownership"
 
 @Injectable()
 export class DebtService {
@@ -29,7 +30,7 @@ export class DebtService {
     description: "Create a new debt for a user",
     schema: CreateDebtServiceSchema,
   })
-  async createDebt(dto: z.output<typeof CreateDebtServiceSchema>) {
+  async create(dto: z.output<typeof CreateDebtServiceSchema>) {
     try {
       const { userId, ...rest } = dto
       return await this.commandBus.execute<CreateDebtCommand, Debt>(
@@ -45,7 +46,7 @@ export class DebtService {
     description: "List down all the debts for a user",
     schema: FindDebtListServiceSchema,
   })
-  async findMyDebts(dto: z.output<typeof FindDebtListServiceSchema>) {
+  async findAllByUserId(dto: z.output<typeof FindDebtListServiceSchema>) {
     try {
       const { userId, searchKeyword } = dto
       const debts = await this.queryBus.execute<FindDebtsByUserQuery, Debt[]>(
@@ -63,11 +64,12 @@ export class DebtService {
     }
   }
 
-  async findDebtById(reqUserId: string, debtId: string) {
+  async findById(userId: string, debtId: string) {
     try {
       const debt = await this.queryBus.execute<FindDebtByIdQuery, Debt>(
-        new FindDebtByIdQuery(reqUserId, debtId)
+        new FindDebtByIdQuery(debtId)
       )
+      assertOwnership(debt, userId)
       const calculatedDebtDetails = calculateDebtDetails(debt)
       return calculatedDebtDetails
     } catch (error) {
@@ -75,12 +77,13 @@ export class DebtService {
     }
   }
 
-  async updateDebtById(
+  async updateById(
     userId: string,
     debtId: string,
     requestBody: CreateDebtRequestDto
   ) {
     try {
+      await this.findById(userId, debtId)
       return await this.commandBus.execute<UpdateDebtCommand, Debt>(
         new UpdateDebtCommand(userId, debtId, requestBody)
       )
@@ -89,17 +92,11 @@ export class DebtService {
     }
   }
 
-  async deleteDebt(reqUserId: string, debtId: string) {
+  async deleteById(userId: string, debtId: string) {
     try {
-      const { userId } = await this.queryBus.execute<FindDebtByIdQuery, Debt>(
-        new FindDebtByIdQuery(reqUserId, debtId)
-      )
-      if (userId.toString() === reqUserId) {
-        await this.commandBus.execute(new DeleteDebtCommand(debtId))
-        return { success: true }
-      }
-
-      throw new Error(statusMessages.connectionError)
+      await this.findById(userId, debtId)
+      await this.commandBus.execute(new DeleteDebtCommand(debtId))
+      return { success: true }
     } catch (error) {
       throw new Error(statusMessages.connectionError)
     }
@@ -113,7 +110,7 @@ export class DebtService {
   async calculateTotalDebt(dto: z.output<typeof BaseAgentSchema>) {
     try {
       const { userId } = dto
-      const debts = await this.findMyDebts({ userId })
+      const debts = await this.findAllByUserId({ userId })
 
       const remainingDebt = debts.reduce(
         (sum, val) => sum + val.remainingTotal,

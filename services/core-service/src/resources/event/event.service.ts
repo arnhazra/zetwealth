@@ -126,7 +126,7 @@ export class EventService {
         eventSource: "Goal",
       }))
 
-      const debts = await this.debtService.findMyDebts({ userId })
+      const debts = await this.debtService.findAllByUserId({ userId })
 
       const debtStartEvents: CalendarEvent[] = debts.map((debt) => ({
         _id: String(debt._id),
