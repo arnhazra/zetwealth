@@ -57,11 +57,10 @@ export class SubscriptionService {
     }
   }
 
-  async handleSubscribe(sessionId: string, reqUserId: string) {
+  async handleSubscribe(sessionId: string, userId: string) {
     try {
       const session = await this.stripe.checkout.sessions.retrieve(sessionId)
       const metadata = session.metadata ?? {}
-      const userId = metadata.userId
       const price = metadata.price
 
       if (!userId || !price) {
@@ -73,7 +72,7 @@ export class SubscriptionService {
         BlockListedSession
       >(new FindBlockListedSessionByIdQuery(sessionId))
 
-      if (!!blocklistedSessionData || userId !== reqUserId) {
+      if (!!blocklistedSessionData || metadata.userId !== userId) {
         throw new Error()
       }
 

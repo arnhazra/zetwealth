@@ -6,8 +6,8 @@ interface Ownable {
   userId: ObjectId
 }
 
-export function assertOwnership(resource: Ownable, reqUserId: string) {
-  if (String(resource.userId) !== reqUserId) {
+export function assertOwnership(resource: Ownable, userId: string) {
+  if (String(resource.userId) !== userId) {
     throw new ForbiddenException(statusMessages.forbidden)
   }
 }

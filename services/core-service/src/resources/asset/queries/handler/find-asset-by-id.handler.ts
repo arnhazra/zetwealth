@@ -8,10 +8,9 @@ export class FindAssetByIdQueryHandler implements IQueryHandler<FindAssetByIdQue
   constructor(private readonly repository: AssetRepository) {}
 
   async execute(query: FindAssetByIdQuery) {
-    const { assetId, userId } = query
+    const { assetId } = query
     return await this.repository.findOne({
       _id: createOrConvertObjectId(assetId),
-      userId: createOrConvertObjectId(userId),
     })
   }
 }

@@ -46,7 +46,7 @@ export default function AuthProvider({ onAuthorized }: AuthProviderProps) {
             <div className="grid gap-4">
               <GoogleOAuth handleSuccess={googleOAuthLogin} />
             </div>
-            <div className="mt-4 text-sm">
+            <div className="mt-4 text-xs">
               {platformConfig?.otherConstants.privacyPolicyStatement}
             </div>
           </CardContent>
