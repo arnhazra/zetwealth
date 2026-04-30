@@ -10,6 +10,8 @@ import {
   ArrowUp,
   Sparkle,
   BadgeMinus,
+  PenBox,
+  PlusSquare,
 } from "lucide-react"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import { usePlatformConfig } from "@/context/platformconfig.provider"
@@ -99,7 +101,7 @@ export default function Intelligence() {
     }
   }
 
-  const clearConversation = () => {
+  const createNewConversation = () => {
     setMessages([])
     sessionStorage.removeItem("thread_id")
   }
@@ -203,7 +205,7 @@ export default function Intelligence() {
 
             {isLoading && messages[messages.length - 1] === "" && (
               <div className="ms-3 text-sm font-medium bg-gradient-to-r from-gray-400 via-white to-gray-400 bg-[length:200%_100%] bg-clip-text text-transparent animate-shimmer">
-                Generating ...
+                Thinking ...
               </div>
             )}
 
@@ -217,11 +219,11 @@ export default function Intelligence() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={clearConversation}
+                onClick={createNewConversation}
                 className="text-xs text-theme-400 hover:text-white bg-transparent hover:bg-transparent mb-2"
               >
-                <BadgeMinus className="h-3 w-3 mr-1" />
-                Clear Conversation
+                <PlusSquare className="h-3 w-3 mr-1" />
+                New Conversation
               </Button>
             </Show>
           </div>
