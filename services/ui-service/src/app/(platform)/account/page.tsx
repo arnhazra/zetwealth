@@ -138,7 +138,6 @@ export default function Page() {
           }
           title="Your Email"
           content={user.email}
-          actionComponents={[<CopyToClipboard value={user.email} />]}
         />
         <SectionPanel
           icon={
