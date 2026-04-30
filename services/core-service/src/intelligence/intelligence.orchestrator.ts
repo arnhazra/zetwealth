@@ -32,7 +32,9 @@ export class IntelligenceOrchestrator {
   ) {}
 
   private async getConversationSystemInstruction(user: User) {
-    const data = await this.configService.getConfig("chat-system-instruction")
+    const data = await this.configService.getConfig(
+      "conversation-system-instruction"
+    )
     const platformConfig = await this.configService.getConfig("home-config")
     const { appConfig, solutionConfig } = platformConfig
 
