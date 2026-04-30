@@ -114,7 +114,7 @@ export class EventService {
         }
       })
 
-      const goals = await this.goalService.findMyGoals({ userId })
+      const goals = await this.goalService.findAllByUserId({ userId })
 
       const goalEvents: CalendarEvent[] = goals.map((goal) => ({
         _id: String(goal._id),

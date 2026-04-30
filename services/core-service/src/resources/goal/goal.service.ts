@@ -7,7 +7,8 @@ import { CreateGoalCommand } from "./commands/impl/create-goal.command"
 import {
   CreateGoalRequestDto,
   CreateGoalServiceSchema,
-} from "./dto/request/create-goal.request.dto"
+  GoalByIdServiceSchema,
+} from "./dto/request.dto"
 import { UpdateGoalCommand } from "./commands/impl/update-goal.command"
 import { FindGoalsByUserQuery } from "./queries/impl/find-goal-by-user.query"
 import { FindGoalByIdQuery } from "./queries/impl/find-goal-by-id.query"
@@ -73,8 +74,9 @@ export class GoalService {
     }
   }
 
-  async findById(userId: string, goalId: string) {
+  async findById(dto: z.output<typeof GoalByIdServiceSchema>) {
     try {
+      const { goalId, userId } = dto
       const goal = await this.queryBus.execute<FindGoalByIdQuery, Goal>(
         new FindGoalByIdQuery(goalId)
       )
@@ -87,7 +89,7 @@ export class GoalService {
 
   async updateById(userId: string, goalId: string, dto: CreateGoalRequestDto) {
     try {
-      await this.findById(userId, goalId)
+      await this.findById({ userId, goalId })
       return await this.commandBus.execute<UpdateGoalCommand, Goal>(
         new UpdateGoalCommand(userId, goalId, dto)
       )
@@ -96,9 +98,15 @@ export class GoalService {
     }
   }
 
-  async deleteById(userId: string, goalId: string) {
+  @AgentTool({
+    name: "delete_goal_by_id",
+    description: "Delete a goal details by it's id",
+    schema: GoalByIdServiceSchema,
+  })
+  async deleteById(dto: z.output<typeof GoalByIdServiceSchema>) {
     try {
-      await this.findById(userId, goalId)
+      const { userId, goalId } = dto
+      await this.findById({ userId, goalId })
       await this.commandBus.execute(new DeleteGoalCommand(goalId))
       return { success: true }
     } catch (error) {

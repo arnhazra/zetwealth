@@ -14,6 +14,7 @@ import { config } from "@/config"
 import { LLMService } from "./llm/llm.service"
 import { AgentRegistryService } from "./agent/agent.service"
 import { DiscoveryModule } from "@nestjs/core"
+import { SkillService } from "./skill/skill.service"
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { DiscoveryModule } from "@nestjs/core"
     LLMService,
     AgentRegistryService,
     IntelligenceService,
+    SkillService,
     IntelligenceRepository,
     IntelligenceOrchestrator,
     CreateThreadCommandHandler,

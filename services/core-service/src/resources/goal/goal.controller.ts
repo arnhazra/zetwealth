@@ -13,7 +13,7 @@ import {
 import { GoalService } from "./goal.service"
 import { statusMessages } from "@/shared/constants/status-messages"
 import { AuthGuard, ModRequest } from "@/auth/auth.guard"
-import { CreateGoalRequestDto } from "./dto/request/create-goal.request.dto"
+import { CreateGoalRequestDto } from "./dto/request.dto"
 
 @Controller("resource/goal")
 export class GoalController {
@@ -55,7 +55,8 @@ export class GoalController {
     @Param("goalId") goalId: string
   ) {
     try {
-      return await this.service.findById(request.user.userId, goalId)
+      const { userId } = request.user
+      return await this.service.findById({ userId, goalId })
     } catch (error) {
       throw new BadRequestException(
         error.message || statusMessages.connectionError
@@ -90,7 +91,8 @@ export class GoalController {
     @Param("goalId") goalId: string
   ) {
     try {
-      return await this.service.deleteById(request.user.userId, goalId)
+      const { userId } = request.user
+      return await this.service.deleteById({ userId, goalId })
     } catch (error) {
       throw new BadRequestException(
         error.message || statusMessages.connectionError

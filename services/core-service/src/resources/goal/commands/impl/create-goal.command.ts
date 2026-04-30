@@ -1,4 +1,4 @@
-import { CreateGoalRequestDto } from "../../dto/request/create-goal.request.dto"
+import { CreateGoalRequestDto } from "../../dto/request.dto"
 
 export class CreateGoalCommand {
   constructor(
