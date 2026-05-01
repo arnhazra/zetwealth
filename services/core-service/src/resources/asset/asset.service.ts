@@ -45,6 +45,7 @@ export class AssetService {
   @AgentTool({
     name: "get_asset_types",
     description: "Get all asset types",
+    schema: z.object({}),
   })
   getAssetTypes() {
     return Object.values(AssetType)

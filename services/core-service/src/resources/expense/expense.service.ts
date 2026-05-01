@@ -27,6 +27,7 @@ export class ExpenseService {
   @AgentTool({
     name: "get_expense_categories",
     description: "Get expense categories",
+    schema: z.object({}),
   })
   public getExpenseCategories() {
     return Object.values(ExpenseCategory)
