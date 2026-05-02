@@ -30,3 +30,24 @@ export const CreateExpenseServiceSchema = BaseAgentSchema.extend(
 export class CreateExpenseRequestDto extends createZodDto(
   CreateExpenseSchema
 ) {}
+
+const FindExpensesByMonthSchema = z.object({
+  monthFilter: z
+    .string()
+    .optional()
+    .describe(
+      "optional - defaults to current month; calculate month given by the user - format should be like YYYY-MM"
+    ),
+  searchKeyword: z
+    .string()
+    .optional()
+    .describe("search keyword given by user - if any"),
+  expenseCategory: z
+    .enum(ExpenseCategory)
+    .optional()
+    .describe("expense category given by user - if any"),
+})
+
+export const FindExpensesByMonthServiceSchema = BaseAgentSchema.extend(
+  FindExpensesByMonthSchema.shape
+)

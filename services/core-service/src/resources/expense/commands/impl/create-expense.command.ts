@@ -1,4 +1,4 @@
-import { CreateExpenseRequestDto } from "../../dto/request/create-expense.request.dto"
+import { CreateExpenseRequestDto } from "../../dto/request/request.dto"
 
 export class CreateExpenseCommand {
   constructor(

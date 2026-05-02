@@ -7,14 +7,14 @@ import { CreateExpenseCommand } from "./commands/impl/create-expense.command"
 import {
   CreateExpenseRequestDto,
   CreateExpenseServiceSchema,
-} from "./dto/request/create-expense.request.dto"
+} from "./dto/request/request.dto"
 import { UpdateExpenseCommand } from "./commands/impl/update-expense.command"
 import { FindExpensesByUserQuery } from "./queries/impl/find-expense-by-user.query"
 import { FindExpenseByIdQuery } from "./queries/impl/find-expense-by-id.query"
 import { ExpenseCategory } from "@/shared/constants/types"
 import { z } from "zod"
 import { AgentTool } from "@/intelligence/agent/agent.decorator"
-import { FindMyExpensesServiceSchema } from "./dto/request/find-my-expenses.request.dto"
+import { FindExpensesByMonthServiceSchema } from "./dto/request/request.dto"
 import { assertOwnership } from "@/shared/utils/assert-ownership"
 
 @Injectable()
@@ -52,9 +52,11 @@ export class ExpenseService {
   @AgentTool({
     name: "get_expenses_by_month",
     description: "List down expenses for an user for any given month",
-    schema: FindMyExpensesServiceSchema,
+    schema: FindExpensesByMonthServiceSchema,
   })
-  async findAllByUserId(dto: z.output<typeof FindMyExpensesServiceSchema>) {
+  async findAllByUserId(
+    dto: z.output<typeof FindExpensesByMonthServiceSchema>
+  ) {
     try {
       const { userId, monthFilter, searchKeyword, expenseCategory } = dto
       return await this.queryBus.execute<FindExpensesByUserQuery>(

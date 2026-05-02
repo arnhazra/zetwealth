@@ -87,7 +87,7 @@ export class EventService {
       }))
 
       const user = await this.authService.findUserById(userId)
-      const assets = await this.assetService.findAllMyAssets({ userId })
+      const assets = await this.assetService.findAssetsByUser({ userId })
       const assetStartDateEvents: CalendarEvent[] = assets.map((asset) => {
         if (asset.startDate) {
           return {

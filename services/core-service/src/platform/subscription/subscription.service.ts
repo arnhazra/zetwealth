@@ -99,7 +99,7 @@ export class SubscriptionService {
   }
 
   @OnEvent(AppEventMap.GetSubscriptionDetails)
-  async getMySubscription(userId: string) {
+  async getSubscriptionByUser(userId: string) {
     try {
       const subscription: Subscription | null | undefined =
         await this.queryBus.execute(new FindSubscriptionByUserIdQuery(userId))

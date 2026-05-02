@@ -61,7 +61,7 @@ export class AssetService {
     }
   }
 
-  async findMyAssetsByAssetGroupId(
+  async findAssetsByAssetGroupId(
     userId: string,
     assetgroupId: string,
     searchKeyword?: string
@@ -106,7 +106,7 @@ export class AssetService {
       "Get all assets belonging to a user with their current valuations",
     schema: BaseAgentSchema,
   })
-  async findAllMyAssets(dto: z.output<typeof BaseAgentSchema>) {
+  async findAssetsByUser(dto: z.output<typeof BaseAgentSchema>) {
     try {
       const { userId } = dto
       const assets = await this.queryBus.execute<
@@ -303,7 +303,7 @@ export class AssetService {
       "List all asset groups for a user with their current valuations and asset counts",
     schema: GetAssetGroupListSchema,
   })
-  async findMyAssetGroups(dto: z.output<typeof GetAssetGroupListSchema>) {
+  async findAssetGroupsByUser(dto: z.output<typeof GetAssetGroupListSchema>) {
     const { userId, searchKeyword } = dto
     const assetgroups = await this.queryBus.execute<
       FindAllAssetGroupQuery,

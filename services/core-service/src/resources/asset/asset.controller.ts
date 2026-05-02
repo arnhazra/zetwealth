@@ -38,13 +38,13 @@ export class AssetController {
 
   @UseGuards(AuthGuard)
   @Get("assetgroup/:assetgroupId")
-  async findMyAssetsByAssetGroupId(
+  async findAssetsByAssetGroupId(
     @Request() request: ModRequest,
     @Param("assetgroupId") assetgroupId: string,
     @Query("searchKeyword") searchKeyword?: string
   ) {
     try {
-      return await this.service.findMyAssetsByAssetGroupId(
+      return await this.service.findAssetsByAssetGroupId(
         request.user.userId,
         assetgroupId,
         searchKeyword
@@ -151,13 +151,13 @@ export class AssetGroupController {
 
   @UseGuards(AuthGuard)
   @Get()
-  async findMyAssetGroups(
+  async findAssetGroupsByUser(
     @Request() request: ModRequest,
     @Query("searchKeyword") searchKeyword?: string
   ) {
     try {
       const { userId } = request.user
-      return await this.service.findMyAssetGroups({ userId, searchKeyword })
+      return await this.service.findAssetGroupsByUser({ userId, searchKeyword })
     } catch (error) {
       throw new BadRequestException(
         error.message || statusMessages.connectionError

@@ -175,7 +175,7 @@ export class AuthService {
 
       if (user) {
         const subscription =
-          await this.subscriptionService.getMySubscription(userId)
+          await this.subscriptionService.getSubscriptionByUser(userId)
         return { user, subscription }
       } else {
         throw new Error(statusMessages.invalidUser)
