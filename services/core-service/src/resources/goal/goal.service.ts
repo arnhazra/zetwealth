@@ -98,11 +98,6 @@ export class GoalService {
     }
   }
 
-  @AgentTool({
-    name: "delete_goal_by_id",
-    description: "Delete a goal details by it's id",
-    schema: GoalByIdServiceSchema,
-  })
   async deleteById(dto: z.output<typeof GoalByIdServiceSchema>) {
     try {
       const { userId, goalId } = dto
