@@ -111,7 +111,7 @@ export default function Page() {
 
   return (
     <div className="min-h-screen p-6">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <Card className="bg-background text-white border-border">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
