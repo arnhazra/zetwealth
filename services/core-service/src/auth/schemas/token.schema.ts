@@ -3,13 +3,13 @@ import {
   createSchemaFromClass,
   Entity,
   EntityProp,
-  IdentifiableEntitySchmea,
+  IdentifiableEntitySchema,
   ObjectId,
   ObjectIdType,
 } from "@/shared/entity/entity.schema"
 
 @Entity({ collection: "tokens" })
-export class Token extends IdentifiableEntitySchmea {
+export class Token extends IdentifiableEntitySchema {
   @EntityProp({
     type: ObjectIdType,
     ref: User.name,

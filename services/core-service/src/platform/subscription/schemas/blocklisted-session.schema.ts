@@ -2,13 +2,13 @@ import {
   createSchemaFromClass,
   Entity,
   EntityProp,
-  IdentifiableEntitySchmea,
+  IdentifiableEntitySchema,
 } from "@/shared/entity/entity.schema"
 
 @Entity({
   collection: "blocklisted-session-ids",
 })
-export class BlockListedSession extends IdentifiableEntitySchmea {
+export class BlockListedSession extends IdentifiableEntitySchema {
   @EntityProp({ required: true })
   stripeSessionId: string
 }

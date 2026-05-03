@@ -4,7 +4,7 @@ import {
   createSchemaFromClass,
   Entity,
   EntityProp,
-  IdentifiableEntitySchmea,
+  IdentifiableEntitySchema,
   ObjectId,
   ObjectIdType,
 } from "@/shared/entity/entity.schema"
@@ -22,7 +22,7 @@ export enum FlowFrequency {
 }
 
 @Entity({ collection: "cashflows" })
-export class Cashflow extends IdentifiableEntitySchmea {
+export class Cashflow extends IdentifiableEntitySchema {
   @EntityProp({ type: ObjectIdType, ref: User.name, required: true })
   userId: ObjectId
 

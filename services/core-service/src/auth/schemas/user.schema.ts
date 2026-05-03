@@ -3,11 +3,11 @@ import {
   createSchemaFromClass,
   Entity,
   EntityProp,
-  IdentifiableEntitySchmea,
+  IdentifiableEntitySchema,
 } from "@/shared/entity/entity.schema"
 
 @Entity({ collection: "users" })
-export class User extends IdentifiableEntitySchmea {
+export class User extends IdentifiableEntitySchema {
   @EntityProp({ required: true, unique: true })
   email: string
 
