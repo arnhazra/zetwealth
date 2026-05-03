@@ -141,7 +141,7 @@ export default function Page() {
     try {
       e.preventDefault()
       await api.put(`${endPoints.asset}/${assetId}`, {
-        json: formData,
+        json: { data: formData },
       })
       setMessage({ msg: "Asset updated successfully!", type: "success" })
     } catch (error) {
@@ -204,8 +204,8 @@ export default function Page() {
 
   return (
     <div className="min-h-screen p-6">
-      <div className="max-w-4xl mx-auto">
-        <Card className="bg-theme-900 border-theme-800">
+      <div className="max-w-3xl mx-auto">
+        <Card className="bg-main border-theme-800">
           <CardHeader className="border-b border-theme-800">
             <CardTitle className="text-2xl flex items-center gap-2 text-theme-100">
               <IconContainer>
@@ -232,7 +232,7 @@ export default function Page() {
                       <SelectItem
                         key={assetgroup._id}
                         value={assetgroup._id}
-                        className="text-theme-100 focus:bg-theme-700"
+                        className="text-theme-100 focus:bg-border"
                       >
                         {assetgroup.assetgroupName}
                       </SelectItem>
@@ -254,7 +254,7 @@ export default function Page() {
                       <SelectItem
                         key={value}
                         value={value}
-                        className="text-theme-100 focus:bg-theme-700"
+                        className="text-theme-100 focus:bg-border"
                       >
                         <div className="flex items-center gap-2">{label}</div>
                       </SelectItem>
@@ -318,7 +318,7 @@ export default function Page() {
                               : "Pick a date"}
                           </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0 bg-background border-theme-700 rounded-lg">
+                        <PopoverContent className="w-auto p-0 bg-background border-border rounded-lg">
                           <Calendar
                             mode="single"
                             selected={
@@ -341,7 +341,7 @@ export default function Page() {
                                 formatDateString(date)
                               )
                             }
-                            className="bg-background text-theme-100 rounded-lg border-theme-700"
+                            className="bg-background text-theme-100 rounded-lg border-border"
                           />
                         </PopoverContent>
                       </Popover>
@@ -360,7 +360,7 @@ export default function Page() {
                               : "Pick a date"}
                           </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0 bg-background border-theme-700 rounded-lg">
+                        <PopoverContent className="w-auto p-0 bg-background border-border rounded-lg">
                           <Calendar
                             mode="single"
                             selected={
@@ -394,7 +394,7 @@ export default function Page() {
                               )
                             }
                             initialFocus
-                            className="bg-background text-theme-100 rounded-lg border-theme-700"
+                            className="bg-background text-theme-100 rounded-lg border-border"
                           />
                         </PopoverContent>
                       </Popover>
@@ -515,7 +515,7 @@ export default function Page() {
                               <SelectItem
                                 key={value}
                                 value={value}
-                                className="text-theme-100 focus:bg-theme-700"
+                                className="text-theme-100 focus:bg-border"
                               >
                                 {label}
                               </SelectItem>

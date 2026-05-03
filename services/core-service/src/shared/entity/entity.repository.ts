@@ -32,7 +32,9 @@ export abstract class EntityRepository<T extends Document> {
     updateEntityDto: UpdateQuery<T>
   ): Promise<T | null> {
     return await this.entityModel
-      .findOneAndUpdate(entityFilterQuery, updateEntityDto, { new: true })
+      .findOneAndUpdate(entityFilterQuery, updateEntityDto, {
+        returnDocument: "after",
+      })
       .exec()
   }
 

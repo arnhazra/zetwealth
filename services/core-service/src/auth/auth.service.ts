@@ -5,7 +5,7 @@ import {
 } from "@nestjs/common"
 import { config } from "@/config"
 import { statusMessages } from "@/shared/constants/status-messages"
-import { EventEmitter2, OnEvent } from "@nestjs/event-emitter"
+import { OnEvent } from "@nestjs/event-emitter"
 import { AppEventMap } from "@/shared/constants/app-events.map"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { FindUserByEmailQuery } from "./queries/impl/find-user-by-email.query"
@@ -16,8 +16,6 @@ import { UpdateAttributeCommand } from "./commands/impl/update-attribute.command
 import { Token } from "./schemas/token.schema"
 import { GoogleOAuthDto } from "./dto/google-oauth.dto"
 import { SetTokenDto } from "./dto/set-token.dto"
-import { GetTokenDto } from "./dto/get-token.dto"
-import { DeleteTokenDto } from "./dto/delete-token.dto"
 import { SetTokenCommand } from "./commands/impl/set-token.command"
 import { GetTokensQuery } from "./queries/impl/get-tokens.query"
 import { DeleteTokenCommand } from "./commands/impl/delete-token.command"
@@ -25,8 +23,8 @@ import { generateToken, TokenType, verifyToken } from "@/auth/utils/jwt.util"
 import { Currency } from "country-code-enum"
 import * as jwt from "jsonwebtoken"
 import { OAuth2Client } from "google-auth-library"
-import { Subscription } from "@/platform/subscription/schemas/subscription.schema"
 import { SubscriptionService } from "@/platform/subscription/subscription.service"
+import { DeleteTokenDto } from "./dto/delete-token.dto"
 
 @Injectable()
 export class AuthService {
@@ -35,7 +33,6 @@ export class AuthService {
   constructor(
     private readonly queryBus: QueryBus,
     private readonly commandBus: CommandBus,
-    private readonly eventEmitter: EventEmitter2,
     private readonly subscriptionService: SubscriptionService
   ) {
     this.googleOAuthClient = new OAuth2Client(
@@ -132,7 +129,7 @@ export class AuthService {
         TokenType.RefreshToken
       )
       const userId = decodedRefreshToken.id
-      const refreshTokens = await this.getRefreshTokens({ userId })
+      const refreshTokens = await this.getRefreshTokens(userId)
       const matchRefreshToken = refreshTokens.find(
         (tk) => tk.token === currentRefreshToken
       )
@@ -178,7 +175,7 @@ export class AuthService {
 
       if (user) {
         const subscription =
-          await this.subscriptionService.getMySubscription(userId)
+          await this.subscriptionService.getSubscriptionByUser(userId)
         return { user, subscription }
       } else {
         throw new Error(statusMessages.invalidUser)
@@ -234,9 +231,8 @@ export class AuthService {
     }
   }
 
-  async getRefreshTokens(getTokenDto: GetTokenDto) {
+  async getRefreshTokens(userId: string) {
     try {
-      const { userId } = getTokenDto
       return await this.queryBus.execute<GetTokensQuery, Token[]>(
         new GetTokensQuery(userId)
       )
@@ -245,9 +241,9 @@ export class AuthService {
     }
   }
 
-  async deleteRefreshToken(deleteTokenDto: DeleteTokenDto) {
+  async deleteRefreshToken(dto: DeleteTokenDto) {
     try {
-      const { userId, token } = deleteTokenDto
+      const { userId, token } = dto
       return await this.commandBus.execute(
         new DeleteTokenCommand(userId, token)
       )

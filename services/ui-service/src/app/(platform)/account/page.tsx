@@ -122,11 +122,11 @@ export default function Page() {
           actionComponents={[
             <Button
               onClick={editName}
-              className="p-2 bg-primary hover:bg-primary text-black"
+              className="p-2 bg-primary hover:bg-primary"
               variant="default"
               size="icon"
             >
-              <Pen className="h-4 w-4" />
+              <Pen className="h-4 w-4 text-black" />
             </Button>,
           ]}
         />
@@ -138,7 +138,6 @@ export default function Page() {
           }
           title="Your Email"
           content={user.email}
-          actionComponents={[<CopyToClipboard value={user.email} />]}
         />
         <SectionPanel
           icon={
@@ -154,7 +153,7 @@ export default function Page() {
         />
         <SectionPanel
           icon={
-            <IconContainer ai>
+            <IconContainer>
               <Sparkle className="h-4 w-4" />
             </IconContainer>
           }

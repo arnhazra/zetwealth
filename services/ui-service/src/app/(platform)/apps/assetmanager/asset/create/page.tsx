@@ -109,7 +109,7 @@ export default function Page() {
     try {
       e.preventDefault()
       await api.post(endPoints.asset, {
-        json: formData,
+        json: { data: formData },
       })
       setMessage({ msg: "Asset added successfully!", type: "success" })
     } catch (error) {
@@ -170,7 +170,7 @@ export default function Page() {
 
   return (
     <div className="min-h-screen p-6">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <Card className="bg-background border-border">
           <CardHeader className="border-b border-theme-800">
             <CardTitle className="text-2xl flex items-center gap-2 text-theme-100">
@@ -188,7 +188,7 @@ export default function Page() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="assetType" className="text-theme-200">
-                  Select AssetGroup
+                  Select Asset Group
                 </Label>
                 <Select
                   value={formData.assetgroupId}
@@ -198,7 +198,7 @@ export default function Page() {
                   required
                 >
                   <SelectTrigger className="w-full bg-background text-white border-border">
-                    <SelectValue placeholder="Select AssetGroup" />
+                    <SelectValue placeholder="Select Asset Group" />
                   </SelectTrigger>
                   <SelectContent className="w-full bg-background text-white border-border">
                     {assetgroups.data?.map((assetgroup) => (
@@ -292,7 +292,7 @@ export default function Page() {
                               : "Pick a date"}
                           </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0 bg-background border-theme-700 rounded-lg">
+                        <PopoverContent className="w-auto p-0 bg-background border-border rounded-lg">
                           <Calendar
                             mode="single"
                             selected={new Date(formData.startDate ?? "")}
@@ -306,7 +306,7 @@ export default function Page() {
                                 formatDateString(date)
                               )
                             }
-                            className="bg-background text-theme-100 rounded-lg border-theme-700"
+                            className="bg-background text-theme-100 rounded-lg border-border"
                           />
                         </PopoverContent>
                       </Popover>
@@ -325,7 +325,7 @@ export default function Page() {
                               : "Pick a date"}
                           </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0 bg-background border-theme-700 rounded-lg">
+                        <PopoverContent className="w-auto p-0 bg-background border-border rounded-lg">
                           <Calendar
                             mode="single"
                             selected={new Date(formData.maturityDate ?? "")}
@@ -345,7 +345,7 @@ export default function Page() {
                                 formatDateString(date)
                               )
                             }
-                            className="bg-background text-theme-100 rounded-lg border-theme-700"
+                            className="bg-background text-theme-100 rounded-lg border-border"
                           />
                         </PopoverContent>
                       </Popover>

@@ -1,13 +1,13 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs"
-import { FindCashflowsQuery } from "../impl/find-cashflows.query"
+import { FindCashflowsByDayQuery } from "../impl/find-cashflows-by-day.query"
 import { CashFlowRepository } from "../../cashflow.repository"
 import { formatDateString } from "@/shared/utils/date-formatter"
 
-@QueryHandler(FindCashflowsQuery)
-export class FindCashflowsQueryHandler implements IQueryHandler<FindCashflowsQuery> {
+@QueryHandler(FindCashflowsByDayQuery)
+export class FindCashflowsByDayQueryHandler implements IQueryHandler<FindCashflowsByDayQuery> {
   constructor(private readonly repository: CashFlowRepository) {}
 
-  async execute(_: FindCashflowsQuery) {
+  async execute(_: FindCashflowsByDayQuery) {
     const today = formatDateString()
 
     return this.repository.find({

@@ -17,7 +17,7 @@ type AgentLanguageModelLike = RunnableInterface<
   LanguageModelOutput
 >
 
-export interface ChatArgs {
+export interface ConversationArgs {
   thread: Thread[]
   prompt: string
   user: User
@@ -31,20 +31,29 @@ export class IntelligenceOrchestrator {
     private readonly agentRegistry: AgentRegistryService
   ) {}
 
-  private async getChatSystemInstruction(user: User) {
-    const data = await this.configService.getConfig("chat-system-instruction")
+  private async getConversationSystemInstruction(user: User) {
+    const data = await this.configService.getConfig(
+      "conversation-system-instruction"
+    )
+    const availableTools = this.agentRegistry.getTools()
+    const toolSummary = availableTools
+      .map((t) => `- ${t.name}: ${t.description}`)
+      .join("\n")
     const platformConfig = await this.configService.getConfig("home-config")
     const { appConfig, solutionConfig } = platformConfig
 
-    return data
+    const systemInstruction = data
       .replaceAll("{platformName}", config.PLATFORM_NAME)
       .replaceAll("{todaysDate}", new Date().toString())
       .replaceAll("{userDetails}", JSON.stringify(user))
       .replaceAll("{appList}", appConfig)
       .replaceAll("{solutionList}", solutionConfig)
+      .replaceAll("{availableTools}", toolSummary)
+
+    return systemInstruction
   }
 
-  private createChatAgent(llm: AgentLanguageModelLike) {
+  private createConversationAgent(llm: AgentLanguageModelLike) {
     return createAgent({
       model: llm,
       tools: this.agentRegistry.getTools(),
@@ -52,32 +61,35 @@ export class IntelligenceOrchestrator {
     })
   }
 
-  private async getSystemInstruction(args: ChatArgs) {
+  private async getSystemInstruction(args: ConversationArgs) {
     const { user } = args
-    return this.getChatSystemInstruction(user)
+    return this.getConversationSystemInstruction(user)
   }
 
-  private buildMessages(args: ChatArgs, systemInstruction: string) {
+  private buildMessages(args: ConversationArgs, systemInstruction: string) {
     const { thread, prompt } = args
-    const chatHistory = thread.flatMap((t) => [
+    const conversationHistory = thread.flatMap((t) => [
       new HumanMessage(t.prompt),
       new AIMessage(t.response),
     ])
 
     return [
       new SystemMessage(systemInstruction),
-      ...chatHistory,
+      ...conversationHistory,
       new HumanMessage(prompt),
     ]
   }
 
-  async *chatStream(args: ChatArgs): AsyncGenerator<string> {
-    const llm = this.llmService.getOpenAIChatModel()
-    const chatAgent = this.createChatAgent(llm)
+  async *conversation(args: ConversationArgs): AsyncGenerator<string> {
+    const llm = this.llmService.getOpenAIConversationModel()
+    const conversationAgent = this.createConversationAgent(llm)
     const systemInstruction = await this.getSystemInstruction(args)
     const messages = this.buildMessages(args, systemInstruction)
 
-    const eventStream = chatAgent.streamEvents({ messages }, { version: "v2" })
+    const eventStream = conversationAgent.streamEvents(
+      { messages },
+      { version: "v2" }
+    )
 
     for await (const event of eventStream) {
       if (event.event === "on_chat_model_stream") {

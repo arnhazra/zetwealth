@@ -11,4 +11,5 @@ export const statusMessages = {
   refreshTokenInvalid: "Invalid refresh token",
   refreshTokenMissing: "Refresh token missing",
   subscriptionFailure: "Failed to activate subscription",
+  forbidden: "You don't have access to this resource",
 }

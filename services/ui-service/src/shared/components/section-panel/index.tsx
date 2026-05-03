@@ -25,7 +25,7 @@ export default function SectionPanel({
           <div className="shrink-0">{icon}</div>
           <div className="space-y-0.5 min-w-0 overflow-hidden">
             <p className="text-sm truncate">{title}</p>
-            <div className="text-sm text-theme-300">
+            <div className="text-sm text-theme-200">
               <Show condition={!!masked} fallback={content}>
                 <MaskText value={content?.toString() ?? ""} />
               </Show>

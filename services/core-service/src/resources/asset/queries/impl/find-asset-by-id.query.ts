@@ -1,6 +1,3 @@
 export class FindAssetByIdQuery {
-  constructor(
-    public readonly userId: string,
-    public readonly assetId: string
-  ) {}
+  constructor(public readonly assetId: string) {}
 }

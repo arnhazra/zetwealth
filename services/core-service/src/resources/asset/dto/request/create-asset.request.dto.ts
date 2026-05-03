@@ -1,98 +1,93 @@
-import {
-  IsEnum,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  ValidateIf,
-  Matches,
-} from "class-validator"
+import { z } from "zod"
 import { AssetType, RecurringFrequency } from "@/shared/constants/types"
+import { dateString } from "@/shared/validators/zod.validators"
+import { createZodDto } from "nestjs-zod"
 
-export class CreateAssetRequestDto {
-  @IsNotEmpty()
-  assetgroupId: string
+const BaseAssetSchema = z.object({
+  assetgroupId: z.string(),
+  assetName: z.string(),
+  identifier: z.string(),
+})
 
-  @IsNotEmpty()
-  @IsEnum(AssetType)
-  assetType: AssetType
+const LumpsumDepositSchema = BaseAssetSchema.extend({
+  assetType: z.literal(AssetType.LUMPSUM_DEPOSIT),
+  startDate: dateString,
+  maturityDate: dateString,
+  amountInvested: z.number().positive(),
+  expectedReturnRate: z.number().positive(),
+})
 
-  @IsNotEmpty()
-  @IsString()
-  assetName: string
+const RecurringDepositSchema = BaseAssetSchema.extend({
+  assetType: z.literal(AssetType.RECURRING_DEPOSIT),
+  startDate: dateString,
+  maturityDate: dateString,
+  expectedReturnRate: z.number().positive(),
+  contributionAmount: z.number().positive(),
+  contributionFrequency: z.enum(RecurringFrequency),
+})
 
-  @IsNotEmpty()
-  @IsString()
-  identifier: string
+const BondSchema = BaseAssetSchema.extend({
+  assetType: z.literal(AssetType.BOND),
+  startDate: dateString,
+  maturityDate: dateString,
+  amountInvested: z.number().positive(),
+  expectedReturnRate: z.number().positive(),
+})
 
-  @ValidateIf((o) =>
-    [
-      AssetType.LUMPSUM_DEPOSIT,
-      AssetType.RECURRING_DEPOSIT,
-      AssetType.BOND,
-    ].includes(o.assetType)
-  )
-  @Matches(/^\d{4}-\d{2}-\d{2}$/)
-  startDate?: string
+const EquitySchema = BaseAssetSchema.extend({
+  assetType: z.literal(AssetType.EQUITY),
+  units: z.number().positive(),
+  unitPurchasePrice: z.number().positive(),
+})
 
-  @ValidateIf((o) =>
-    [
-      AssetType.LUMPSUM_DEPOSIT,
-      AssetType.RECURRING_DEPOSIT,
-      AssetType.BOND,
-    ].includes(o.assetType)
-  )
-  @Matches(/^\d{4}-\d{2}-\d{2}$/)
-  maturityDate?: string
+const CryptoSchema = BaseAssetSchema.extend({
+  assetType: z.literal(AssetType.CRYPTO),
+  units: z.number().positive(),
+  unitPurchasePrice: z.number().positive(),
+})
 
-  @ValidateIf((o) =>
-    [AssetType.LUMPSUM_DEPOSIT, AssetType.BOND].includes(o.assetType)
-  )
-  @IsNumber()
-  amountInvested?: number
+const RealEstateSchema = BaseAssetSchema.extend({
+  assetType: z.literal(AssetType.REAL_ESTATE),
+  valuationOnPurchase: z.number().positive(),
+  currentValuation: z.number().positive(),
+})
 
-  @ValidateIf((o) =>
-    [
-      AssetType.LUMPSUM_DEPOSIT,
-      AssetType.RECURRING_DEPOSIT,
-      AssetType.BOND,
-    ].includes(o.assetType)
-  )
-  @IsNumber()
-  expectedReturnRate?: number
+const MetalSchema = BaseAssetSchema.extend({
+  assetType: z.literal(AssetType.METAL),
+  valuationOnPurchase: z.number().positive(),
+  currentValuation: z.number().positive(),
+})
 
-  @ValidateIf((o) => [AssetType.RECURRING_DEPOSIT].includes(o.assetType))
-  @IsNumber()
-  contributionAmount?: number
+export const LiquidSchema = BaseAssetSchema.extend({
+  assetType: z.literal(AssetType.LIQUID),
+  currentValuation: z.number().positive(),
+})
 
-  @ValidateIf((o) => [AssetType.RECURRING_DEPOSIT].includes(o.assetType))
-  @IsEnum(RecurringFrequency)
-  contributionFrequency?: RecurringFrequency
+export const RetirementSchema = BaseAssetSchema.extend({
+  assetType: z.literal(AssetType.RETIREMENT),
+  currentValuation: z.number().positive(),
+})
 
-  @ValidateIf((o) =>
-    [AssetType.REAL_ESTATE, AssetType.METAL, AssetType.OTHER].includes(
-      o.assetType
-    )
-  )
-  @IsNumber()
-  valuationOnPurchase?: number
+const OtherSchema = BaseAssetSchema.extend({
+  assetType: z.literal(AssetType.OTHER),
+  valuationOnPurchase: z.number().positive(),
+  currentValuation: z.number().positive(),
+})
 
-  @ValidateIf((o) =>
-    [
-      AssetType.LIQUID,
-      AssetType.RETIREMENT,
-      AssetType.REAL_ESTATE,
-      AssetType.METAL,
-      AssetType.OTHER,
-    ].includes(o.assetType)
-  )
-  @IsNumber()
-  currentValuation?: number
+export const CreateAssetSchema = z.discriminatedUnion("assetType", [
+  LumpsumDepositSchema,
+  RecurringDepositSchema,
+  BondSchema,
+  EquitySchema,
+  CryptoSchema,
+  RealEstateSchema,
+  MetalSchema,
+  LiquidSchema,
+  RetirementSchema,
+  OtherSchema,
+])
 
-  @ValidateIf((o) => [AssetType.EQUITY, AssetType.CRYPTO].includes(o.assetType))
-  @IsNumber()
-  units?: number
-
-  @ValidateIf((o) => [AssetType.EQUITY, AssetType.CRYPTO].includes(o.assetType))
-  @IsNumber()
-  unitPurchasePrice?: number
-}
+const WrappedSchema = z.object({
+  data: CreateAssetSchema,
+})
+export class CreateAssetRequestDto extends createZodDto(WrappedSchema) {}

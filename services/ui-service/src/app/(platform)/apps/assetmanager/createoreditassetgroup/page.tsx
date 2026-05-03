@@ -110,60 +110,62 @@ export default function Page() {
   }
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-4">
-      <Card className="bg-background text-white border-border">
-        <CardHeader>
-          <CardTitle className="text-2xl flex items-center gap-2">
-            <IconContainer>
-              <Layers2 className="h-4 w-4" />
-            </IconContainer>
-            <Show condition={!assetgroupId} fallback="Edit Asset Group">
-              Add Asset Group
-            </Show>
-          </CardTitle>
-          <CardDescription className="text-sm text-primary">
-            Fill in the details of your asset group to track your assets
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="assetgroupName">
-                Asset Group Name <span className="text-red-500">*</span>
-              </Label>
-              <Input
-                required
-                id="assetgroupName"
-                placeholder="e.g. HSBC"
-                value={formData.assetgroupName}
-                onChange={(e) =>
-                  handleInputChange("assetgroupName", e.target.value)
-                }
-                className="w-full bg-background text-white border-border focus:border-primary focus:ring-0"
-              />
-            </div>
+    <div className="min-h-screen p-6">
+      <div className="max-w-3xl mx-auto">
+        <Card className="bg-background text-white border-border">
+          <CardHeader>
+            <CardTitle className="text-2xl flex items-center gap-2">
+              <IconContainer>
+                <Layers2 className="h-4 w-4" />
+              </IconContainer>
+              <Show condition={!assetgroupId} fallback="Edit Asset Group">
+                Add Asset Group
+              </Show>
+            </CardTitle>
+            <CardDescription className="text-sm text-primary">
+              Fill in the details of your asset group to track your assets
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="assetgroupName">
+                  Asset Group Name <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  required
+                  id="assetgroupName"
+                  placeholder="e.g. HSBC"
+                  value={formData.assetgroupName}
+                  onChange={(e) =>
+                    handleInputChange("assetgroupName", e.target.value)
+                  }
+                  className="w-full bg-background text-white border-border focus:border-primary focus:ring-0"
+                />
+              </div>
 
-            <div className="flex">
-              <Button
-                className="ml-auto bg-primary hover:bg-primary text-black"
-                type="submit"
-                disabled={isSubmitting}
+              <div className="flex">
+                <Button
+                  className="ml-auto bg-primary hover:bg-primary text-black"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  Save Asset Group
+                </Button>
+              </div>
+            </form>
+            {message.msg && (
+              <div
+                className={`mt-4 text-sm ${
+                  message.type === "success" ? "text-primary" : "text-secondary"
+                }`}
               >
-                Save Asset Group
-              </Button>
-            </div>
-          </form>
-          {message.msg && (
-            <div
-              className={`mt-4 text-sm ${
-                message.type === "success" ? "text-primary" : "text-secondary"
-              }`}
-            >
-              {message.msg}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+                {message.msg}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }

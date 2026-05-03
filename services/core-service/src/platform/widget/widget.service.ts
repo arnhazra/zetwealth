@@ -27,7 +27,7 @@ export class WidgetService {
       })
       const debtData = await this.debtService.calculateTotalDebt({ userId })
       const goalData = await this.goalService.findNearestGoal({ userId })
-      const expenseData = await this.expenseService.findMyExpenses({ userId })
+      const expenseData = await this.expenseService.findAllByUserId({ userId })
 
       const goalPercentage =
         ((assetData ?? 0) * 100) / (goalData ? goalData?.goalAmount : 0) || 0

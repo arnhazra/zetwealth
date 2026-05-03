@@ -2,7 +2,6 @@ import { CreateEventRequestDto } from "../../dto/request/create-event.request.dt
 
 export class UpdateEventCommand {
   constructor(
-    public readonly userId: string,
     public readonly eventId: string,
     public readonly dto: CreateEventRequestDto
   ) {}

@@ -1,11 +1,17 @@
+import { z } from "zod"
+import { createZodDto } from "nestjs-zod"
 import { Currency } from "country-code-enum"
-import { IsNotEmpty } from "class-validator"
 import { User } from "../schemas/user.schema"
 
-export class UpdateAttributeDto {
-  @IsNotEmpty()
-  readonly attributeName: keyof User
+export const UpdateAttributeSchema = z.object({
+  attributeName: z.custom<keyof User>(),
+  attributeValue: z.union([
+    z.string(),
+    z.number(),
+    z.boolean(),
+    z.null(),
+    z.enum(Currency),
+  ]),
+})
 
-  @IsNotEmpty()
-  readonly attributeValue: string | number | boolean | null | Currency
-}
+export class UpdateAttributeDto extends createZodDto(UpdateAttributeSchema) {}

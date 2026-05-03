@@ -16,9 +16,9 @@ export default function calculateRecurringValuation(asset: Asset): number {
   const diffInMs = effectiveDate.getTime() - new Date(startDate).getTime()
   if (diffInMs < 0) return 0
   const days = diffInMs / (1000 * 60 * 60 * 24)
-  const years = days / 365
-  let n: number
+  const years = days / 365.25
 
+  let n: number
   switch (contributionFrequency) {
     case RecurringFrequency.MONTHLY:
       n = 12
@@ -37,13 +37,15 @@ export default function calculateRecurringValuation(asset: Asset): number {
   }
 
   const r = expectedReturnRate / 100
-  const totalPeriods = Math.floor(n * years) + 1
-  if (totalPeriods === 1) return contributionAmount
   const ratePerPeriod = r / n
+  const totalPeriods = Math.floor(n * years) + 1
+
+  if (totalPeriods === 1) return contributionAmount
+
   const amount =
     contributionAmount *
-    ((Math.pow(1 + ratePerPeriod, totalPeriods) - 1) /
-      (1 - Math.pow(1 + ratePerPeriod, -1)))
+    ((Math.pow(1 + ratePerPeriod, totalPeriods) - 1) / ratePerPeriod) *
+    (1 + ratePerPeriod)
 
-  return Number(amount.toFixed(2))
+  return amount
 }

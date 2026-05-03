@@ -13,7 +13,7 @@ The system follows a modular, service-oriented architecture:
 ### Frontend (UI Service)
 
 - Built with Next.js
-- Handles dashboards, forms, and AI chat interface
+- Handles dashboards, forms, and AI conversation interface
 - Communicates with backend via REST APIs
 
 ### Backend (Core Service)

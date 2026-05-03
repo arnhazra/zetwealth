@@ -10,6 +10,8 @@ import {
   ArrowUp,
   Sparkle,
   BadgeMinus,
+  PenBox,
+  PlusSquare,
 } from "lucide-react"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import { usePlatformConfig } from "@/context/platformconfig.provider"
@@ -19,12 +21,13 @@ import { suggestedPrompts } from "./data"
 import { Badge } from "../ui/badge"
 import { Thread } from "@/shared/constants/types"
 import IconContainer from "../icon-container"
-import { streamChatResponse } from "@/shared/lib/stream-response"
+import { streamConversationResponse } from "@/shared/lib/stream-response"
 import { useUserContext } from "@/context/user.provider"
 import useQuery from "@/shared/hooks/use-query"
 import HTTPMethods from "@/shared/constants/http-methods"
 import { colorVars } from "@/shared/styles/color-vars"
 import { PLATFORM_NAME } from "@/shared/constants/config"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 
 export default function Intelligence() {
   const { platformConfig } = usePlatformConfig()
@@ -57,7 +60,7 @@ export default function Intelligence() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
 
-  const invokeChatAPI = async (userPrompt: string) => {
+  const invokeConversationAPI = async (userPrompt: string) => {
     const latestThreadId = sessionStorage.getItem("thread_id")
     setMessages((prev) => [...prev, userPrompt ?? ""])
     setPrompt("")
@@ -66,8 +69,8 @@ export default function Intelligence() {
     setMessages((prevMessages) => [...prevMessages, ""])
 
     try {
-      await streamChatResponse(
-        `${endPoints.intelligence}/chat`,
+      await streamConversationResponse(
+        `${endPoints.intelligence}/conversation`,
         {
           prompt: userPrompt,
           threadId: latestThreadId ?? undefined,
@@ -98,7 +101,7 @@ export default function Intelligence() {
     }
   }
 
-  const clearChat = () => {
+  const createNewConversation = () => {
     setMessages([])
     sessionStorage.removeItem("thread_id")
   }
@@ -111,7 +114,7 @@ export default function Intelligence() {
         size="icon"
         className="h-11 w-11 fixed bottom-6 right-6 z-50 text-white ui-soft-gradient text-white rounded-full transition"
       >
-        <Sparkle className="h-4 w-4" />
+        <Sparkle className="h-4 w-4 text-black" />
       </Button>
 
       {isOpen && (
@@ -142,7 +145,7 @@ export default function Intelligence() {
             <Show condition={messages.length === 0}>
               <div className="text-center mt-8">
                 <div className="flex justify-center mb-4">
-                  <IconContainer ai>
+                  <IconContainer>
                     <Sparkle className="h-4 w-4" />
                   </IconContainer>
                 </div>
@@ -156,10 +159,10 @@ export default function Intelligence() {
                 {suggestedPrompts.map((item, index) => (
                   <Badge
                     key={index}
-                    className="text-theme-200 bg-theme-800 hover:bg-theme-700 p-1 ps-4 pe-4 ms-2 mb-2 cursor-pointer"
+                    className="text-theme-200 bg-theme-800 hover:bg-border p-1 ps-4 pe-4 ms-2 mb-2 cursor-pointer"
                     onClick={(): void => {
                       setPrompt(item)
-                      invokeChatAPI(item)
+                      invokeConversationAPI(item)
                     }}
                   >
                     {item}
@@ -189,12 +192,12 @@ export default function Intelligence() {
                   </div>
 
                   {index % 2 === 0 && (
-                    <div
-                      className="flex-shrink-0 w-8 h-8 rounded-2xl flex items-center justify-center"
-                      style={{ backgroundColor: colorVars.border }}
-                    >
-                      <User className="h-4 w-4 text-white" />
-                    </div>
+                    <Avatar className="h-5 w-5 cursor-pointer">
+                      <AvatarImage src={user.avatar ?? ""} alt={user.name} />
+                      <AvatarFallback className="bg-theme-800">
+                        <User className="h-4 w-4 text-primary" />
+                      </AvatarFallback>
+                    </Avatar>
                   )}
                 </div>
               )
@@ -202,7 +205,7 @@ export default function Intelligence() {
 
             {isLoading && messages[messages.length - 1] === "" && (
               <div className="ms-3 text-sm font-medium bg-gradient-to-r from-gray-400 via-white to-gray-400 bg-[length:200%_100%] bg-clip-text text-transparent animate-shimmer">
-                Generating ...
+                Thinking ...
               </div>
             )}
 
@@ -216,22 +219,22 @@ export default function Intelligence() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={clearChat}
+                onClick={createNewConversation}
                 className="text-xs text-theme-400 hover:text-white bg-transparent hover:bg-transparent mb-2"
               >
-                <BadgeMinus className="h-3 w-3 mr-1" />
-                Clear Chat
+                <PlusSquare className="h-3 w-3 mr-1" />
+                New Conversation
               </Button>
             </Show>
           </div>
           <form
             onSubmit={(e) => {
               e.preventDefault()
-              invokeChatAPI(prompt)
+              invokeConversationAPI(prompt)
             }}
           >
             <div className="w-full max-w-4xl mx-auto">
-              <div className="relative bg-theme-900 border border-border rounded-full p-2 ps-4 pe-4 shadow-lg">
+              <div className="relative bg-main border border-border rounded-full p-2 ps-4 pe-4 shadow-lg">
                 <div className="flex flex-col gap-3">
                   <div className="flex items-center gap-3">
                     <div className="flex-1">
@@ -241,14 +244,14 @@ export default function Intelligence() {
                         onChange={(e) => setPrompt(e.target.value)}
                         placeholder="Ask Anything"
                         disabled={isLoading}
-                        className="bg-transparent border-none text-theme-300 placeholder:text-theme-500 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none outline-none ring-0 text-sm px-0"
+                        className="bg-transparent border-none text-theme-200 placeholder:text-theme-500 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none outline-none ring-0 text-sm px-0"
                       />
                     </div>
                     <Button
                       type="submit"
                       disabled={isLoading || !prompt.trim()}
                       size="icon"
-                      className="bg-theme-700 hover:bg-theme-600 text-white h-8 w-8 rounded-2xl"
+                      className="bg-border hover:bg-theme-600 text-white h-8 w-8 rounded-2xl"
                     >
                       <ArrowUp className="h-4 w-4" />
                     </Button>

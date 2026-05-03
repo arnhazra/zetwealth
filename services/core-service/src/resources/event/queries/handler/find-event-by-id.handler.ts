@@ -11,7 +11,6 @@ export class FindEventByIdQueryHandler implements IQueryHandler<FindEventByIdQue
   async execute(query: FindEventByIdQuery): Promise<Event | null> {
     return this.repository.findOne({
       _id: createOrConvertObjectId(query.eventId),
-      userId: createOrConvertObjectId(query.userId),
     })
   }
 }

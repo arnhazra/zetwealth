@@ -4,7 +4,10 @@ import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { Event } from "./schemas/event.schema"
 import { DeleteEventCommand } from "./commands/impl/delete-event.command"
 import { CreateEventCommand } from "./commands/impl/create-event.command"
-import { CreateEventRequestDto } from "./dto/request/create-event.request.dto"
+import {
+  CreateEventRequestDto,
+  CreateEventServiceSchema,
+} from "./dto/request/create-event.request.dto"
 import { FindEventsByUserQuery } from "./queries/impl/find-event-by-user.query"
 import { Expense } from "@/resources/expense/schemas/expense.schema"
 import { formatCurrency } from "@/platform/widget/lib/format-currency"
@@ -19,12 +22,10 @@ import { ExpenseService } from "../expense/expense.service"
 import { GoalService } from "../goal/goal.service"
 import { CashFlowService } from "../cashflow/cashflow.service"
 import { AgentTool } from "@/intelligence/agent/agent.decorator"
-import {
-  CreateEventSchema,
-  GetEventByMonthSchema,
-} from "./schemas/eventagent.schema"
 import { z } from "zod"
 import { CalendarEvent } from "./dto/response/event-response.dto"
+import { FindEventByMonthServiceSchema } from "./dto/request/find-event.request.dto"
+import { assertOwnership } from "@/shared/utils/assert-ownership"
 
 @Injectable()
 export class EventService {
@@ -43,9 +44,9 @@ export class EventService {
   @AgentTool({
     name: "create_event",
     description: "Create a new event for a user",
-    schema: CreateEventSchema,
+    schema: CreateEventServiceSchema,
   })
-  async createEvent(dto: z.output<typeof CreateEventSchema>) {
+  async create(dto: z.output<typeof CreateEventServiceSchema>) {
     try {
       const { userId, ...rest } = dto
       return await this.commandBus.execute<CreateEventCommand, Event>(
@@ -57,11 +58,11 @@ export class EventService {
   }
 
   @AgentTool({
-    name: "get_events_by_month",
+    name: "list_events_by_month",
     description: "List down events for an user for any given month",
-    schema: GetEventByMonthSchema,
+    schema: FindEventByMonthServiceSchema,
   })
-  async findMyEventsByMonth(dto: z.output<typeof GetEventByMonthSchema>) {
+  async findMonthByUserId(dto: z.output<typeof FindEventByMonthServiceSchema>) {
     try {
       const { userId, eventMonth } = dto
       const events = await this.queryBus.execute<
@@ -86,7 +87,7 @@ export class EventService {
       }))
 
       const user = await this.authService.findUserById(userId)
-      const assets = await this.assetService.findAllMyAssets({ userId })
+      const assets = await this.assetService.findAssetsByUser({ userId })
       const assetStartDateEvents: CalendarEvent[] = assets.map((asset) => {
         if (asset.startDate) {
           return {
@@ -113,7 +114,7 @@ export class EventService {
         }
       })
 
-      const goals = await this.goalService.findMyGoals({ userId })
+      const goals = await this.goalService.findAllByUserId({ userId })
 
       const goalEvents: CalendarEvent[] = goals.map((goal) => ({
         _id: String(goal._id),
@@ -124,7 +125,7 @@ export class EventService {
         eventSource: "Goal",
       }))
 
-      const debts = await this.debtService.findMyDebts({ userId })
+      const debts = await this.debtService.findAllByUserId({ userId })
 
       const debtStartEvents: CalendarEvent[] = debts.map((debt) => ({
         _id: String(debt._id),
@@ -153,7 +154,7 @@ export class EventService {
         eventSource: "Debt",
       }))
 
-      const cashflows = await this.cashFlowService.findMyCashflows({ userId })
+      const cashflows = await this.cashFlowService.findAllByUserId({ userId })
       const cashflowEvents: CalendarEvent[] = cashflows.map((cashflow) => ({
         _id: String(cashflow._id),
         eventDate: cashflow.nextExecutionAt,
@@ -163,7 +164,7 @@ export class EventService {
         eventSource: "Cashflow",
       }))
 
-      const expenses = await this.expenseService.findMyExpenses({ userId })
+      const expenses = await this.expenseService.findAllByUserId({ userId })
       const expensesEvents: CalendarEvent[] = expenses.expenses.map(
         (expense: Expense) => {
           const expenseCategoryDisplayName =
@@ -207,10 +208,9 @@ export class EventService {
 
   async findById(userId: string, eventId: string) {
     try {
-      const result = await this.queryBus.execute(
-        new FindEventByIdQuery(userId, eventId)
-      )
-      return result
+      const event = await this.queryBus.execute(new FindEventByIdQuery(eventId))
+      assertOwnership(event, userId)
+      return event
     } catch (error) {
       throw new Error(statusMessages.connectionError)
     }
@@ -222,17 +222,16 @@ export class EventService {
     dto: CreateEventRequestDto
   ) {
     try {
-      const result = await this.commandBus.execute(
-        new UpdateEventCommand(userId, eventId, dto)
-      )
-      return result
+      await this.findById(userId, eventId)
+      return await this.commandBus.execute(new UpdateEventCommand(eventId, dto))
     } catch (error) {
       throw new Error(statusMessages.connectionError)
     }
   }
 
-  async deleteEvent(reqUserId: string, eventId: string) {
+  async deleteById(userId: string, eventId: string) {
     try {
+      await this.findById(userId, eventId)
       await this.commandBus.execute(new DeleteEventCommand(eventId))
       return { success: true }
     } catch (error) {

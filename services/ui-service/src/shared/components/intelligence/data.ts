@@ -1,5 +1,5 @@
 export const suggestedPrompts = [
   "Create an asset group",
-  "View my assets",
+  "List down my assets",
   "Create a new expense",
 ]

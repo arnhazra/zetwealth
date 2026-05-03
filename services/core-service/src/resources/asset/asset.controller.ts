@@ -16,6 +16,7 @@ import { statusMessages } from "@/shared/constants/status-messages"
 import { AuthGuard, ModRequest } from "@/auth/auth.guard"
 import { CreateAssetRequestDto } from "./dto/request/create-asset.request.dto"
 import { CreateAssetGroupRequestDto } from "./dto/request/create-assetgroup.request.dto"
+import { AssetType } from "@/shared/constants/types"
 
 @Controller("resource/asset")
 export class AssetController {
@@ -24,11 +25,11 @@ export class AssetController {
   @UseGuards(AuthGuard)
   @Post()
   async createAsset(
-    @Body() requestBody: CreateAssetRequestDto,
+    @Body() dto: CreateAssetRequestDto,
     @Request() request: ModRequest
   ) {
     try {
-      return await this.service.createAsset(request.user.userId, requestBody)
+      return await this.service.createAsset(request.user.userId, dto)
     } catch (error) {
       throw new BadRequestException(
         error.message || statusMessages.connectionError
@@ -38,13 +39,13 @@ export class AssetController {
 
   @UseGuards(AuthGuard)
   @Get("assetgroup/:assetgroupId")
-  async findMyAssetsByAssetGroupId(
+  async findAssetsByAssetGroupId(
     @Request() request: ModRequest,
     @Param("assetgroupId") assetgroupId: string,
     @Query("searchKeyword") searchKeyword?: string
   ) {
     try {
-      return await this.service.findMyAssetsByAssetGroupId(
+      return await this.service.findAssetsByAssetGroupId(
         request.user.userId,
         assetgroupId,
         searchKeyword
@@ -57,15 +58,15 @@ export class AssetController {
   }
 
   @UseGuards(AuthGuard)
-  @Post("findassetsbytype")
-  async findAssetsByType(
+  @Post("findassetsbytypes")
+  async findAssetsByTypes(
     @Request() request: ModRequest,
     @Body("assetTypes") assetTypes: string[]
   ) {
     try {
       return await this.service.findAssetsByTypes(
         request.user.userId,
-        assetTypes
+        assetTypes as AssetType[]
       )
     } catch (error) {
       throw new BadRequestException(
@@ -92,7 +93,7 @@ export class AssetController {
   @UseGuards(AuthGuard)
   @Put(":assetId")
   async updateAssetById(
-    @Body() requestBody: CreateAssetRequestDto,
+    @Body() dto: CreateAssetRequestDto,
     @Param("assetId") assetId: string,
     @Request() request: ModRequest
   ) {
@@ -100,7 +101,7 @@ export class AssetController {
       return await this.service.updateAssetById(
         request.user.userId,
         assetId,
-        requestBody
+        dto
       )
     } catch (error) {
       throw new BadRequestException(
@@ -132,12 +133,12 @@ export class AssetGroupController {
   @UseGuards(AuthGuard)
   @Post()
   async createAssetGroup(
-    @Body() requestBody: CreateAssetGroupRequestDto,
+    @Body() dto: CreateAssetGroupRequestDto,
     @Request() request: ModRequest
   ) {
     try {
       const { userId } = request.user
-      const { assetgroupName } = requestBody
+      const { assetgroupName } = dto
       return await this.service.createAssetGroup({
         userId,
         assetgroupName,
@@ -151,13 +152,13 @@ export class AssetGroupController {
 
   @UseGuards(AuthGuard)
   @Get()
-  async findMyAssetGroups(
+  async findAssetGroupsByUser(
     @Request() request: ModRequest,
     @Query("searchKeyword") searchKeyword?: string
   ) {
     try {
       const { userId } = request.user
-      return await this.service.findMyAssetGroups({ userId, searchKeyword })
+      return await this.service.findAssetGroupsByUser({ userId, searchKeyword })
     } catch (error) {
       throw new BadRequestException(
         error.message || statusMessages.connectionError
@@ -188,7 +189,7 @@ export class AssetGroupController {
   @UseGuards(AuthGuard)
   @Put(":assetgroupId")
   async updateAssetGroupById(
-    @Body() requestBody: CreateAssetGroupRequestDto,
+    @Body() dto: CreateAssetGroupRequestDto,
     @Param("assetgroupId") assetgroupId: string,
     @Request() request: ModRequest
   ) {
@@ -196,7 +197,7 @@ export class AssetGroupController {
       return await this.service.updateAssetGroupById(
         request.user.userId,
         assetgroupId,
-        requestBody
+        dto
       )
     } catch (error) {
       throw new BadRequestException(

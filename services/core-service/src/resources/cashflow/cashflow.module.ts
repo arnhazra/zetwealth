@@ -8,7 +8,7 @@ import { Cashflow, CashflowSchema } from "./schemas/cashflow.schema"
 import { CashFlowRepository } from "./cashflow.repository"
 import { CreateCashflowCommandHandler } from "./commands/handler/create-cashflow.handler"
 import { DeleteCashflowCommandHandler } from "./commands/handler/delete-cashflow.handler"
-import { FindCashflowsQueryHandler } from "./queries/handler/find-cashflows.handler"
+import { FindCashflowsByDayQueryHandler } from "./queries/handler/find-cashflows-by-day.handler"
 import { FindCashflowsByUserQueryHandler } from "./queries/handler/find-cashflows-by-user.handler"
 import { FindCashflowByIdHandler } from "./queries/handler/find-cashflow-by-id.handler"
 import { UpdateCashflowHandler } from "./commands/handler/update-cashflow.handler"
@@ -29,7 +29,7 @@ import { AssetModule } from "../asset/asset.module"
     CashFlowRepository,
     CreateCashflowCommandHandler,
     DeleteCashflowCommandHandler,
-    FindCashflowsQueryHandler,
+    FindCashflowsByDayQueryHandler,
     FindCashflowsByUserQueryHandler,
     FindCashflowByIdHandler,
     UpdateCashflowHandler,

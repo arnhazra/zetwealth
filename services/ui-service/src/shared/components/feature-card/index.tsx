@@ -15,7 +15,7 @@ export function FeatureCard({ feature, ai }: FeatureCardProps) {
     <Card className="bg-background border border-border p-2 rounded-3xl hover:shadow-lg hover:shadow-primary/10 cursor-pointer h-full flex flex-col">
       <CardHeader className="flex justify-between mt-6 items-center">
         <h2 className="text-2xl">{feature.displayName}</h2>
-        <IconContainer ai={ai}>
+        <IconContainer>
           <FeatureIcon className="h-4 w-4" />
         </IconContainer>
       </CardHeader>

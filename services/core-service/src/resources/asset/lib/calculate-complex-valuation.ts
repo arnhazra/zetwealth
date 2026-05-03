@@ -13,5 +13,5 @@ export default function calculateComplexValuation(asset: Asset): number {
   const quarterlyRate = annualRate / 4
   const fullQuarters = Math.floor(quarters)
   const amount = amountInvested * Math.pow(1 + quarterlyRate, fullQuarters)
-  return Number(amount.toFixed(2))
+  return amount
 }

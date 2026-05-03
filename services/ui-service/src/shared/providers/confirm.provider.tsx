@@ -51,7 +51,7 @@ function useConfirm() {
       <AlertDialogContent className="w-[25rem] bg-background text-white border-border">
         <AlertDialogHeader>
           <AlertDialogTitle>{message.title}</AlertDialogTitle>
-          <AlertDialogDescription className="text-theme-300">
+          <AlertDialogDescription className="text-theme-200">
             {message.desc ?? platformConfig?.otherConstants.confirmDescription}
           </AlertDialogDescription>
         </AlertDialogHeader>

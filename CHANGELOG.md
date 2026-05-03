@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 3.7.0
+
+- Bug fixes & performance improvements across app
+- UI redesign for some components
+- Complete rearchitecture for Intelligence
+- Added single source of truth for DTOs by migrating to Zod
+- Standardized function names & code refactoring
+- Fixed defect - resource visible using Id by any user with valid token
+
 ## Version 3.6.0
 
 - Major change in Intelligence with dynamic multi agent architecture
@@ -27,8 +36,8 @@
 - Updated cashflow app to have update & delete cashflow functionality
 - Dependency updates, Bug fixes & performance improvements
 - Added detailed architecture & workflows in readme
-- Merged Intelligence Summarizer API to Chat API
-- Removed Intelligence Summarizer modal and integrated summarizer with chat sidebar
+- Merged Intelligence Summarizer API to Conversation API
+- Removed Intelligence Summarizer modal and integrated summarizer with Conversation sidebar
 
 ## Version 3.2.0
 

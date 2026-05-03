@@ -10,13 +10,11 @@ export class UpdateEventByIdCommandHandler implements ICommandHandler<UpdateEven
   async execute(command: UpdateEventCommand) {
     const {
       eventId,
-      userId,
       dto: { eventDate, eventName },
     } = command
     return await this.repository.update(
       { _id: createOrConvertObjectId(eventId) },
       {
-        userId: createOrConvertObjectId(userId),
         eventName,
         eventDate,
       }

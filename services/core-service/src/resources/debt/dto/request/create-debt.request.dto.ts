@@ -1,23 +1,29 @@
-import { IsNotEmpty, IsNumber, IsString, Matches } from "class-validator"
+import { z } from "zod"
+import { createZodDto } from "nestjs-zod"
+import { dateString } from "@/shared/validators/zod.validators"
+import { BaseAgentSchema } from "@/intelligence/agent/agent.schema"
 
-export class CreateDebtRequestDto {
-  @IsNotEmpty()
-  @IsString()
-  debtPurpose: string
+const CreateDebtSchema = z.object({
+  debtPurpose: z.string().describe("debt purpose given by the user"),
+  identifier: z.string().describe("identifier given by the user"),
+  startDate: dateString.describe(
+    "start date; natural language allowed (e.g., next Friday, in 2 months, 2025-01-31) you need to convert to YYYY-MM-DD format string"
+  ),
+  endDate: dateString.describe(
+    "end date; natural language allowed (e.g., next Friday, in 2 months, 2025-01-31) you need to convert to YYYY-MM-DD format string"
+  ),
+  principalAmount: z
+    .number()
+    .positive()
+    .describe("principal amount given by the user"),
+  interestRate: z
+    .number()
+    .positive()
+    .describe("interest rate % given by the user"),
+})
 
-  @IsNotEmpty()
-  @IsString()
-  identifier: string
+export const CreateDebtServiceSchema = BaseAgentSchema.extend(
+  CreateDebtSchema.shape
+)
 
-  @Matches(/^\d{4}-\d{2}-\d{2}$/)
-  startDate: string
-
-  @Matches(/^\d{4}-\d{2}-\d{2}$/)
-  endDate: string
-
-  @IsNumber()
-  principalAmount: number
-
-  @IsNumber()
-  interestRate: number
-}
+export class CreateDebtRequestDto extends createZodDto(CreateDebtSchema) {}

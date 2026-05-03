@@ -9,7 +9,7 @@ export class UpdateAssetCommandHandler implements ICommandHandler<UpdateAssetCom
 
   async execute(command: UpdateAssetCommand) {
     const { assetId, dto } = command
-    const { assetgroupId, ...otherFields } = dto
+    const { assetgroupId, ...otherFields } = dto.data
     return await this.repository.update(
       { _id: createOrConvertObjectId(assetId) },
       {

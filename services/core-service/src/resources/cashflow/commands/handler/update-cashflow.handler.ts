@@ -10,14 +10,12 @@ export class UpdateCashflowHandler implements ICommandHandler<UpdateCashflowComm
 
   async execute(command: UpdateCashflowCommand): Promise<Cashflow | null> {
     const {
-      userId,
       cashflowId,
       dto: { targetAsset, nextExecutionAt, ...otherFields },
     } = command
     return this.repository.update(
       {
         _id: createOrConvertObjectId(cashflowId),
-        userId: createOrConvertObjectId(userId),
       },
       {
         targetAsset: createOrConvertObjectId(targetAsset),

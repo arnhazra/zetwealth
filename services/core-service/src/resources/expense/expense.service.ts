@@ -4,17 +4,18 @@ import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { Expense } from "./schemas/expense.schema"
 import { DeleteExpenseCommand } from "./commands/impl/delete-expense.command"
 import { CreateExpenseCommand } from "./commands/impl/create-expense.command"
-import { CreateExpenseRequestDto } from "./dto/request/create-expense.request.dto"
+import {
+  CreateExpenseRequestDto,
+  CreateExpenseServiceSchema,
+} from "./dto/request/request.dto"
 import { UpdateExpenseCommand } from "./commands/impl/update-expense.command"
 import { FindExpensesByUserQuery } from "./queries/impl/find-expense-by-user.query"
 import { FindExpenseByIdQuery } from "./queries/impl/find-expense-by-id.query"
 import { ExpenseCategory } from "@/shared/constants/types"
 import { z } from "zod"
 import { AgentTool } from "@/intelligence/agent/agent.decorator"
-import {
-  CreateExpenseSchema,
-  GetExpensesByUserSchema,
-} from "./schemas/expenseagent.schema"
+import { FindExpensesByMonthServiceSchema } from "./dto/request/request.dto"
+import { assertOwnership } from "@/shared/utils/assert-ownership"
 
 @Injectable()
 export class ExpenseService {
@@ -24,8 +25,9 @@ export class ExpenseService {
   ) {}
 
   @AgentTool({
-    name: "get_expense_categories",
+    name: "list_expense_categories",
     description: "Get expense categories",
+    schema: z.object({}),
   })
   public getExpenseCategories() {
     return Object.values(ExpenseCategory)
@@ -34,9 +36,9 @@ export class ExpenseService {
   @AgentTool({
     name: "create_expense",
     description: "Create a new expense for a user",
-    schema: CreateExpenseSchema,
+    schema: CreateExpenseServiceSchema,
   })
-  async createExpense(dto: z.output<typeof CreateExpenseSchema>) {
+  async create(dto: z.output<typeof CreateExpenseServiceSchema>) {
     try {
       const { userId, ...rest } = dto
       return await this.commandBus.execute<CreateExpenseCommand, Expense>(
@@ -48,11 +50,13 @@ export class ExpenseService {
   }
 
   @AgentTool({
-    name: "get_expenses_by_month",
+    name: "list_expenses_by_month",
     description: "List down expenses for an user for any given month",
-    schema: GetExpensesByUserSchema,
+    schema: FindExpensesByMonthServiceSchema,
   })
-  async findMyExpenses(dto: z.output<typeof GetExpensesByUserSchema>) {
+  async findAllByUserId(
+    dto: z.output<typeof FindExpensesByMonthServiceSchema>
+  ) {
     try {
       const { userId, monthFilter, searchKeyword, expenseCategory } = dto
       return await this.queryBus.execute<FindExpensesByUserQuery>(
@@ -68,22 +72,26 @@ export class ExpenseService {
     }
   }
 
-  async findExpenseById(reqUserId: string, expenseId: string) {
+  async findById(userId: string, expenseId: string) {
     try {
-      return await this.queryBus.execute<FindExpenseByIdQuery, Expense>(
-        new FindExpenseByIdQuery(reqUserId, expenseId)
-      )
+      const expense = await this.queryBus.execute<
+        FindExpenseByIdQuery,
+        Expense
+      >(new FindExpenseByIdQuery(expenseId))
+      assertOwnership(expense, userId)
+      return expense
     } catch (error) {
       throw new Error(statusMessages.connectionError)
     }
   }
 
-  async updateExpenseById(
+  async updateById(
     userId: string,
     expenseId: string,
     requestBody: CreateExpenseRequestDto
   ) {
     try {
+      await this.findById(userId, expenseId)
       return await this.commandBus.execute<UpdateExpenseCommand, Expense>(
         new UpdateExpenseCommand(userId, expenseId, requestBody)
       )
@@ -92,18 +100,11 @@ export class ExpenseService {
     }
   }
 
-  async deleteExpense(reqUserId: string, expenseId: string) {
+  async deleteById(userId: string, expenseId: string) {
     try {
-      const { userId } = await this.queryBus.execute<
-        FindExpenseByIdQuery,
-        Expense
-      >(new FindExpenseByIdQuery(reqUserId, expenseId))
-      if (userId.toString() === reqUserId) {
-        await this.commandBus.execute(new DeleteExpenseCommand(expenseId))
-        return { success: true }
-      }
-
-      throw new Error(statusMessages.connectionError)
+      await this.findById(userId, expenseId)
+      await this.commandBus.execute(new DeleteExpenseCommand(expenseId))
+      return { success: true }
     } catch (error) {
       throw new Error(statusMessages.connectionError)
     }

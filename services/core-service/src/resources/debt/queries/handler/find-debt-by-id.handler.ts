@@ -8,10 +8,9 @@ export class FindDebtByIdQueryHandler implements IQueryHandler<FindDebtByIdQuery
   constructor(private readonly repository: DebtRepository) {}
 
   async execute(query: FindDebtByIdQuery) {
-    const { debtId, userId } = query
+    const { debtId } = query
     return await this.repository.findOne({
       _id: createOrConvertObjectId(debtId),
-      userId: createOrConvertObjectId(userId),
     })
   }
 }

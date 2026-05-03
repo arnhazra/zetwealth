@@ -66,9 +66,9 @@ export default function Page() {
   const { data: assetOptions = [], isLoading: isAssetOptionsLoading } =
     useQuery<Asset[]>({
       queryKey: ["find-assets-by-type"],
-      queryUrl: `${endPoints.asset}/findassetsbytype`,
+      queryUrl: `${endPoints.asset}/findassetsbytypes`,
       method: HTTPMethods.POST,
-      requestBody: { assetTypes: ["RETIREMENT", "LIQUID"] },
+      requestBody: { assetTypes: ["RETIREMENT", "LIQUID", "OTHER"] },
       suspense: false,
     })
 
@@ -151,7 +151,7 @@ export default function Page() {
 
   return (
     <div className="min-h-screen p-6">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <Card className="bg-background border-border">
           <CardHeader className="border-b border-theme-800">
             <CardTitle className="text-2xl flex items-center gap-2 text-theme-100">

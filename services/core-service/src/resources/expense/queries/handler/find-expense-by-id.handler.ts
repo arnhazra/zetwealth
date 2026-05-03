@@ -8,10 +8,9 @@ export class FindExpenseByIdQueryHandler implements IQueryHandler<FindExpenseByI
   constructor(private readonly repository: ExpenseRepository) {}
 
   async execute(query: FindExpenseByIdQuery) {
-    const { expenseId, userId } = query
+    const { expenseId } = query
     return await this.repository.findOne({
       _id: createOrConvertObjectId(expenseId),
-      userId: createOrConvertObjectId(userId),
     })
   }
 }

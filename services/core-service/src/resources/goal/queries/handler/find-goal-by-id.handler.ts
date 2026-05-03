@@ -8,10 +8,9 @@ export class FindGoalByIdQueryHandler implements IQueryHandler<FindGoalByIdQuery
   constructor(private readonly repository: GoalRepository) {}
 
   async execute(query: FindGoalByIdQuery) {
-    const { goalId, userId } = query
+    const { goalId } = query
     return await this.repository.findOne({
       _id: createOrConvertObjectId(goalId),
-      userId: createOrConvertObjectId(userId),
     })
   }
 }

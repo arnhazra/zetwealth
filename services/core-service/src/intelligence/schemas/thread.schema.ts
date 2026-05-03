@@ -2,13 +2,13 @@ import {
   createSchemaFromClass,
   Entity,
   EntityProp,
-  IdentifiableEntitySchmea,
+  IdentifiableEntitySchema,
   ObjectId,
   ObjectIdType,
 } from "@/shared/entity/entity.schema"
 
 @Entity({ collection: "intelligence-threads" })
-export class Thread extends IdentifiableEntitySchmea {
+export class Thread extends IdentifiableEntitySchema {
   @EntityProp({ type: ObjectIdType, required: true })
   readonly threadId: ObjectId
 

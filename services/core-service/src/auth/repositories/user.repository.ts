@@ -6,7 +6,6 @@ import {
   EntityRepository,
   InjectEntityModel,
 } from "@/shared/entity/entity.repository"
-import { createOrConvertObjectId } from "@/shared/entity/entity.schema"
 
 @Injectable()
 export class UserRepository extends EntityRepository<User> {
@@ -15,16 +14,5 @@ export class UserRepository extends EntityRepository<User> {
     private userModel: EntityModel<User>
   ) {
     super(userModel)
-  }
-
-  async updateOneById<K extends keyof User>(
-    userId: string,
-    key: K,
-    value: User[K]
-  ): Promise<User | null> {
-    return await super.update(
-      { _id: createOrConvertObjectId(userId) },
-      { [key]: value }
-    )
   }
 }

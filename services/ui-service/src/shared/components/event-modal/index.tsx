@@ -83,7 +83,7 @@ export function EventModal({
                         )
                       }
                     >
-                      <Pen className="h-4 w-4" />
+                      <Pen className="h-4 w-4 text-black" />
                     </Button>
                   </Show>,
                   <Show condition={event.eventSource === "Custom"}>

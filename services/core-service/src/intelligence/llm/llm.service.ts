@@ -6,7 +6,7 @@ import { ChatOpenAI } from "@langchain/openai"
 export class LLMService {
   constructor() {}
 
-  getOpenAIChatModel() {
+  getOpenAIConversationModel() {
     return new ChatOpenAI({
       model: config.AZURE_OPENAI_MODEL_NAME,
       temperature: 0.4,

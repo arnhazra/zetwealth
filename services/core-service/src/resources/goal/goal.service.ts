@@ -4,17 +4,19 @@ import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { Goal } from "./schemas/goal.schema"
 import { DeleteGoalCommand } from "./commands/impl/delete-goal.command"
 import { CreateGoalCommand } from "./commands/impl/create-goal.command"
-import { CreateGoalRequestDto } from "./dto/request/create-goal.request.dto"
+import {
+  CreateGoalRequestDto,
+  CreateGoalServiceSchema,
+  GoalByIdServiceSchema,
+} from "./dto/request.dto"
 import { UpdateGoalCommand } from "./commands/impl/update-goal.command"
 import { FindGoalsByUserQuery } from "./queries/impl/find-goal-by-user.query"
 import { FindGoalByIdQuery } from "./queries/impl/find-goal-by-id.query"
 import { FindNearestGoalQuery } from "./queries/impl/find-nearest-goal.query"
 import { z } from "zod"
 import { AgentTool } from "@/intelligence/agent/agent.decorator"
-import {
-  CreateGoalInputSchema,
-  GetByUserIdInputSchema,
-} from "./schemas/goalagent.schema"
+import { BaseAgentSchema } from "@/intelligence/agent/agent.schema"
+import { assertOwnership } from "@/shared/utils/assert-ownership"
 
 @Injectable()
 export class GoalService {
@@ -26,9 +28,9 @@ export class GoalService {
   @AgentTool({
     name: "create_goal",
     description: "Create a new goal for a user",
-    schema: CreateGoalInputSchema,
+    schema: CreateGoalServiceSchema,
   })
-  async createGoal(dto: z.output<typeof CreateGoalInputSchema>) {
+  async create(dto: z.output<typeof CreateGoalServiceSchema>) {
     try {
       const { userId, ...rest } = dto
       return await this.commandBus.execute<CreateGoalCommand, Goal>(
@@ -40,11 +42,11 @@ export class GoalService {
   }
 
   @AgentTool({
-    name: "get_goal_list",
+    name: "list_goals",
     description: "List down all goals for user",
-    schema: GetByUserIdInputSchema,
+    schema: BaseAgentSchema,
   })
-  async findMyGoals(dto: z.output<typeof GetByUserIdInputSchema>) {
+  async findAllByUserId(dto: z.output<typeof BaseAgentSchema>) {
     try {
       const { userId } = dto
       return await this.queryBus.execute<FindGoalsByUserQuery, Goal[]>(
@@ -56,11 +58,11 @@ export class GoalService {
   }
 
   @AgentTool({
-    name: "get_user_nearest_goal",
+    name: "fetch_nearest_goal",
     description: "Get nearest goal of a user",
-    schema: GetByUserIdInputSchema,
+    schema: BaseAgentSchema,
   })
-  async findNearestGoal(dto: z.output<typeof GetByUserIdInputSchema>) {
+  async findNearestGoal(dto: z.output<typeof BaseAgentSchema>) {
     try {
       const { userId } = dto
       const goal = await this.queryBus.execute<FindNearestGoalQuery, Goal>(
@@ -72,41 +74,36 @@ export class GoalService {
     }
   }
 
-  async findGoalById(reqUserId: string, goalId: string) {
+  async findById(dto: z.output<typeof GoalByIdServiceSchema>) {
     try {
-      return await this.queryBus.execute<FindGoalByIdQuery, Goal>(
-        new FindGoalByIdQuery(reqUserId, goalId)
+      const { goalId, userId } = dto
+      const goal = await this.queryBus.execute<FindGoalByIdQuery, Goal>(
+        new FindGoalByIdQuery(goalId)
       )
+      assertOwnership(goal, userId)
+      return goal
     } catch (error) {
       throw new Error(statusMessages.connectionError)
     }
   }
 
-  async updateGoalById(
-    userId: string,
-    goalId: string,
-    requestBody: CreateGoalRequestDto
-  ) {
+  async updateById(userId: string, goalId: string, dto: CreateGoalRequestDto) {
     try {
+      await this.findById({ userId, goalId })
       return await this.commandBus.execute<UpdateGoalCommand, Goal>(
-        new UpdateGoalCommand(userId, goalId, requestBody)
+        new UpdateGoalCommand(userId, goalId, dto)
       )
     } catch (error) {
       throw new Error(statusMessages.connectionError)
     }
   }
 
-  async deleteGoal(reqUserId: string, goalId: string) {
+  async deleteById(dto: z.output<typeof GoalByIdServiceSchema>) {
     try {
-      const { userId } = await this.queryBus.execute<FindGoalByIdQuery, Goal>(
-        new FindGoalByIdQuery(reqUserId, goalId)
-      )
-      if (userId.toString() === reqUserId) {
-        await this.commandBus.execute(new DeleteGoalCommand(goalId))
-        return { success: true }
-      }
-
-      throw new Error(statusMessages.connectionError)
+      const { userId, goalId } = dto
+      await this.findById({ userId, goalId })
+      await this.commandBus.execute(new DeleteGoalCommand(goalId))
+      return { success: true }
     } catch (error) {
       throw new Error(statusMessages.connectionError)
     }

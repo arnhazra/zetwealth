@@ -6,7 +6,7 @@ import {
 } from "@nestjs/mongoose"
 import { Document, Types, QueryFilter } from "mongoose"
 
-export abstract class IdentifiableEntitySchmea extends Document {}
+export abstract class IdentifiableEntitySchema extends Document {}
 
 const DEFAULT_SCHEMA_OPTIONS: SchemaOptions = {
   versionKey: false,

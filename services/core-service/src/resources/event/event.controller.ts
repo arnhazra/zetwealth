@@ -22,13 +22,13 @@ export class EventController {
 
   @UseGuards(AuthGuard)
   @Post()
-  async createEvent(
+  async create(
     @Body() dto: CreateEventRequestDto,
     @Request() request: ModRequest
   ) {
     try {
       const { userId } = request.user
-      return await this.service.createEvent({
+      return await this.service.create({
         userId,
         ...dto,
       })
@@ -41,13 +41,13 @@ export class EventController {
 
   @UseGuards(AuthGuard)
   @Get()
-  async findMyEventsByMonth(
+  async findMonthByUserId(
     @Request() request: ModRequest,
     @Query("month") eventMonth: string
   ) {
     try {
       const { userId } = request.user
-      return await this.service.findMyEventsByMonth({
+      return await this.service.findMonthByUserId({
         userId,
         eventMonth,
       })
@@ -91,12 +91,12 @@ export class EventController {
 
   @UseGuards(AuthGuard)
   @Delete("/:eventId")
-  async deleteEvent(
+  async deleteById(
     @Request() request: ModRequest,
     @Param("eventId") eventId: string
   ) {
     try {
-      return await this.service.deleteEvent(request.user.userId, eventId)
+      return await this.service.deleteById(request.user.userId, eventId)
     } catch (error) {
       throw new BadRequestException(
         error.message || statusMessages.connectionError

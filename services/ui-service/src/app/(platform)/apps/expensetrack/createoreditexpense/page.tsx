@@ -136,7 +136,7 @@ export default function Page() {
 
   return (
     <div className="min-h-screen p-6">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         <Card className="bg-background border-border">
           <CardHeader className="border-b border-theme-800">
             <CardTitle className="text-2xl flex items-center gap-2 text-theme-100">
@@ -207,7 +207,7 @@ export default function Page() {
                     <Button
                       variant="outline"
                       className={cn(
-                        "w-full justify-start text-left font-normal bg-background border-border text-theme-100 hover:bg-theme-700",
+                        "w-full justify-start text-left font-normal bg-background border-border text-theme-100 hover:bg-border",
                         !formData.expenseDate && "text-theme-500"
                       )}
                     >

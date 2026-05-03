@@ -2,7 +2,6 @@ import { CreateCashFlowRequestDto } from "../../dto/request/create-cashflow.requ
 
 export class UpdateCashflowCommand {
   constructor(
-    public readonly userId: string,
     public readonly cashflowId: string,
     public readonly dto: CreateCashFlowRequestDto
   ) {}

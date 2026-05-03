@@ -103,7 +103,7 @@ export default function CalendarPage() {
               <Button
                 size="sm"
                 variant="default"
-                className="gap-2 border-theme-700 bg-primary text-black hover:bg-primary/90"
+                className="gap-2 border-border bg-primary text-black hover:bg-primary/90"
               >
                 <Plus className="h-4 w-4" />
                 Add Event
@@ -133,7 +133,7 @@ export default function CalendarPage() {
                 <div
                   key={day.toString()}
                   className={cn(
-                    "group relative border-b border-r border-border p-2 transition-colors hover:bg-theme-900/50 cursor-pointer",
+                    "group relative border-b border-r border-border p-2 transition-colors hover:bg-main/50 cursor-pointer",
                     i % 7 === 6 && "border-r-0",
                     i >= calendarDays.length - 7 && "border-b-0"
                   )}
@@ -159,7 +159,7 @@ export default function CalendarPage() {
                       >
                         <div className="flex items-center gap-1.5 overflow-hidden">
                           <div className="h-3 w-3 shrink-0 rounded-2xl bg-primary" />
-                          <span className="truncate text-theme-300">
+                          <span className="truncate text-theme-200">
                             {event.eventName}
                           </span>
                         </div>

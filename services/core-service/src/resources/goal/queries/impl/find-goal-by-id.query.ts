@@ -1,6 +1,3 @@
 export class FindGoalByIdQuery {
-  constructor(
-    public readonly userId: string,
-    public readonly goalId: string
-  ) {}
+  constructor(public readonly goalId: string) {}
 }

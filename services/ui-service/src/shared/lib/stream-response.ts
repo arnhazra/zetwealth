@@ -1,6 +1,6 @@
 import { streamApi } from "./ky-api"
 
-export async function streamChatResponse(
+export async function streamConversationResponse(
   url: string,
   body: Record<string, unknown>,
   onToken: (token: string) => void,

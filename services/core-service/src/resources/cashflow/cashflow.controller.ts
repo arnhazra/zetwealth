@@ -41,30 +41,16 @@ export class CashFlowController {
 
   @UseGuards(AuthGuard)
   @Get()
-  async findMyCashflows(
+  async findAllByUserId(
     @Request() request: ModRequest,
     @Query("searchKeyword") searchKeyword?: string
   ) {
     try {
-      return await this.service.findMyCashflows({
-        userId: request.user.userId,
+      const { userId } = request.user
+      return await this.service.findAllByUserId({
+        userId,
         searchKeyword,
       })
-    } catch (error) {
-      throw new BadRequestException(
-        error.message || statusMessages.connectionError
-      )
-    }
-  }
-
-  @UseGuards(AuthGuard)
-  @Delete("/:cashflowId")
-  async delete(
-    @Request() request: ModRequest,
-    @Param("cashflowId") cashflowId: string
-  ) {
-    try {
-      return await this.service.delete(request.user.userId, cashflowId)
     } catch (error) {
       throw new BadRequestException(
         error.message || statusMessages.connectionError
@@ -96,6 +82,21 @@ export class CashFlowController {
   ) {
     try {
       return await this.service.updateById(request.user.userId, cashflowId, dto)
+    } catch (error) {
+      throw new BadRequestException(
+        error.message || statusMessages.connectionError
+      )
+    }
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete("/:cashflowId")
+  async deleteById(
+    @Request() request: ModRequest,
+    @Param("cashflowId") cashflowId: string
+  ) {
+    try {
+      return await this.service.deleteById(request.user.userId, cashflowId)
     } catch (error) {
       throw new BadRequestException(
         error.message || statusMessages.connectionError

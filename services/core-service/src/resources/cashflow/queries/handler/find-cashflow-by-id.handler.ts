@@ -11,7 +11,6 @@ export class FindCashflowByIdHandler implements IQueryHandler<FindCashflowByIdQu
   async execute(query: FindCashflowByIdQuery): Promise<Cashflow | null> {
     return this.repository.findOne({
       _id: createOrConvertObjectId(query.cashflowId),
-      userId: createOrConvertObjectId(query.userId),
     })
   }
 }
