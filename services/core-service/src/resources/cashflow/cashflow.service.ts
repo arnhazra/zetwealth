@@ -37,7 +37,7 @@ export class CashFlowService {
   @AgentTool({
     name: "list_eligible_assets",
     description: "List eligible assets to create a cashflow",
-    schema: CreateCashflowServiceSchema,
+    schema: BaseAgentSchema,
   })
   async listEligibleAssets(dto: z.output<typeof BaseAgentSchema>) {
     try {

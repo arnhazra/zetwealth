@@ -188,7 +188,7 @@ export default function Page() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="assetType" className="text-theme-200">
-                  Select AssetGroup
+                  Select Asset Group
                 </Label>
                 <Select
                   value={formData.assetgroupId}
@@ -198,7 +198,7 @@ export default function Page() {
                   required
                 >
                   <SelectTrigger className="w-full bg-background text-white border-border">
-                    <SelectValue placeholder="Select AssetGroup" />
+                    <SelectValue placeholder="Select Asset Group" />
                   </SelectTrigger>
                   <SelectContent className="w-full bg-background text-white border-border">
                     {assetgroups.data?.map((assetgroup) => (
