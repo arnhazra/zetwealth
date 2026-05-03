@@ -23,6 +23,8 @@ import {
 } from "../asset/dto/request/create-asset.request.dto"
 import { FindCashflowsSchema } from "./dto/request/find-cashflow.dto"
 import { assertOwnership } from "@/shared/utils/assert-ownership"
+import { BaseAgentSchema } from "@/intelligence/agent/agent.schema"
+import { AssetType } from "@/shared/constants/types"
 
 @Injectable()
 export class CashFlowService {
@@ -33,8 +35,26 @@ export class CashFlowService {
   ) {}
 
   @AgentTool({
+    name: "list_eligible_assets",
+    description: "List eligible assets to create a cashflow",
+    schema: CreateCashflowServiceSchema,
+  })
+  async listEligibleAssets(dto: z.output<typeof BaseAgentSchema>) {
+    try {
+      return await this.assetService.findAssetsByTypes(dto.userId, [
+        AssetType.RETIREMENT,
+        AssetType.LIQUID,
+        AssetType.OTHER,
+      ])
+    } catch (error) {
+      throw new Error(statusMessages.connectionError)
+    }
+  }
+
+  @AgentTool({
     name: "create_cashflow",
-    description: "Create a new cashflow for a user",
+    description:
+      "Create a new cashflow for a user - list eligible assets before this to determine target asset",
     schema: CreateCashflowServiceSchema,
   })
   async create(dto: z.output<typeof CreateCashflowServiceSchema>) {

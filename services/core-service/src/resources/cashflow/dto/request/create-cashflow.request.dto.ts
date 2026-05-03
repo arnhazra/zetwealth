@@ -9,7 +9,7 @@ export const CreateCashFlowSchema = z.object({
   targetAsset: z
     .string()
     .describe(
-      "ID of the target asset. Determine asset id from the input given"
+      "ID of the target asset. List down eligible assets using list_eligible_assets so user can choose from that"
     ),
   flowDirection: z
     .enum(FlowDirection)

@@ -66,9 +66,9 @@ export default function Page() {
   const { data: assetOptions = [], isLoading: isAssetOptionsLoading } =
     useQuery<Asset[]>({
       queryKey: ["find-assets-by-type"],
-      queryUrl: `${endPoints.asset}/findassetsbytype`,
+      queryUrl: `${endPoints.asset}/findassetsbytypes`,
       method: HTTPMethods.POST,
-      requestBody: { assetTypes: ["RETIREMENT", "LIQUID"] },
+      requestBody: { assetTypes: ["RETIREMENT", "LIQUID", "OTHER"] },
       suspense: false,
     })
 

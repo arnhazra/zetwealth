@@ -58,8 +58,8 @@ export class AssetController {
   }
 
   @UseGuards(AuthGuard)
-  @Post("findassetsbytype")
-  async findAssetsByType(
+  @Post("findassetsbytypes")
+  async findAssetsByTypes(
     @Request() request: ModRequest,
     @Body("assetTypes") assetTypes: string[]
   ) {
