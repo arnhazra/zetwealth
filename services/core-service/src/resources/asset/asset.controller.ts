@@ -16,6 +16,7 @@ import { statusMessages } from "@/shared/constants/status-messages"
 import { AuthGuard, ModRequest } from "@/auth/auth.guard"
 import { CreateAssetRequestDto } from "./dto/request/create-asset.request.dto"
 import { CreateAssetGroupRequestDto } from "./dto/request/create-assetgroup.request.dto"
+import { AssetType } from "@/shared/constants/types"
 
 @Controller("resource/asset")
 export class AssetController {
@@ -65,7 +66,7 @@ export class AssetController {
     try {
       return await this.service.findAssetsByTypes(
         request.user.userId,
-        assetTypes
+        assetTypes as AssetType[]
       )
     } catch (error) {
       throw new BadRequestException(

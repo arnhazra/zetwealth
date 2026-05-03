@@ -90,7 +90,7 @@ export class AssetService {
     }
   }
 
-  async findAssetsByTypes(userId: string, assetTypes: string[]) {
+  async findAssetsByTypes(userId: string, assetTypes: AssetType[]) {
     try {
       return await this.queryBus.execute<FindAssetsByTypesQuery, Asset[]>(
         new FindAssetsByTypesQuery(userId, assetTypes)
