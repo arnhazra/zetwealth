@@ -58,7 +58,7 @@ export class EventService {
   }
 
   @AgentTool({
-    name: "get_events_by_month",
+    name: "list_events_by_month",
     description: "List down events for an user for any given month",
     schema: FindEventByMonthServiceSchema,
   })

@@ -25,7 +25,7 @@ export class ExpenseService {
   ) {}
 
   @AgentTool({
-    name: "get_expense_categories",
+    name: "list_expense_categories",
     description: "Get expense categories",
     schema: z.object({}),
   })
@@ -50,7 +50,7 @@ export class ExpenseService {
   }
 
   @AgentTool({
-    name: "get_expenses_by_month",
+    name: "list_expenses_by_month",
     description: "List down expenses for an user for any given month",
     schema: FindExpensesByMonthServiceSchema,
   })

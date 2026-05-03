@@ -32,6 +32,11 @@ export class CashFlowService {
     private readonly assetService: AssetService
   ) {}
 
+  @AgentTool({
+    name: "create_cashflow",
+    description: "Create a new cashflow for a user",
+    schema: CreateCashflowServiceSchema,
+  })
   async create(dto: z.output<typeof CreateCashflowServiceSchema>) {
     try {
       const { userId, ...rest } = dto
@@ -44,7 +49,7 @@ export class CashFlowService {
   }
 
   @AgentTool({
-    name: "get_cashflows_list",
+    name: "list_cashflows",
     description: "Get list of cashflows for a user",
     schema: FindCashflowsSchema,
   })

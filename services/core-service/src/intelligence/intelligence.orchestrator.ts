@@ -35,15 +35,22 @@ export class IntelligenceOrchestrator {
     const data = await this.configService.getConfig(
       "conversation-system-instruction"
     )
+    const availableTools = this.agentRegistry.getTools()
+    const toolSummary = availableTools
+      .map((t) => `- ${t.name}: ${t.description}`)
+      .join("\n")
     const platformConfig = await this.configService.getConfig("home-config")
     const { appConfig, solutionConfig } = platformConfig
 
-    return data
+    const systemInstruction = data
       .replaceAll("{platformName}", config.PLATFORM_NAME)
       .replaceAll("{todaysDate}", new Date().toString())
       .replaceAll("{userDetails}", JSON.stringify(user))
       .replaceAll("{appList}", appConfig)
       .replaceAll("{solutionList}", solutionConfig)
+      .replaceAll("{availableTools}", toolSummary)
+
+    return systemInstruction
   }
 
   private createConversationAgent(llm: AgentLanguageModelLike) {

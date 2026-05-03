@@ -42,7 +42,7 @@ export class DebtService {
   }
 
   @AgentTool({
-    name: "get_debt_list",
+    name: "list_debts",
     description: "List down all the debts for a user",
     schema: FindDebtListServiceSchema,
   })
@@ -103,7 +103,7 @@ export class DebtService {
   }
 
   @AgentTool({
-    name: "get_total_debt_by_userid",
+    name: "fetch_total_debt",
     description: "Get total debt for a user",
     schema: BaseAgentSchema,
   })

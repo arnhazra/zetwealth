@@ -42,7 +42,7 @@ export class GoalService {
   }
 
   @AgentTool({
-    name: "get_goal_list",
+    name: "list_goals",
     description: "List down all goals for user",
     schema: BaseAgentSchema,
   })
@@ -58,7 +58,7 @@ export class GoalService {
   }
 
   @AgentTool({
-    name: "get_user_nearest_goal",
+    name: "fetch_nearest_goal",
     description: "Get nearest goal of a user",
     schema: BaseAgentSchema,
   })

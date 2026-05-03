@@ -43,7 +43,7 @@ export class AssetService {
   ) {}
 
   @AgentTool({
-    name: "get_asset_types",
+    name: "fetch_asset_types",
     description: "Get all asset types",
     schema: z.object({}),
   })
@@ -101,7 +101,7 @@ export class AssetService {
   }
 
   @AgentTool({
-    name: "get_all_assets",
+    name: "list_assets",
     description:
       "Get all assets belonging to a user with their current valuations",
     schema: BaseAgentSchema,
@@ -228,7 +228,7 @@ export class AssetService {
   }
 
   @AgentTool({
-    name: "get_asset_group_valuation",
+    name: "fetch_asset_group_valuation",
     description:
       "Get the total current valuation and asset count for a specific asset group by its name",
     schema: GetAssetGroupValuationSchema,
@@ -258,7 +258,7 @@ export class AssetService {
   }
 
   @AgentTool({
-    name: "get_total_asset_valuation",
+    name: "fetch_total_asset_valuation",
     description:
       "Calculate and return the total current valuation of all assets for a user",
     schema: BaseAgentSchema,
@@ -298,7 +298,7 @@ export class AssetService {
   }
 
   @AgentTool({
-    name: "get_asset_groups",
+    name: "list_asset_groups",
     description:
       "List all asset groups for a user with their current valuations and asset counts",
     schema: GetAssetGroupListSchema,
