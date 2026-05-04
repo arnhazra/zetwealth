@@ -1,4 +1,4 @@
-import { CreateCashFlowRequestDto } from "../../dto/request/create-cashflow.request.dto"
+import { CreateCashFlowRequestDto } from "../../dto/request/request.dto"
 
 export class CreateCashFlowCommand {
   constructor(

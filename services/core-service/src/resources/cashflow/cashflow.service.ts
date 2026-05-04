@@ -8,7 +8,8 @@ import { FindCashflowsByDayQuery } from "./queries/impl/find-cashflows-by-day.qu
 import {
   CreateCashFlowRequestDto,
   CreateCashflowServiceSchema,
-} from "./dto/request/create-cashflow.request.dto"
+  DeleteCashflowServiceSchema,
+} from "./dto/request/request.dto"
 import { Asset } from "../asset/schemas/asset.schema"
 import { FindCashflowsByUserQuery } from "./queries/impl/find-cashflows-by-user.query"
 import { computeNextDate } from "./helpers/compute-next-date"
@@ -21,10 +22,14 @@ import {
   LiquidSchema,
   RetirementSchema,
 } from "../asset/dto/request/create-asset.request.dto"
-import { FindCashflowsSchema } from "./dto/request/find-cashflow.dto"
+import { FindCashflowsSchema } from "./dto/request/request.dto"
 import { assertOwnership } from "@/shared/utils/assert-ownership"
 import { BaseAgentSchema } from "@/intelligence/agent/agent.schema"
 import { AssetType } from "@/shared/constants/types"
+import {
+  CreateCashflowSkill,
+  DeleteCashflowSkill,
+} from "./skills/cashflow.skill"
 
 @Injectable()
 export class CashFlowService {
@@ -53,8 +58,7 @@ export class CashFlowService {
 
   @AgentTool({
     name: "create_cashflow",
-    description:
-      "Create a new cashflow for a user - list eligible assets before this to determine target asset",
+    description: CreateCashflowSkill,
     schema: CreateCashflowServiceSchema,
   })
   async create(dto: z.output<typeof CreateCashflowServiceSchema>) {
@@ -112,8 +116,14 @@ export class CashFlowService {
     }
   }
 
-  async deleteById(userId: string, cashflowId: string) {
+  @AgentTool({
+    name: "delete_cashflow",
+    description: DeleteCashflowSkill,
+    schema: DeleteCashflowServiceSchema,
+  })
+  async deleteById(dto: z.output<typeof DeleteCashflowServiceSchema>) {
     try {
+      const { userId, cashflowId } = dto
       await this.findById(userId, cashflowId)
       await this.commandBus.execute(new DeleteCashflowCommand(cashflowId))
       return { success: true }

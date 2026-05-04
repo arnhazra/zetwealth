@@ -6,11 +6,7 @@ import { BaseAgentSchema } from "@/intelligence/agent/agent.schema"
 
 export const CreateCashFlowSchema = z.object({
   description: z.string().describe("description of cash flow"),
-  targetAsset: z
-    .string()
-    .describe(
-      "ID of the target asset. List down eligible assets using list_eligible_assets so user can choose from that"
-    ),
+  targetAsset: z.string().describe("ID of the target asset choosen by user"),
   flowDirection: z
     .enum(FlowDirection)
     .describe("decide if cash comes in or goes out"),
@@ -28,3 +24,17 @@ export const CreateCashflowServiceSchema = BaseAgentSchema.extend(
 export class CreateCashFlowRequestDto extends createZodDto(
   CreateCashFlowSchema
 ) {}
+
+export const DeleteCashflowServiceSchema = BaseAgentSchema.extend({
+  cashflowId: z.string().describe("ID of the cashflow to delete"),
+})
+
+export const FindCashflowsSchema = z.object({
+  userId: z.string().describe("user id of the user"),
+  searchKeyword: z
+    .string()
+    .optional()
+    .describe("optional param if user provide cashflow name"),
+})
+
+export class FindCashFlowRequestDto extends createZodDto(FindCashflowsSchema) {}

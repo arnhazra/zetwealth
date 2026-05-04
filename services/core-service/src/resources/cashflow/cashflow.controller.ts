@@ -14,7 +14,7 @@ import {
 import { CashFlowService } from "./cashflow.service"
 import { statusMessages } from "@/shared/constants/status-messages"
 import { AuthGuard, ModRequest } from "@/auth/auth.guard"
-import { CreateCashFlowRequestDto } from "./dto/request/create-cashflow.request.dto"
+import { CreateCashFlowRequestDto } from "./dto/request/request.dto"
 
 @Controller("resource/cashflow")
 export class CashFlowController {
@@ -96,7 +96,8 @@ export class CashFlowController {
     @Param("cashflowId") cashflowId: string
   ) {
     try {
-      return await this.service.deleteById(request.user.userId, cashflowId)
+      const { userId } = request.user
+      return await this.service.deleteById({ userId, cashflowId })
     } catch (error) {
       throw new BadRequestException(
         error.message || statusMessages.connectionError
