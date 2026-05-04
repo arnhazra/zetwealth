@@ -42,21 +42,20 @@ export class IntelligenceController {
     @Body() dto: ConversationDto,
     @Res() res: Response
   ) {
+    setSSEHeaders(res)
     try {
-      setSSEHeaders(res)
       for await (const event of this.service.conversation(
         dto,
         request.user.userId
       )) {
         res.write(`data: ${JSON.stringify(event)}\n\n`)
       }
-
       res.write("data: [DONE]\n\n")
-      res.end()
     } catch (error) {
       res.write(
         `data: ${JSON.stringify({ type: "error", data: error.message || statusMessages.connectionError })}\n\n`
       )
+    } finally {
       res.end()
     }
   }
