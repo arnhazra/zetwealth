@@ -93,7 +93,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               <Button
                 variant="default"
                 size="icon"
-                className="p-2 bg-primary hover:bg-primary text-black"
+                className="p-2 bg-primary hover:bg-primary"
               >
                 <Pen className="h-4 w-4" />
               </Button>

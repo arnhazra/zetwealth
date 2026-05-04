@@ -52,7 +52,7 @@ export default function EditCurrency({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
-          className="p-2 bg-primary hover:bg-primary text-black"
+          className="p-2 bg-primary hover:bg-primary"
           variant="default"
           size="icon"
         >
@@ -85,7 +85,7 @@ export default function EditCurrency({
           <Button
             onClick={(): Promise<void> => saveCurrency()}
             variant="default"
-            className="bg-primary hover:bg-primary text-black hover:text-black"
+            className="bg-primary hover:bg-primary"
           >
             Save
           </Button>

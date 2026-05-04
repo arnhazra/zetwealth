@@ -10,7 +10,7 @@ import { DialogDescription, DialogTrigger } from "@radix-ui/react-dialog"
 import { ReactNode, useEffect, useState } from "react"
 import { Badge } from "../ui/badge"
 import { formatKey, formatValue } from "@/shared/lib/format-key-value"
-import { Pen, Trash } from "lucide-react"
+import { BadgeAlert, Pen, Trash } from "lucide-react"
 import notify from "@/shared/hooks/use-notify"
 import { usePlatformConfig } from "@/context/platformconfig.provider"
 import { useConfirmContext } from "@/shared/providers/confirm.provider"
@@ -28,6 +28,7 @@ import {
 import api from "@/shared/lib/ky-api"
 import Link from "next/link"
 import { ResourceType } from "../resource-card/data"
+import IconContainer from "../icon-container"
 
 type ResourceDetailsProps = {
   resourceType: ResourceTypeForDetailModal
@@ -121,10 +122,7 @@ export function ResourceDetails({
           <div className="flex justify-between">
             <div>
               <DialogTitle>{displayName}</DialogTitle>
-              <Badge
-                variant="default"
-                className="bg-primary w-fit text-black mt-2"
-              >
+              <Badge variant="default" className="bg-primary w-fit mt-2">
                 {resourceBadgeText}
               </Badge>
               <DialogDescription></DialogDescription>
@@ -138,7 +136,7 @@ export function ResourceDetails({
                   size="icon"
                   className="p-2 bg-primary hover:bg-primary"
                 >
-                  <Pen className="text-black h-4 w-4 text-black" />
+                  <Pen className="h-4 w-4" />
                 </Button>
               </Link>
               <Button onClick={deleteResource} variant="secondary" size="icon">

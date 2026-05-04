@@ -103,7 +103,7 @@ export default function CalendarPage() {
               <Button
                 size="sm"
                 variant="default"
-                className="gap-2 border-border bg-primary text-black hover:bg-primary/90"
+                className="gap-2 border-border bg-primary text-white"
               >
                 <Plus className="h-4 w-4" />
                 Add Event
@@ -145,7 +145,7 @@ export default function CalendarPage() {
                       isSameMonth(day, monthStart)
                         ? "text-theme-200"
                         : "text-theme-600",
-                      isToday && "bg-theme-100 text-black"
+                      isToday && "bg-primary"
                     )}
                   >
                     {day.getDate()}

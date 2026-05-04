@@ -229,7 +229,7 @@ export default function Page() {
               variant="default"
               className="bg-primary hover:bg-primary"
             >
-              <Icons.Plus className="h-4 w-4 text-black" />
+              <Icons.Plus className="h-4 w-4" />
             </Button>
           </Link>,
         ]}

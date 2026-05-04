@@ -23,7 +23,7 @@ export default function Error({ error }: { error?: Error }) {
         <CardFooter>
           <Link
             href="/dashboard"
-            className={`w-full ${cn(buttonVariants({ variant: "default", className: "bg-primary hover:bg-primary text-black" }))} `}
+            className={`w-full ${cn(buttonVariants({ variant: "default", className: "bg-primary hover:bg-primary " }))} `}
           >
             Go Back
           </Link>

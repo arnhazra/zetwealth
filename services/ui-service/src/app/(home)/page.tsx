@@ -29,7 +29,7 @@ export default function Page() {
         <p className="max-w-[35rem] leading-normal text-theme-100 sm:text-lg sm:leading-8 mb-4">
           {platformConfig?.heroConfig.description}
         </p>
-        <Button variant="default" className="w-36 text-black">
+        <Button variant="default" className="h-10 w-36 rounded-full">
           <Link href={platformConfig?.heroConfig.getStartedUrl ?? ""}>
             {platformConfig?.otherConstants.getStartedButton}
           </Link>

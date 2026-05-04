@@ -50,10 +50,7 @@ export function EventModal({
             <Link
               href={`/apps/calendar/addorupdateevent?selectedDate=${selectedDate ? selectedDate.toISOString() : ""}`}
             >
-              <Button
-                size="sm"
-                className="bg-primary text-black hover:bg-primary/90 gap-1"
-              >
+              <Button size="sm" className="bg-primary text-white">
                 <Plus className="h-4 w-4" />
                 Add Event
               </Button>
@@ -83,7 +80,7 @@ export function EventModal({
                         )
                       }
                     >
-                      <Pen className="h-4 w-4 text-black" />
+                      <Pen className="h-4 w-4" />
                     </Button>
                   </Show>,
                   <Show condition={event.eventSource === "Custom"}>

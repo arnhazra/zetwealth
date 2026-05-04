@@ -86,7 +86,7 @@ export function SubscriptionModal() {
             ))}
           </ul>
           <Button
-            className="bg-primary hover:bg-primary focus:outline-none focus-visible:outline-none text-black"
+            className="bg-primary hover:bg-primary focus:outline-none focus-visible:outline-none"
             onClick={() => activateSubscription()}
           >
             Activate Subscription

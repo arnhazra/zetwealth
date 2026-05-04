@@ -1,14 +1,13 @@
 "use client"
 import Link from "next/link"
 import { TrendingUp, PanelLeft } from "lucide-react"
-import { Button, buttonVariants } from "@/shared/components/ui/button"
+import { Button } from "@/shared/components/ui/button"
 import {
   Sheet,
   SheetContent,
   SheetTitle,
   SheetTrigger,
 } from "@/shared/components/ui/sheet"
-import { cn } from "@/shared/lib/utils"
 import IconContainer from "../icon-container"
 import { PLATFORM_NAME } from "@/shared/constants/config"
 import { usePlatformConfig } from "@/context/platformconfig.provider"
@@ -17,7 +16,7 @@ export default function HomePageHeader() {
   const { platformConfig } = usePlatformConfig()
 
   return (
-    <header className="relative z-50 top-0 flex h-[64px] items-center bg-background text-white">
+    <header className="relative z-50 top-0 flex h-[64px] items-center bg-main text-white">
       <div className="mx-auto flex w-full max-w-[90rem] items-center justify-between px-4 md:px-6">
         <Link
           href="/"
@@ -43,18 +42,14 @@ export default function HomePageHeader() {
               </Link>
             )
           )}
-          <Link
-            href="/dashboard"
-            className={cn(
-              buttonVariants({
-                variant: "default",
-                className:
-                  "bg-primary hover:bg-primary text-black rounded-2xl h-9",
-              })
-            )}
+          <Button
+            variant="secondary"
+            className="bg-white text-black hover:bg-white rounded-full"
           >
-            {platformConfig?.otherConstants.getStartedButton}
-          </Link>
+            <Link href={platformConfig?.heroConfig.getStartedUrl ?? ""}>
+              {platformConfig?.otherConstants.getStartedButton}
+            </Link>
+          </Button>
         </nav>
 
         <div className="flex items-center space-x-4 md:hidden">

@@ -114,7 +114,7 @@ export default function Intelligence() {
         size="icon"
         className="h-11 w-11 fixed bottom-6 right-6 z-50 text-white text-white rounded-full transition"
       >
-        <Sparkle className="h-4 w-4 text-black" />
+        <Sparkle className="h-4 w-4" />
       </Button>
 
       {isOpen && (
