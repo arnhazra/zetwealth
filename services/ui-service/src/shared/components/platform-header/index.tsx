@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { TrendingUp } from "lucide-react"
+import { Wallet } from "lucide-react"
 import HeaderSearch from "./search/header-search"
 import { UserNav } from "./user-nav"
 import IconContainer from "../icon-container"
@@ -43,7 +43,7 @@ export default function PlatformHeader() {
             className="flex items-center gap-2 text-lg font-semibold"
           >
             <IconContainer>
-              <TrendingUp className="h-4 w-4" />
+              <Wallet className="h-4 w-4" />
             </IconContainer>
             <span className="hidden md:inline">{PLATFORM_NAME}</span>
           </Link>

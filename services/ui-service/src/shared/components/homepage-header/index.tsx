@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link"
-import { TrendingUp, PanelLeft } from "lucide-react"
+import { Wallet, PanelLeft } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
 import {
   Sheet,
@@ -23,7 +23,7 @@ export default function HomePageHeader() {
           className="flex items-center gap-2 text-xl font-semibold me-8"
         >
           <IconContainer>
-            <TrendingUp className="h-4 w-4" />
+            <Wallet className="h-4 w-4" />
           </IconContainer>
           {PLATFORM_NAME}
         </Link>
@@ -72,7 +72,7 @@ export default function HomePageHeader() {
                   className="flex items-center gap-2 text-lg font-semibold"
                 >
                   <IconContainer>
-                    <TrendingUp className="h-4 w-4" />
+                    <Wallet className="h-4 w-4" />
                   </IconContainer>
                 </Link>
 

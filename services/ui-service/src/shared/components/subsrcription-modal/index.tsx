@@ -1,4 +1,4 @@
-import { Check, TrendingUp, Wallet } from "lucide-react"
+import { Check, Wallet } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
 import Cookies from "js-cookie"
 import {
@@ -64,7 +64,7 @@ export function SubscriptionModal() {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-lg">
             <IconContainer>
-              <TrendingUp className="h-4 w-4" />
+              <Wallet className="h-4 w-4" />
             </IconContainer>
             {PLATFORM_NAME} {platformConfig?.subscriptionConfig.planName}
           </DialogTitle>
