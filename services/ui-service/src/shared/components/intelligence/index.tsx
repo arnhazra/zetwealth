@@ -28,9 +28,11 @@ import { colorVars } from "@/shared/styles/color-vars"
 import { PLATFORM_NAME } from "@/shared/constants/config"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 export default function Intelligence() {
   const { platformConfig } = usePlatformConfig()
+  const pathName = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [{ user }] = useUserContext()
   const [prompt, setPrompt] = useState("")
@@ -106,7 +108,7 @@ export default function Intelligence() {
   }
 
   return (
-    <Show condition={user.useIntelligence}>
+    <Show condition={user.useIntelligence && pathName !== "/intelligence"}>
       <Button
         onClick={() => setIsOpen(true)}
         variant="default"
