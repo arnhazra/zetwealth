@@ -1,37 +1,33 @@
 "use client"
 import { useState, useRef, useEffect } from "react"
-import { flushSync } from "react-dom"
 import { Button } from "@/shared/components/ui/button"
 import { Input } from "@/shared/components/ui/input"
 import { ScrollArea } from "@/shared/components/ui/scroll-area"
-import {
-  PanelRightClose,
-  User,
-  ArrowUp,
-  Sparkle,
-  PlusSquare,
-  Scan,
-} from "lucide-react"
+import { Bot, User, ArrowUp, Sparkle, PlusSquare } from "lucide-react"
 import { endPoints } from "@/shared/constants/api-endpoints"
-import { usePlatformConfig } from "@/context/platformconfig.provider"
-import MarkdownRenderer from "../markdown"
-import Show from "../show"
-import { suggestedPrompts } from "./data"
-import { Badge } from "../ui/badge"
+import MarkdownRenderer from "@/shared/components/markdown"
+import Show from "@/shared/components/show"
 import { Thread } from "@/shared/constants/types"
-import IconContainer from "../icon-container"
-import { streamConversationResponse } from "@/shared/lib/stream-response"
 import { useUserContext } from "@/context/user.provider"
 import useQuery from "@/shared/hooks/use-query"
 import HTTPMethods from "@/shared/constants/http-methods"
+import { streamConversationResponse } from "@/shared/lib/stream-response"
+import IconContainer from "@/shared/components/icon-container"
 import { colorVars } from "@/shared/styles/color-vars"
+import { usePlatformConfig } from "@/context/platformconfig.provider"
+import { flushSync } from "react-dom"
 import { PLATFORM_NAME } from "@/shared/constants/config"
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
-import Link from "next/link"
+import Loading from "@/app/loading"
+import { suggestedPrompts } from "@/shared/components/intelligence/data"
+import { Badge } from "@/shared/components/ui/badge"
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/shared/components/ui/avatar"
 
-export default function Intelligence() {
+export default function Page() {
   const { platformConfig } = usePlatformConfig()
-  const [isOpen, setIsOpen] = useState(false)
   const [{ user }] = useUserContext()
   const [prompt, setPrompt] = useState("")
   const [isLoading, setLoading] = useState(false)
@@ -106,60 +102,23 @@ export default function Intelligence() {
   }
 
   return (
-    <Show condition={user.useIntelligence}>
-      <Button
-        onClick={() => setIsOpen(true)}
-        variant="default"
-        size="icon"
-        className="h-11 w-11 fixed bottom-6 right-6 z-50 text-white text-white rounded-full transition"
-      >
-        <Sparkle className="h-4 w-4" />
-      </Button>
-
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/30 backdrop-blur-xs z-40 transition-opacity duration-300"
-          onClick={() => setIsOpen(false)}
-        />
-      )}
-
-      <div
-        className={`fixed top-0 bg-background border-l border-border/10 right-0 h-full w-full sm:w-96 flex flex-col transition-transform duration-300 ease-in-out z-50 ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <div className="flex items-center justify-between p-4 border-none">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsOpen(false)}
-            className="text-theme-400 hover:text-white bg-none hover:bg-background"
-          >
-            <PanelRightClose className="h-4 w-4" />
-          </Button>
-          <Link href="/intelligence">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsOpen(false)}
-              className="text-theme-400 hover:text-white bg-none hover:bg-background"
-            >
-              <Scan className="h-4 w-4" />
-            </Button>
-          </Link>
-        </div>
-
-        <ScrollArea className="flex-1 p-4 overflow-y-auto">
+    <Show condition={!thread.isLoading} fallback={<Loading />}>
+      <div className="h-full flex flex-col w-full max-w-4xl mx-auto">
+        <ScrollArea
+          className={`flex-1 p-4 overflow-y-auto ${
+            messages.length > 0 ? "pb-32" : ""
+          }`}
+        >
           <div className="space-y-4">
             <Show condition={messages.length === 0}>
-              <div className="text-center mt-8">
+              <div className="text-center mt-8 max-w-xl mx-auto">
                 <div className="flex justify-center mb-4">
                   <IconContainer>
-                    <Sparkle className="h-4 w-4" />
+                    <Sparkle className="h-5 w-5" />
                   </IconContainer>
                 </div>
-                <p className="text-white">{PLATFORM_NAME} Intelligence</p>
-                <p className="text-xs mt-2 text-theme-200 p-6">
+                <p className="text-primary">{PLATFORM_NAME} Intelligence</p>
+                <p className="text-xs mt-2 text-neutral-300 p-6">
                   {platformConfig?.otherConstants.aiSafetyStatement}
                 </p>
                 <p className="text-sm mt-2 text-white mb-4">
@@ -179,6 +138,7 @@ export default function Intelligence() {
                 ))}
               </div>
             </Show>
+
             {messages.map((message, index) =>
               message === "" && index % 2 !== 0 ? null : (
                 <div
@@ -187,13 +147,20 @@ export default function Intelligence() {
                     index % 2 === 0 ? "justify-end" : "justify-start"
                   }`}
                 >
+                  {index % 2 !== 0 && (
+                    <Avatar className="h-6 w-6 cursor-pointer">
+                      <AvatarFallback className="bg-theme-800">
+                        <Sparkle className="h-3 w-3 text-primary" />
+                      </AvatarFallback>
+                    </Avatar>
+                  )}
                   <div
                     className={`max-w-[100%] p-3 rounded-2xl ${
                       index % 2 === 0 ? "text-white" : "text-theme-100"
                     }`}
                     style={{
                       backgroundColor:
-                        index % 2 === 0 ? colorVars.border : "transparent",
+                        index % 2 === 0 ? colorVars.main : colorVars.border,
                       border: "none",
                     }}
                   >
@@ -221,15 +188,20 @@ export default function Intelligence() {
             <div ref={messagesEndRef} />
           </div>
         </ScrollArea>
-
-        <div className="p-4 border-none">
+        <div
+          className={`p-4 border-none transition-all duration-300 ${
+            messages.length === 0
+              ? "flex-1 flex items-center justify-center"
+              : "fixed w-full bottom-0 left-0"
+          }`}
+        >
           <div className="text-center">
             <Show condition={!!threadId}>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={createNewConversation}
-                className="text-xs text-theme-400 hover:text-white bg-transparent hover:bg-transparent mb-2"
+                className="text-xs text-theme-400 hover:text-white bg-transparent hover:bg-transparent mb-4"
               >
                 <PlusSquare className="h-3 w-3 mr-1" />
                 New Conversation
@@ -241,30 +213,29 @@ export default function Intelligence() {
               e.preventDefault()
               invokeConversationAPI(prompt)
             }}
+            className="w-full max-w-3xl mx-auto"
           >
-            <div className="w-full max-w-4xl mx-auto">
-              <div className="relative bg-main border border-border rounded-full p-2 ps-4 pe-4 shadow-lg">
-                <div className="flex flex-col gap-3">
-                  <div className="flex items-center gap-3">
-                    <div className="flex-1">
-                      <Input
-                        autoFocus
-                        value={prompt}
-                        onChange={(e) => setPrompt(e.target.value)}
-                        placeholder="Ask anything about your finances"
-                        disabled={isLoading}
-                        className="bg-transparent border-none text-theme-200 placeholder:text-theme-500 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none outline-none ring-0 text-sm px-0"
-                      />
-                    </div>
-                    <Button
-                      type="submit"
-                      disabled={isLoading || !prompt.trim()}
-                      size="icon"
-                      className="bg-border hover:bg-theme-600 text-white h-8 w-8 rounded-2xl"
-                    >
-                      <ArrowUp className="h-4 w-4" />
-                    </Button>
+            <div className="relative bg-neutral-900 border border-neutral-700 rounded-full p-2 ps-4 pe-4 shadow-lg">
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="flex-1">
+                    <Input
+                      autoFocus
+                      value={prompt}
+                      onChange={(e) => setPrompt(e.target.value)}
+                      placeholder="Ask anything about your finances"
+                      disabled={isLoading}
+                      className="bg-transparent border-none text-neutral-300 placeholder:text-neutral-500 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none outline-none ring-0 text-sm px-0"
+                    />
                   </div>
+                  <Button
+                    type="submit"
+                    disabled={isLoading || !prompt.trim()}
+                    size="icon"
+                    className="bg-neutral-700 hover:bg-neutral-600 text-white h-8 w-8 rounded-full"
+                  >
+                    <ArrowUp className="h-4 w-4" />
+                  </Button>
                 </div>
               </div>
             </div>
