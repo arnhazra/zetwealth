@@ -118,7 +118,7 @@ export default function Page() {
                   </IconContainer>
                 </div>
                 <p className="text-primary">{PLATFORM_NAME} Intelligence</p>
-                <p className="text-xs mt-2 text-neutral-300 p-6">
+                <p className="text-xs mt-2 text-theme-200 p-6">
                   {platformConfig?.otherConstants.aiSafetyStatement}
                 </p>
                 <p className="text-sm mt-2 text-white mb-4">
@@ -215,7 +215,7 @@ export default function Page() {
             }}
             className="w-full max-w-3xl mx-auto"
           >
-            <div className="relative bg-neutral-900 border border-neutral-700 rounded-full p-2 ps-4 pe-4 shadow-lg">
+            <div className="relative bg-background border border-theme-800 rounded-full p-2 ps-4 pe-4 shadow-lg">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-3">
                   <div className="flex-1">
@@ -225,14 +225,14 @@ export default function Page() {
                       onChange={(e) => setPrompt(e.target.value)}
                       placeholder="Ask anything about your finances"
                       disabled={isLoading}
-                      className="bg-transparent border-none text-neutral-300 placeholder:text-neutral-500 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none outline-none ring-0 text-sm px-0"
+                      className="bg-transparent border-none text-theme-200 placeholder:text-theme-500 focus-visible:ring-0 focus-visible:ring-offset-0 focus:outline-none outline-none ring-0 text-sm px-0"
                     />
                   </div>
                   <Button
                     type="submit"
                     disabled={isLoading || !prompt.trim()}
                     size="icon"
-                    className="bg-neutral-700 hover:bg-neutral-600 text-white h-8 w-8 rounded-full"
+                    className="bg-theme-800 hover:bg-theme-600 text-white h-8 w-8 rounded-full"
                   >
                     <ArrowUp className="h-4 w-4" />
                   </Button>

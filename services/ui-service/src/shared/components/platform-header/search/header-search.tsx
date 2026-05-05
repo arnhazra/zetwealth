@@ -79,7 +79,7 @@ export default function HeaderSearch() {
                 type="search"
                 placeholder={`What ${getSearchLabel(pathName) ?? ""} are you looking for?`}
                 className={cn(
-                  "w-full h-10 rounded-2xl bg-theme-800 py-2 pl-9 pr-3 text-sm text-white placeholder:text-theme-400 focus-visible:ring-0 focus-visible:ring-main",
+                  "w-full h-10 rounded-2xl bg-border hover:bg-border py-2 pl-9 pr-3 text-sm text-white placeholder:text-theme-400 focus-visible:ring-0 focus-visible:ring-main",
                   "pointer-events-auto",
                   "border-border"
                 )}

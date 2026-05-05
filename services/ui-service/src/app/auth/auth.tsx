@@ -38,7 +38,7 @@ export default function AuthProvider({ onAuthorized }: AuthProviderProps) {
         <Card className="mx-auto w-full max-w-sm bg-background border-border text-white">
           <CardHeader>
             <CardTitle className="text-2xl">{PLATFORM_NAME}</CardTitle>
-            <CardDescription className="text-primary">
+            <CardDescription className="text-theme-200">
               Authenticate to Continue
             </CardDescription>
           </CardHeader>
